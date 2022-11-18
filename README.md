@@ -1,9 +1,6 @@
 # mern-chat-app
-DS Chat App
 
-
-#To Run
-npm i express
-npm i nodemon
-
-np start
+1. Clone Repository
+2. npm install/start in root directory
+3. npm install/start in frontend
+4. Create .env file in root directory with PORT=5000
