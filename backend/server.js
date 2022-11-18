@@ -15,7 +15,7 @@ dotenv.config()
 //app.get is where you route all get requests. So when the webpage loads it does a get request
 //from the web server. You can define a response doing the following:
 app.get("/", (req, res) => {
-    res.send("API RUNNING");
+    res.send("API CONNOR");
 });
 
 app.get("/api/chat", (req, res) => {
@@ -31,4 +31,4 @@ app.get('/api/chat/:id', (req, res) => {
 const PORT = process.env.PORT || 5000
 
 //I'm not sure what's going on with the ${PORT}
-app.listen(5000, console.log(`Server Started on PORT ${PORT}`)) 
+app.listen(PORT, console.log(`Server Started on PORT ${PORT}`)) 
