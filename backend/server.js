@@ -1,14 +1,16 @@
 //require is a built-in function in node.js with a special purpose to load modules
-const express = require("express")
-const dotenv = require("dotenv")
+const express = require("express");
+const dotenv = require("dotenv");
 //Usually javascript has curly brackets. Here we are putting the chats in this variable
-const { chats } = require("./data/data")
+const { chats } = require("./data/data");
+const connectDB = require("./config/db");
 
 //Creates an instance of the express variable
 const app = express()
 
 //Loads `.env` file contents into process.env.
 dotenv.config()
+connectDB()
 
 //Essentially by using express you are defining what the physical web server does everytime it makes
 //a get request.

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import { useEffect, useState} from 'react';
+import { Container, Box, Text} from '@chakra-ui/react';
 
 
 const ChatPage = () => {
@@ -16,6 +17,12 @@ const ChatPage = () => {
     setChats(data)
     console.log(chats)
   }
+
+    <div>
+    {chats.map((chat) => (
+      <div key={chat._id}>{chat.chatName}</div>
+    ))}
+  </div>
   */
 
   useEffect(() => {
@@ -25,12 +32,25 @@ const ChatPage = () => {
   }, [])
   
   return (
-  <div>
-    {chats.map((chat) => (
-      <div key={chat._id}>{chat.chatName}</div>
-    ))}
-  </div>
-  )
+    <Container maxW='xl' centerContent>
+      <Box
+    d='flex'
+    justifyContent='flex-start'
+    textAlign="center"
+    bgGradient="linear(to-t, orange.200, pink.500)"
+    //bgGradient="linear(to-t, #FF0080, pink.500)"
+    p={3}
+    w="100%"
+    m = "15px 0 15px 0"
+    borderRadius="xl"
+    >
+      <Text color="white" fontSize='8xl'noOfLines={1}
+      >Hazel
+
+      </Text>
+    </Box>
+    </Container>
+  );
 };
 
 export default ChatPage

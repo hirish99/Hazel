@@ -5,14 +5,15 @@ import Login from './Login';
 
 const Homepage = () => {
   return <Container maxW='xl' centerContent>
-    <Box
+    {/* <Box
     d='flex'
     justifyContent='flex-start'
     textAlign="center"
     //bgGradient="linear(to-t, orange.200, pink.500)"
-    bgGradient='linear(to-l, #7928CA, #FF0080)'
+    bgGradient='linear(to-t, #7928CA, #FF0080)'
+    //bgGradient='linear(to-t, #7928CA, orange.200)'
     p={8}
-    opacity="0.9"
+    opacity="0.99"
     w="100%"
     m = "20px 0 15px 0"
     borderRadius="xl"
@@ -21,10 +22,10 @@ const Homepage = () => {
       >Hazel
 
       </Text>
-    </Box>
+    </Box> */}
 
     <Box
-    d='flex'
+    d="flex"
     justifyContent='flex-start'
     textAlign="center"
     bgGradient="linear(to-t, orange.200, pink.500)"
@@ -35,6 +36,10 @@ const Homepage = () => {
     m = "15px 0 15px 0"
     borderRadius="xl"
     >
+      <Text color="white" fontSize='8xl'noOfLines={1}
+      >Hazel
+
+      </Text>
     <Tabs variant='soft-rounded'  isFitted >
       <TabList>
         <Tab color="white" _selected={{  bg: 'blue.500' }}>Login</Tab>

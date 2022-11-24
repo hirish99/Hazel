@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, VStack, FormControl, Input, FormLabel, InputGroup, InputRightElement } from '@chakra-ui/react'
+import { Button, VStack, FormControl, Input, FormLabel, InputGroup, InputRightElement, FormHelperText } from '@chakra-ui/react'
 import { useState } from 'react'
 
 
@@ -8,11 +8,14 @@ const SignUp = () => {
     const [name,setName] = useState();
     const [email,setEmail] = useState();
     const [password,setPassword] = useState();
+    const [confirmpassword,setConfirmPassword] = useState();
     const [pic, setPic] = useState();
 
     const handleClick = ()=>setShow(!show);
     const postDetails = (pics)=> {};
     const submitHandler = ()=>{};
+
+
 
     return (
     <VStack spacing="5px">
@@ -32,7 +35,7 @@ const SignUp = () => {
             </Input>
         </FormControl> 
 
-        <FormControl id="password" isRequired>
+        {/* <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
             <Input 
@@ -47,6 +50,29 @@ const SignUp = () => {
                 </Button>
             </InputRightElement>
             </InputGroup>
+        </FormControl>   */}
+
+        <FormControl id="password" isRequired>
+                <FormLabel>Password</FormLabel>
+
+            <Input 
+            placeholder='Enter Your Password'
+            onChange={(e)=>setPassword(e.target.value)}
+            >
+            </Input>
+            
+        </FormControl>  
+
+        <FormControl id="confirm_password" isRequired>
+                <FormLabel>Password</FormLabel>
+
+            <Input 
+
+            placeholder='Confirm Your Password'
+            onChange={(e)=>setConfirmPassword(e.target.value)}
+            >
+            </Input>
+
         </FormControl>  
 
         <FormControl id="pic">
@@ -57,10 +83,20 @@ const SignUp = () => {
                 type="file"
                 p={1.5}
                 accept="image/*"
+                sx={{
+                    "::file-selector-button": {
+                        borderRadius: 2,
+                        mr: 3,
+                        justifyContent: "center",
+                    },
+                    }}
                 onChange={(e)=>postDetails(e.target.files[0])}
                 />
+                <FormHelperText>This must be a photo of yourself.</FormHelperText>
         </FormControl>
 
+        
+        {/* 
         <Button
             colorScheme="blue"
             width="100%"
@@ -69,6 +105,29 @@ const SignUp = () => {
             >
                 Sign Up
             </Button>
+
+            <FormControl>
+                <FormLabel>Files</FormLabel>
+                <Input
+                    type="file"
+                    accept="image/*"
+                    sx={{
+                    "::file-selector-button": {
+                        height: 10,
+                        padding: 0,
+                        mr: 4,
+                        background: "gray",
+                        borderColor: 'primary.main',
+                        fontWeight: "bold",
+                        borderRadius: 2,
+                    },
+                    }}
+                />
+                <FormHelperText>Attach any related documents.</FormHelperText>
+            </FormControl> */}
+
+
+
 
 
 

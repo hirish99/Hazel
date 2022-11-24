@@ -22,7 +22,7 @@ const Login = () => {
             </Input>
         </FormControl> 
 
-        <FormControl id="password_login" isRequired>
+        {/* <FormControl id="password_login" isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
             <Input 
@@ -37,6 +37,17 @@ const Login = () => {
                 </Button>
             </InputRightElement>
             </InputGroup>
+        </FormControl>   */}
+
+        <FormControl id="password_login" isRequired>
+                <FormLabel>Password</FormLabel>
+            <Input 
+            placeholder='Enter Your Password'
+            onChange={(e)=>setPassword(e.target.value)}
+            >
+            </Input>
+            
+
         </FormControl>  
 
         
