@@ -35,7 +35,7 @@ const SignUp = () => {
             </Input>
         </FormControl> 
 
-        {/* <FormControl id="password" isRequired>
+        <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
             <Input 
@@ -50,9 +50,9 @@ const SignUp = () => {
                 </Button>
             </InputRightElement>
             </InputGroup>
-        </FormControl>   */}
+        </FormControl>  
 
-        <FormControl id="password" isRequired>
+        {/* <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
 
             <Input 
@@ -61,21 +61,10 @@ const SignUp = () => {
             >
             </Input>
             
-        </FormControl>  
+        </FormControl>   */}
 
-        <FormControl id="confirm_password" isRequired>
-                <FormLabel>Password</FormLabel>
 
-            <Input 
-
-            placeholder='Confirm Your Password'
-            onChange={(e)=>setConfirmPassword(e.target.value)}
-            >
-            </Input>
-
-        </FormControl>  
-
-        <FormControl id="pic">
+        <FormControl id="pic" isRequired>
             <FormLabel> 
                 Upload Your Picture
             </FormLabel>
@@ -92,11 +81,11 @@ const SignUp = () => {
                     }}
                 onChange={(e)=>postDetails(e.target.files[0])}
                 />
-                <FormHelperText>This must be a photo of yourself.</FormHelperText>
+                <FormHelperText>This must be a clearly identificable photo of yourself.</FormHelperText>
         </FormControl>
 
         
-        {/* 
+
         <Button
             colorScheme="blue"
             width="100%"
@@ -106,25 +95,6 @@ const SignUp = () => {
                 Sign Up
             </Button>
 
-            <FormControl>
-                <FormLabel>Files</FormLabel>
-                <Input
-                    type="file"
-                    accept="image/*"
-                    sx={{
-                    "::file-selector-button": {
-                        height: 10,
-                        padding: 0,
-                        mr: 4,
-                        background: "gray",
-                        borderColor: 'primary.main',
-                        fontWeight: "bold",
-                        borderRadius: 2,
-                    },
-                    }}
-                />
-                <FormHelperText>Attach any related documents.</FormHelperText>
-            </FormControl> */}
 
 
 
