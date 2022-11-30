@@ -106,17 +106,6 @@ const Login = () => {
                Log In
             </Button>
 
-        <Button
-        colorScheme="red"
-        width="100%"
-        style={{marginTop: 15}}
-        onClick={()=>{
-          setEmail("guest@ucsb.edu");
-          setPassword("ucsb");
-        }}
-        >
-            Guest Log In
-        </Button>
     </VStack>
     );
 };

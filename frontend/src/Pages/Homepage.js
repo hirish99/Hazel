@@ -29,7 +29,7 @@ const Homepage = () => {
     justifyContent='flex-start'
     textAlign="center"
     bgGradient="linear(to-t, orange.200, pink.500)"
-    //bgGradient="linear(to-t, #FF0080, pink.500)"
+    //bgGradient='linear(to-t,  #C9C789,   #C9C789)'
     opacity="0.9"
     p={3}
     w="100%"
