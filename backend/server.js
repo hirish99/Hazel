@@ -5,8 +5,9 @@ const dotenv = require("dotenv");
 const { chats } = require("./data/data");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes")
-
-
+const {notFound, errorHandler} = require("./middleware/errorMiddleware")
+const cors = require("cors")
+const corsOptions = require('./config/corsOptions')
 
 //Loads `.env` file contents into process.env.
 dotenv.config()
@@ -15,15 +16,14 @@ connectDB()
 //Creates an instance of the express variable
 const app = express();
 
+app.use(cors())
 app.use(express.json());
+
 
 //Essentially by using express you are defining what the physical web server does everytime it makes
 //a get request.
 //app.get is where you route all get requests. So when the webpage loads it does a get request
 //from the web server. You can define a response doing the following:
-app.get("/", (req, res) => {
-    res.send("API");
-});
 
 app.get("/api/chat", (req, res) => {
     res.send(chats);
@@ -37,6 +37,11 @@ app.get('/api/chat/:id', (req, res) => {
 
 //abstract all the logic for api/user in userRoutes.js
 app.use('/api/user', userRoutes)
+
+app.use(notFound)
+app.use(errorHandler)
+
+
 
 const PORT = process.env.PORT || 5000
 

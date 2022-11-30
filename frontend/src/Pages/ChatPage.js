@@ -45,11 +45,21 @@ const ChatPage = () => {
     borderRadius="xl"
     >
       <Text color="white" fontSize='8xl'noOfLines={1}
-      >Hazel
+      >
+        
 
       </Text>
+
+      {chats.map((chat) => (
+      <Text key={chat._id}>{chat.chatName}</Text>
+    ))}
     </Box>
+
+    
+    
     </Container>
+
+    
   );
 };
 

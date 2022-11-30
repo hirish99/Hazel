@@ -15,7 +15,7 @@ const router = express.Router()
 //you callthe controller registerUser which has its own logic:
 //specifically it will perform a async handler and deal with the single users information
 //in the form of req.body;
-router.route('/').post(registerUser)
-router.post('/login', authUser)
+router.route("/").post(registerUser)
+router.post("/login", authUser)
 
 module.exports = router;

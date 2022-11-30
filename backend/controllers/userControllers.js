@@ -2,14 +2,18 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
+const expressAsyncHandler = require("express-async-handler");
 
 const registerUser = asyncHandler( async(req,res) => {
+    console.log(req.body);
     const {name, email, password, pic} = req.body;
 
+    console.log(req.body)
     if (!name || !email || !password) {
         res.status(400);
         throw new Error("Please Enter All Fields");
     }
+
 
     //mongoDB queries:
     const userExists = await User.findOne({email});
