@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import '../homestyle.css';
 import { Container, Box, Text,Tabs,TabList,Tab,TabPanel,TabPanels} from '@chakra-ui/react'
 import SignUp from './SignUp';
 import Login from './Login';
 
 const Homepage = () => {
-  return <Container maxW='xl' centerContent>
+
+  useEffect(()=> {
+
+  })
+
+
+  return <span className="homestyle"> <Container maxW='xl' centerContent>
     {/* <Box
     d='flex'
     justifyContent='flex-start'
@@ -56,7 +63,8 @@ const Homepage = () => {
       </Tabs>
     </Box>
     
-  </Container>;
+  </Container> 
+  </span>;
 };
 
 export default Homepage

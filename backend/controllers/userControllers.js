@@ -57,7 +57,7 @@ const authUser = (async(req,res) => {
         });
     }
     else {
-        res.status(401);
+        res.status(201);
         throw new Error("Invalid Email or Password");
     }
 });

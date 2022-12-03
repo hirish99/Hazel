@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React from 'react'
+import '../chatstyle.css';
 import { useEffect, useState} from 'react';
 import { Container, Box, Text} from '@chakra-ui/react';
 
@@ -32,6 +33,7 @@ const ChatPage = () => {
   }, [])
   
   return (
+    <span className = "chatstyle">
     <Container maxW='xl' centerContent>
       <Box
     d='flex'
@@ -58,7 +60,7 @@ const ChatPage = () => {
     
     
     </Container>
-
+    </span>
     
   );
 };
