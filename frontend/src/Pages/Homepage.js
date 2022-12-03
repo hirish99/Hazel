@@ -36,7 +36,7 @@ const Homepage = () => {
     justifyContent='flex-start'
     textAlign="center"
     bgGradient="linear(to-t, orange.200, pink.500)"
-    //bgGradient='linear(to-t,  #C9C789,   #C9C789)'
+    //bgGradient='linear(to-r, green.200, pink.500)'
     opacity="0.9"
     p={3}
     w="100%"
@@ -54,7 +54,10 @@ const Homepage = () => {
       </TabList>
       <TabPanels>
         <TabPanel>
+
           <Login/>
+
+          
         </TabPanel>
         <TabPanel>
           <SignUp/>
