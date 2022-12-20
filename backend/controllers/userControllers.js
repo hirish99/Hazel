@@ -62,4 +62,20 @@ const authUser = (async(req,res) => {
     }
 });
 
-module.exports = {registerUser, authUser};
+//  /api/user?search=hirish
+const allUsers = asyncHandler(async  (req, res) =>{
+    //this utilizes a tertiary operator in case the query is misinputted
+    const keyword = req.query.search ? {
+        $or: [
+            { name: {$regex: req.query.search, $options: "i"}},
+            { email: {$regex: req.query.search, $options: "i"}}
+        ],
+    }
+    : {};
+
+    const users = await (await User.find(keyword))
+    res.send(users)
+
+});
+
+module.exports = {registerUser, authUser, allUsers};
