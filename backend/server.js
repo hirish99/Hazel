@@ -37,6 +37,7 @@ app.get('/api/chat/:id', (req, res) => {
 
 //abstract all the logic for api/user in userRoutes.js
 app.use('/api/user', userRoutes)
+//app.use('api/chat', chatRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
