@@ -1,4 +1,5 @@
 //Place holder data that we will replace with our databse eventually
+
 const chats = [
     {
       isGroupChat: false,
@@ -109,3 +110,4 @@ const chats = [
   ];
 
   module.exports = {chats}
+ 

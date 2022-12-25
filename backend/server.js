@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const { chats } = require("./data/data");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes")
+const chatRoutes = require("./routes/chatRoutes")
 const {notFound, errorHandler} = require("./middleware/errorMiddleware")
 const cors = require("cors")
 const corsOptions = require('./config/corsOptions')
@@ -19,6 +20,8 @@ const app = express();
 app.use(cors())
 app.use(express.json());
 
+app.use('/api/user', userRoutes)
+app.use('/api/chat', chatRoutes)
 
 //Essentially by using express you are defining what the physical web server does everytime it makes
 //a get request.
@@ -36,8 +39,7 @@ app.get('/api/chat/:id', (req, res) => {
 });
 
 //abstract all the logic for api/user in userRoutes.js
-app.use('/api/user', userRoutes)
-//app.use('api/chat', chatRoutes)
+
 
 app.use(notFound)
 app.use(errorHandler)
