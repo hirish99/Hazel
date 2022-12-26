@@ -57,8 +57,12 @@ const authUser = (async(req,res) => {
         });
     }
     else {
-        res.status(201);
-        throw new Error("Invalid Email or Password");
+        //res.status(201);
+        console.log("Wrong")
+        res.json({
+            token: "-1",
+        });
+        //throw new Error("Invalid Email or Password");
     }
 });
 

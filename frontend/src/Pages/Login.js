@@ -18,6 +18,18 @@ const Login = () => {
     const submitHandler = async ()=>{
         setLoading(true);
 
+        if (!email || !password) {
+            toast({
+              title: "Please Fill all the Fields",
+              status: "warning",
+              duration: 5000,
+              isClosable: true,
+              position: "bottom",
+            });
+            setLoading(false);
+            return;
+        }
+
 
         try{
             const {data} = await axios.post('http://localhost:5000/api/user/login', {
@@ -30,17 +42,30 @@ const Login = () => {
               }
             }) 
 
-
-          toast({
-              title:"Login Successful",
-              status: "success",
-              duration: 5000,
-              isClosable: true,
-              position: "bottom"
-          });
-          localStorage.setItem('userInfo',JSON.stringify(data));
-          setLoading(false);
-          history.push('/explore');
+            if(data.token==="-1")
+            {
+                toast({
+                    title:"Error",
+                    description: "Login Failed",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom"
+                });
+                setLoading(false);
+            }
+            else{
+                toast({
+                    title:"Login Successful",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom"
+                });
+                localStorage.setItem('userInfo',JSON.stringify(data));
+                setLoading(false);
+                history.push('/explore');
+            }
       }catch(error)
       {
           toast({
@@ -53,8 +78,6 @@ const Login = () => {
           });
           setLoading(false);
       }
-
-
     };
 
     return (
