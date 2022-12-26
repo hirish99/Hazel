@@ -3,11 +3,20 @@ import '../homestyle.css';
 import { Container, Box, Text,Tabs,TabList,Tab,TabPanel,TabPanels} from '@chakra-ui/react'
 import SignUp from './SignUp';
 import Login from './Login';
+import { useHistory } from 'react-router-dom';
 
 const Homepage = () => {
 
-  useEffect(()=> {
+  const history = useHistory();
 
+  useEffect(()=> {
+    const user= JSON.parse(localStorage.getItem("userInfo"));
+    //If the user is already logged in then you push them to the homepage
+    if (user) 
+    {
+      console.log(user);
+      //history.push("/chats");
+    }
   })
 
 

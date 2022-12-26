@@ -28,7 +28,7 @@ app.use('/api/chat', chatRoutes)
 //app.get is where you route all get requests. So when the webpage loads it does a get request
 //from the web server. You can define a response doing the following:
 
-app.get("/api/chat", (req, res) => {
+app.get("/api/chat/dog", (req, res) => {
     res.send(chats);
 });
 
