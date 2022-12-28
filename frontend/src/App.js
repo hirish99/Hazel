@@ -4,7 +4,7 @@ import Homepage from './Pages/Homepage';
 import ChatPage from './Pages/ChatPage';
 import Explore from './Pages/Explore';
 import Hero from './Pages/Hero';
-import Preferences from './Pages/Preferences';
+import GoogleSignUp from './Pages/GoogleSignUp';
 
 function App() {
 
@@ -14,7 +14,7 @@ function App() {
       <Route path="/" component={Hero} exact/>
       <Route path="/chats" component={ChatPage} exact />
       <Route path="/explore" component={Explore} exact/>
-      <Route path="/signup" component={Preferences} exact/>
+      <Route path="/signup" component={GoogleSignUp} exact/>
 
     </div>
   );

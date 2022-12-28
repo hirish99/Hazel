@@ -52,7 +52,7 @@ const Hero = () => {
             if (data.token === "1")
             {
                 localStorage.setItem('emailInfo',JSON.stringify({"email":email,"registered":true}));
-                history.push('/chats');
+                history.push('/explore');
             }
             else
             {

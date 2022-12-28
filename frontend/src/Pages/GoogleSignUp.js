@@ -30,7 +30,7 @@ import {
 
   import {useToast} from '@chakra-ui/react';
 
-const Preferences = () => {
+const GoogleSignUp = () => {
     const history = useHistory();
     const [pic, setPic] = useState();
     const toast = useToast();
@@ -48,10 +48,14 @@ const Preferences = () => {
         if (!user) {
             history.push("/");
         }
-        if (user.registered)
+        else if (user.registered)
         {
             history.push("/explore");
         }
+        else {
+            history.push("/");
+        }
+
     });
 
     const clearImage = ()  => {
@@ -308,4 +312,4 @@ const Preferences = () => {
   )
 }
 
-export default Preferences
+export default GoogleSignUp
