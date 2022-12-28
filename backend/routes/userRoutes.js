@@ -1,7 +1,7 @@
 //contains all of the routes that are related to the user
 const express = require('express')
 //destructured import, only import the functions you need
-const {registerUser, authUser, allUsers} = require("../controllers/userControllers");
+const {registerUser, authUser, allUsers, emailLookUp} = require("../controllers/userControllers");
 const {protect} = require("../middleware/authMiddleware");
 //create instance of router using express
 const router = express.Router()
@@ -16,6 +16,7 @@ const router = express.Router()
 //specifically it will perform a async handler and deal with the single users information
 //in the form of req.body;
 router.route("/").post(registerUser).get(protect, allUsers);
+router.post("/emaillookup", emailLookUp);
 router.post("/login", authUser)
 
 module.exports = router;

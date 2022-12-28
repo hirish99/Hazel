@@ -6,10 +6,28 @@ import SideDrawer from '../ChatPageComponents/SideDrawer';
 import ChatBox from '../ChatPageComponents/ChatBox';
 import MyChats from '../ChatPageComponents/MyChats';
 
+import { useEffect } from 'react';
+import {useHistory} from 'react-router';
+
 
 
 const ChatPage = () => {
   const {user} = ChatState();
+  const history = useHistory();
+
+  useEffect(() => {
+    // Update the document title using the browser API
+        const user = JSON.parse(localStorage.getItem("emailInfo"));
+        if (user) {
+            if (user.registered)
+            {
+              //history.push('/chats');
+            }
+            else{
+              history.push('/preferences');
+            }
+        }
+    });
 
 
   

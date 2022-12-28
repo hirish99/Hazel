@@ -15,6 +15,8 @@ const SignUp = () => {
     const toast = useToast();
     const history = useHistory();
 
+
+
     const handleClick = ()=>setShow(!show);
     const postDetails = (pics)=> {
         setLoading(true);

@@ -3,6 +3,8 @@ import { Button, VStack, FormControl, Input, FormLabel, InputGroup, InputRightEl
 import { useState } from 'react'
 import axios from 'axios';
 import {useHistory} from 'react-router';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 
 const Login = () => {
     const [email,setEmail] = useState();
@@ -11,6 +13,7 @@ const Login = () => {
     const [loading, setLoading]  = useState(false);
     const toast = useToast();
     const history = useHistory();
+    
 
 
 
@@ -81,7 +84,22 @@ const Login = () => {
     };
 
     return (
+        
     <VStack spacing="5px">
+
+        <GoogleLogin onSuccess={credentialResponse => {
+            console.log(credentialResponse);
+            var decoded = jwt_decode(credentialResponse.credential);
+            console.log(decoded);
+        }}
+            onError={() => {
+            console.log('Login Failed');
+        }}
+        />;
+
+
+
+
 
         <FormControl id="email_login" isRequired>
             <FormLabel>Email</FormLabel>
