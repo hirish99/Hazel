@@ -19,53 +19,61 @@ import {useHistory} from 'react-router';
 import { useEffect } from 'react';
 import axios from 'axios';
 
+import { ChatState } from "../Context/ChatProvider";
+
 
 const Hero = () => {
     const history = useHistory();
     const toast = useToast();
 
+    const { email, setEmail } = ChatState();
+
     useEffect(() => {
       // Update the document title using the browser API
-          const user = JSON.parse(localStorage.getItem("emailInfo"));
-          if (user) {
-              if (user.registered)
-              {
-                //history.push('/explore');
-              }
-              else{
-                //history.push('/preferences');
-              }
-          }
-      });
+    });
 
     const emailCheck = async (email) => {
         try{
-            const {data} = await axios.post('http://localhost:5000/api/user/emaillookup', {
-              email:email
-            }, {
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              }
-            })
-            
+          const {data} = await axios.post('http://localhost:5000/api/user/emaillookup', {
+            email:email
+          }, {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          })
+
+            console.log("Hello");
+            console.log("Bye");
+            console.log(data.token);
+
             if (data.token === "1")
             {
-                localStorage.setItem('emailInfo',JSON.stringify({"email":email,"registered":true}));
+              //User exists in the database already (Log Them IN!!)
+                const {data} = await axios.post('http://localhost:5000/api/user/login', {
+                  "email":email
+                }, {
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  }
+                })
+
+                localStorage.setItem("userInfo", JSON.stringify(data));
                 history.push('/explore');
             }
             else
             {
-                localStorage.setItem('emailInfo',JSON.stringify({"email":email,"registered":false}));
-                console.log(data.token);
-                history.push('/signup');
+              setEmail(email);
+              //User doesn't exist in the database yet (REGISTER THEM!!!)
+              history.push('/signup');
             }
 
             
         }
         catch(err)
         {
-            
+            console.log(err);
         }
     }
 

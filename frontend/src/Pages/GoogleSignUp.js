@@ -1,4 +1,5 @@
 import React from 'react'
+import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 
 import {
     Button,
@@ -20,58 +21,95 @@ import {
     NumberInputStepper,
     NumberIncrementStepper,
     NumberDecrementStepper,
+    Textarea,
   } from '@chakra-ui/react';
 
   import {useHistory} from 'react-router';
 
   import axios from 'axios';
   import { SmallCloseIcon } from '@chakra-ui/icons';
-  import { useState, useEffect } from 'react'
+  import { useState} from 'react'
 
   import {useToast} from '@chakra-ui/react';
 
+  import { ChatState } from "../Context/ChatProvider";
+
+
+
 const GoogleSignUp = () => {
+
+    const [pickerItems, setPickerItems] = React.useState(possibleinterests);
+    const [interests, setSelectedItems] = React.useState([]);
+
+    const [pickerItems1, setPickerItems1] = React.useState(possibleProjects);
+    const [projects, setSelectedItems1] = React.useState([]);
+
+    const [pickerItems2, setPickerItems2] = React.useState(possibleSkills);
+    const [skills, setSelectedItems2] = React.useState([]);
+
+    const [bioBlurb, setBioBlurb] = useState();
+    
     const history = useHistory();
     const [pic, setPic] = useState();
     const toast = useToast();
 
     const [name, setName] = useState();
     const [major, setMajor] = useState();
-    const [plexp, setPlexp]=useState();
-    const [mlexp, setMlexp]=useState();
-    const [wdexp, setWdexp]=useState();
 
+    const { email, setEmail } = ChatState();
 
-    useEffect(() => {
-    // Update the document title using the browser API
-        const user = JSON.parse(localStorage.getItem("emailInfo"));
-        if (!user) {
-            history.push("/");
-        }
-        else if (user.registered)
-        {
-            history.push("/explore");
-        }
-        else {
-            history.push("/");
-        }
+    const handleCreateItem = (item) => {
+      setPickerItems((curr) => [...curr, item]);
+      setSelectedItems((curr) => [...curr, item]);
+    };
 
-    });
+    const handleCreateItem1 = (item) => {
+      setPickerItems1((curr) => [...curr, item]);
+      setSelectedItems1((curr) => [...curr, item]);
+    };
+
+    const handleCreateItem2 = (item) => {
+      setPickerItems2((curr) => [...curr, item]);
+      setSelectedItems2((curr) => [...curr, item]);
+    };
+
+    const handleSelectedItemsChange = (selectedItems) => {
+      console.log(selectedItems);
+      if (selectedItems) {
+        setSelectedItems(selectedItems);
+      }
+    };
+
+    const handleSelectedItemsChange1 = (selectedItems1) => {
+      console.log(selectedItems1);
+      if (selectedItems1) {
+        setSelectedItems1(selectedItems1);
+      }
+    };
+
+    const handleSelectedItemsChange2 = (selectedItems2) => {
+      console.log(selectedItems2);
+      if (selectedItems2) {
+        setSelectedItems2(selectedItems2);
+      }
+    };
 
     const clearImage = ()  => {
         setPic("");
     }
 
     const submitHandler = async () => {
-        const user = JSON.parse(localStorage.getItem("emailInfo"));
-        console.log(user.email);
         console.log(name);
+        console.log(email);
+        console.log(pic);
         console.log(major);
-        console.log(plexp);
-        console.log(mlexp);
-        console.log(wdexp);
+        console.log(interests.map(element => element.value));
+        console.log(projects.map(element => element.value));
+        console.log(bioBlurb);
+        console.log(skills.map(element => element.value));
 
-        if (!name || !major ||!plexp ||!mlexp ||!wdexp ||!pic) {
+
+        if (!name || !major || !pic || !bioBlurb || interests.length==0 || projects.length==0 || skills.length==0) {
             toast({
                 title: "Please Fill All Fields",
                 status: "warning",
@@ -84,15 +122,29 @@ const GoogleSignUp = () => {
 
         try{
 
-
+                console.log(JSON.stringify({
+                  name: name,
+                  email: email,
+                  password: email,
+                  pic: pic,
+                  major: major,
+                  interests: interests.map(element => element.value),
+                  projectinterests: projects.map(element => element.value),
+                  projectblurb: bioBlurb,
+                  skills: skills.map(element => element.value)
+  
+                  }));
                 const {data} = await axios.post('http://localhost:5000/api/user', {
                 name: name,
-                email: user.email,
-                major: major,
-                plexp: plexp,
-                mlexp: mlexp,
-                wdexp: wdexp,
+                email: email,
+                password: email,
                 pic: pic,
+                major: major,
+                interests: interests.map(element => element.value),
+                projectinterests: projects.map(element => element.value),
+                projectblurb: bioBlurb,
+                skills: skills.map(element => element.value)
+
                 }, {
                 headers: {
                     'Accept': 'application/json',
@@ -100,37 +152,22 @@ const GoogleSignUp = () => {
                 }
                 })  
 
-                console.log(data);
+                  toast({
+                      title:"Registration Successful",
+                      status: "success",
+                      duration: 5000,
+                      isClosable: true,
+                      position: "bottom"
+                  });
 
-                if (data.pic === "exists")
-                {
-                    toast({
-                        title:"Email Already Registered",
-                        status: "warning",
-                        duration: 5000,
-                        isClosable: true,
-                        position: "bottom"
-                    });
-                }
-                else {
+                  localStorage.setItem("userInfo", JSON.stringify(data));
+                  history.push('/explore');
 
-
-                    toast({
-                        title:"Registration Successful",
-                        status: "success",
-                        duration: 5000,
-                        isClosable: true,
-                        position: "bottom"
-                    });
-
-                    localStorage.setItem('emailInfo',JSON.stringify({"email":user.email,"registered":true}));
-                    history.push('/explore');
-                }
 
         }
         catch(err){
             console.log(err);
-        }
+        } 
 
 
     }
@@ -231,7 +268,7 @@ const GoogleSignUp = () => {
           <FormHelperText>Icon may take a while to render. Please refrain from updating more than once.</FormHelperText>
         </FormControl>
         
-        <FormControl id="FirstNameLastName" isRequired>
+        <FormControl id="Name" isRequired>
           <FormLabel>Name</FormLabel>
           <Input
             placeholder="First Last"
@@ -254,43 +291,47 @@ const GoogleSignUp = () => {
         </Select>
         </FormControl>
 
-        <FormControl isRequired>
-            <FormLabel>Programming Language Experience</FormLabel>
-            <NumberInput max={5} min={0} onChange={(e)=>setPlexp(e)}>
-                <NumberInputField/>
-                <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-                </NumberInputStepper>
-            </NumberInput>
-            <FormHelperText>Enter a number 0-5.</FormHelperText>
-        </FormControl>
+
+            <CUIAutoComplete
+          label="Please choose some of your interests (not related to DataScience)"
+          placeholder="Type a Interest"
+          onCreateItem={handleCreateItem}
+          items={pickerItems}
+          selectedItems={interests}
+          onSelectedItemsChange={(changes) =>
+            handleSelectedItemsChange(changes.selectedItems)
+          }/>
+
+        <CUIAutoComplete
+          label="Please choose some of interests you would enjoy working on a project on"
+          placeholder="Type a Project Interest"
+          onCreateItem={handleCreateItem1}
+          items={pickerItems1}
+          selectedItems={projects}
+          onSelectedItemsChange={(changes) =>
+            handleSelectedItemsChange1(changes.selectedItems)
+          }/>
 
         <FormControl isRequired>
-            <FormLabel>Machine Learning Experience</FormLabel>
-            <NumberInput max={5} min={0}
-            onChange={(e)=>setMlexp(e)}>
-                <NumberInputField />
-                <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-                </NumberInputStepper>
-            </NumberInput>
-            <FormHelperText>Enter a number 0-5.</FormHelperText>
+            <FormLabel>Bio Blurb</FormLabel>
+            <Textarea
+            placeholder="Bio Goes Here"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e)=>setBioBlurb(e.target.value)}
+          />
+            <FormHelperText>Introduce yourself and elaborate on the project ideas you would be interested in. </FormHelperText>
         </FormControl>
 
-        <FormControl isRequired>
-            <FormLabel>Website Development Experience</FormLabel>
-            <NumberInput max={5} min={0}
-            onChange={(e)=>setWdexp(e)}>
-                <NumberInputField />
-                <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-                </NumberInputStepper>
-            </NumberInput>
-            <FormHelperText>Enter a number 0-5.</FormHelperText>
-        </FormControl>
+        <CUIAutoComplete
+          label="Please choose any skills you may already have"
+          placeholder="Type a Skill"
+          onCreateItem={handleCreateItem2}
+          items={pickerItems2}
+          selectedItems={skills}
+          onSelectedItemsChange={(changes) =>
+            handleSelectedItemsChange2(changes.selectedItems)
+          }/>
 
 
 
@@ -311,5 +352,56 @@ const GoogleSignUp = () => {
     </Flex>
   )
 }
+
+const possibleinterests = [
+  { value: "bicycling", label: "Bicycling" },
+  { value: "workingout", label: "Working Out" },
+  { value: "dancing", label: "Dancing" },
+  { value: "videogames", label: "Video Games" },
+  { value: "anime", label: "Anime" },
+  { value: "partying", label: "Partying" },
+  { value: "surfing", label: "Surfing" },
+  { value: "painting", label: "Painting" },
+  { value: "hiking", label: "Hiking" },
+  { value: "martialarts", label: "Martial Arts" },
+  { value: "photography", label: "Photography" },
+  { value: "physics", label: "Physics" },
+  { value: "math", label: "Math" },
+  { value: "finance", label: "Finance" },
+  { value: "entrepreneurship", label: "Entrepreneurship" },
+  { value: "music", label: "Music" },
+  { value: "baking", label: "Baking" },
+  { value: "grilling", label: "Grilling" },
+  { value: "soccer", label: "Soccer" },
+  { value: "instrument", label: "Instrument (ex. Piano)" },
+  { value: "coffee", label: "Coffee" },
+];
+
+
+const possibleProjects = [
+  { value: "finance", label: "Finance" },
+  { value: "politics", label: "Politics" },
+  { value: "diseasemodeling", label: "Disease Modeling" },
+  { value: "nlp", label: "Natural Language Processing" },
+  { value: "computervision", label: "Computer Vision" },
+  { value: "recommendationsystem", label: "Recommendation System" },
+  { value: "food", label: "Food" },
+  { value: "buisness", label: "Buisnesses" },
+  { value: "artificialintelligence", label: "Artificial Intelligence" },
+  { value: "socialmedia", label: "Social Media" },
+  { value: "enviorment", label: "Enviroment" },
+];
+
+const possibleSkills = [
+  { value: "python", label: "Python" },
+  { value: "tensorflow", label: "TensorFlow" },
+  { value: "pytorch", label: "PyTorch" },
+  { value: "pandas", label: "Pandas" },
+  { value: "numpy", label: "Numpy" },
+  { value: "scikit-learn", label: "scikit-learn" },
+  { value: "r", label: "R" },
+  { value: "sql", label: "SQL" },
+  { value: "c++", label: "C++" },
+];
 
 export default GoogleSignUp
