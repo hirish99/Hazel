@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, VStack, StackDivider, HStack, Skeleton, Stack } from '@chakra-ui/react';
 import React from 'react'
 import '../chatstyle.css';
 import { ChatState } from '../Context/ChatProvider';
@@ -13,36 +13,23 @@ import {useHistory} from 'react-router';
 
 const ChatPage = () => {
   const {user} = ChatState();
-  const history = useHistory();
-
-  useEffect(() => {
-    // Update the document title using the browser API
-        const user = JSON.parse(localStorage.getItem("emailInfo"));
-        if (user) {
-            if (user.registered)
-            {
-              //history.push('/chats');
-            }
-            else{
-              history.push('/preferences');
-            }
-        }
-    });
-
-
   
   return (
-    <span className="homestyle"> 
-    <div style={{width:"100%"}}>
-      { user && <SideDrawer/>}
-  
-
-    <Box>
-      {user && <MyChats/>}
-      {user && <ChatBox/>}
-    </Box>
+    <span class="chatstyle">
+    <div style={{width:'100%'}}>
+      {user && <SideDrawer />}
+      <Box
+      d='flex'
+      justifyContent='space-between'
+      w='100%'
+      h='91.5vh'
+      p='10px'
+      >
+        {user && <MyChats/>}
+      </Box>
     </div>
     </span>
+    
   );
 };
 

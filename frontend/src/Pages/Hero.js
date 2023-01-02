@@ -60,7 +60,7 @@ const Hero = () => {
                 })
 
                 localStorage.setItem("userInfo", JSON.stringify(data));
-                history.push('/explore');
+                history.push('/chats');
             }
             else
             {
@@ -98,7 +98,7 @@ const Hero = () => {
               Connect with
             </Text>
             <br />{' '}
-            <Text color={'red.400'} as={'span'}>
+            <Text color={'#F6AD55'} as={'span'}>
               Hazel
             </Text>{' '}
           </Heading>

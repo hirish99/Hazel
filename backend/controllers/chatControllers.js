@@ -4,7 +4,6 @@ const User = require("../models/userModel");
 
 const accessChat = asyncHandler(async (req, res) => {
     const { userId } = req.body;
-    console.log("Hello");
   
     if (!userId) {
       console.log("UserId param not sent with request");
@@ -29,8 +28,12 @@ const accessChat = asyncHandler(async (req, res) => {
     if (isChat.length > 0) {
       res.send(isChat[0]);
     } else {
+      //console.log("Create");
+      //console.log(req.body.userId);
+      truesender = await User.findOne({_id: req.body.userId});
+      //console.log(truesender);
       var chatData = {
-        chatName: "sender",
+        chatName: truesender.name,
         isGroupChat: false,
         users: [req.user._id, userId],
       };
@@ -87,18 +90,27 @@ users.push(req.user);
 
 //Anytime you write to mongoDb you need the await keyword
 try {
-    const groupChat = await Chat.create({
+    var groupChat = await Chat.findOne({
       chatName: req.body.name,
       users: users,
       isGroupChat: true,
       groupAdmin: req.user,
     });
 
+    if (groupChat == null)
+    {
+        groupChat = await Chat.create({
+          chatName: req.body.name,
+          users: users,
+          isGroupChat: true,
+        });
+    }
+
     const fullGroupChat = await Chat.findOne({_id: groupChat._id})
       .populate("users", "-password")
       .populate("groupAdmin", "-password");
 
-      res.status(200).json(fullGroupChat);
+      res.status(200).json(fullGroupChat); 
 } catch (error) {
 
 }
