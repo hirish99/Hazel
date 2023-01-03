@@ -13,9 +13,9 @@ import {useHistory} from 'react-router';
 
 const ChatPage = () => {
   const {user} = ChatState();
-  
+
   return (
-    <span class="chatstyle">
+    <span className="chatstyle">
     <div style={{width:'100%'}}>
       {user && <SideDrawer />}
       <Box
