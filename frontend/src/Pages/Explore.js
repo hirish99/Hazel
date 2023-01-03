@@ -12,9 +12,12 @@ import {
   TabPanel,
   TabPanels,
   Image,
+  Tag,
   Badge,
   StarIcon,
-  Link
+  Link,
+  Wrap,
+  WrapItem
 } from "@chakra-ui/react";
 import {
   Heading,
@@ -26,356 +29,15 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 
+const Profile = () => {
+  return <div> "Text" </div>;
+};
+
 function App() {
-  const property = {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of home with pool",
-    beds: 3,
-    baths: 2,
-    title: "Modern home in city in the heart of historic Los Angeles",
-    formattedPrice: "$1,900.00",
-    reviewCount: 34,
-    rating: 4
-  };
   return (
-    <Grid templateColumns="repeat(5, 4fr)" rowGap={100} columnGap={3}>
-      <Box w="100%" h="10px">
-        <Stack
-          borderWidth="1px"
-          borderRadius="lg"
-          w={{ sm: "100%", md: "540px" }}
-          height={{ sm: "476px", md: "20rem" }}
-          direction={{ base: "column", md: "row" }}
-          bg={useColorModeValue("white", "gray.900")}
-          boxShadow={"2xl"}
-          padding={4}
-        >
-          <Flex flex={1} bg="blue.200">
-            <Image
-              objectFit="cover"
-              boxSize="100%"
-              src={
-                "https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-              }
-            />
-          </Flex>
-          <Stack
-            flex={1}
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            p={1}
-            pt={2}
-          >
-            <Heading fontSize={"2xl"} fontFamily={"body"}>
-              Lindsey James
-            </Heading>
-            <Text fontWeight={600} color={"gray.500"} size="sm" mb={4}>
-              @lindsey_jam3s
-            </Text>
-            <Text
-              textAlign={"center"}
-              color={useColorModeValue("gray.700", "gray.400")}
-              px={3}
-            >
-              Actress, musician, songwriter and artist. PM for work inquires or
-              <Link href={"#"} color={"blue.400"}>
-                #tag
-              </Link>
-              me in your posts
-            </Text>
-            <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #art
-              </Badge>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #photography
-              </Badge>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #music
-              </Badge>
-            </Stack>
-
-            <Stack
-              width={"100%"}
-              mt={"2rem"}
-              direction={"row"}
-              padding={2}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Button
-                flex={1}
-                fontSize={"sm"}
-                rounded={"full"}
-                _focus={{
-                  bg: "gray.200"
-                }}
-              >
-                Message
-              </Button>
-              <Button
-                flex={1}
-                fontSize={"sm"}
-                rounded={"full"}
-                bg={"blue.400"}
-                color={"white"}
-                boxShadow={
-                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-                }
-                _hover={{
-                  bg: "blue.500"
-                }}
-                _focus={{
-                  bg: "blue.500"
-                }}
-              >
-                Follow
-              </Button>
-            </Stack>
-          </Stack>
-        </Stack>
-      </Box>
-      <Box w="100%" h="10px">
-        <Stack
-          borderWidth="1px"
-          borderRadius="lg"
-          w={{ sm: "100%", md: "540px" }}
-          height={{ sm: "476px", md: "20rem" }}
-          direction={{ base: "column", md: "row" }}
-          bg={useColorModeValue("white", "gray.900")}
-          boxShadow={"2xl"}
-          padding={4}
-        >
-          <Flex flex={1} bg="blue.200">
-            <Image
-              objectFit="cover"
-              boxSize="100%"
-              src={
-                "https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-              }
-            />
-          </Flex>
-          <Stack
-            flex={1}
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            p={1}
-            pt={2}
-          >
-            <Heading fontSize={"2xl"} fontFamily={"body"}>
-              Lindsey James
-            </Heading>
-            <Text fontWeight={600} color={"gray.500"} size="sm" mb={4}>
-              @lindsey_jam3s
-            </Text>
-            <Text
-              textAlign={"center"}
-              color={useColorModeValue("gray.700", "gray.400")}
-              px={3}
-            >
-              Actress, musician, songwriter and artist. PM for work inquires or
-              <Link href={"#"} color={"blue.400"}>
-                #tag
-              </Link>
-              me in your posts
-            </Text>
-            <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #art
-              </Badge>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #photography
-              </Badge>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #music
-              </Badge>
-            </Stack>
-
-            <Stack
-              width={"100%"}
-              mt={"2rem"}
-              direction={"row"}
-              padding={2}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Button
-                flex={1}
-                fontSize={"sm"}
-                rounded={"full"}
-                _focus={{
-                  bg: "gray.200"
-                }}
-              >
-                Message
-              </Button>
-              <Button
-                flex={1}
-                fontSize={"sm"}
-                rounded={"full"}
-                bg={"blue.400"}
-                color={"white"}
-                boxShadow={
-                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-                }
-                _hover={{
-                  bg: "blue.500"
-                }}
-                _focus={{
-                  bg: "blue.500"
-                }}
-              >
-                Follow
-              </Button>
-            </Stack>
-          </Stack>
-        </Stack>
-      </Box>
-      <Box w="100%" h="10px">
-        <Stack
-          borderWidth="1px"
-          borderRadius="lg"
-          w={{ sm: "100%", md: "540px" }}
-          height={{ sm: "476px", md: "20rem" }}
-          direction={{ base: "column", md: "row" }}
-          bg={useColorModeValue("white", "gray.900")}
-          boxShadow={"2xl"}
-          padding={4}
-        >
-          <Flex flex={1} bg="blue.200">
-            <Image
-              objectFit="cover"
-              boxSize="100%"
-              src={
-                "https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-              }
-            />
-          </Flex>
-          <Stack
-            flex={1}
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            p={1}
-            pt={2}
-          >
-            <Heading fontSize={"2xl"} fontFamily={"body"}>
-              Lindsey James
-            </Heading>
-            <Text fontWeight={600} color={"gray.500"} size="sm" mb={4}>
-              @lindsey_jam3s
-            </Text>
-            <Text
-              textAlign={"center"}
-              color={useColorModeValue("gray.700", "gray.400")}
-              px={3}
-            >
-              Actress, musician, songwriter and artist. PM for work inquires or
-              <Link href={"#"} color={"blue.400"}>
-                #tag
-              </Link>
-              me in your posts
-            </Text>
-            <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #art
-              </Badge>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #photography
-              </Badge>
-              <Badge
-                px={2}
-                py={1}
-                bg={useColorModeValue("gray.50", "gray.800")}
-                fontWeight={"400"}
-              >
-                #music
-              </Badge>
-            </Stack>
-
-            <Stack
-              width={"100%"}
-              mt={"2rem"}
-              direction={"row"}
-              padding={2}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Button
-                flex={1}
-                fontSize={"sm"}
-                rounded={"full"}
-                _focus={{
-                  bg: "gray.200"
-                }}
-              >
-                Message
-              </Button>
-              <Button
-                flex={1}
-                fontSize={"sm"}
-                rounded={"full"}
-                bg={"blue.400"}
-                color={"white"}
-                boxShadow={
-                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-                }
-                _hover={{
-                  bg: "blue.500"
-                }}
-                _focus={{
-                  bg: "blue.500"
-                }}
-              >
-                Follow
-              </Button>
-            </Stack>
-          </Stack>
-        </Stack>
-      </Box>
-    </Grid>
+    <Wrap spacing="20px" justify="center">
+      {console.log(samples)};{createProfileWraps(samples)}
+    </Wrap>
   );
 }
 
@@ -390,7 +52,7 @@ root.render(
   </React.StrictMode>
 );
 
-export default function SocialProfileWithImage() {
+function SocialProfileWithImage(name, image, email, interests, projectblurb) {
   return (
     <Center py={6}>
       <Box
@@ -412,9 +74,7 @@ export default function SocialProfileWithImage() {
         <Flex justify={"center"} mt={-12}>
           <Avatar
             size={"xl"}
-            src={
-              "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-            }
+            src={image}
             alt={"Author"}
             css={{
               border: "2px solid white"
@@ -425,25 +85,18 @@ export default function SocialProfileWithImage() {
         <Box p={6}>
           <Stack spacing={0} align={"center"} mb={5}>
             <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
-              John Doe
+              {name}
             </Heading>
-            <Text color={"gray.500"}>Frontend Developer</Text>
+            <Text color={"gray.500"}>{email}</Text>
           </Stack>
 
-          <Stack direction={"row"} justify={"center"} spacing={6}>
-            <Stack spacing={0} align={"center"}>
-              <Text fontWeight={600}>23k</Text>
-              <Text fontSize={"sm"} color={"gray.500"}>
-                Followers
-              </Text>
-            </Stack>
-            <Stack spacing={0} align={"center"}>
-              <Text fontWeight={600}>23k</Text>
-              <Text fontSize={"sm"} color={"gray.500"}>
-                Followers
-              </Text>
-            </Stack>
-          </Stack>
+          <Stack direction={"row"} justify={"center"} spacing={6}></Stack>
+
+          <Wrap>{createTagsFromInterests(interests)}</Wrap>
+
+          <Box p={3}>
+            <Text>{projectblurb}</Text>
+          </Box>
 
           <Button
             w={"full"}
@@ -456,10 +109,75 @@ export default function SocialProfileWithImage() {
               boxShadow: "lg"
             }}
           >
-            Follow
+            Message
           </Button>
         </Box>
       </Box>
     </Center>
   );
 }
+
+//function
+
+function createOneProfile(singleUserJSON) {
+  return SocialProfileWithImage(
+    singleUserJSON.name,
+    singleUserJSON.pic,
+    singleUserJSON.email,
+    singleUserJSON.interests,
+    singleUserJSON.projectblurb
+  );
+}
+
+function createProfileWraps(userJSON) {
+  return userJSON.map((x) => <WrapItem>{createOneProfile(x)}</WrapItem>);
+}
+
+function createTagsFromInterests(interests) {
+  return interests.map((x) => (
+    <Tag variant="solid" colorScheme="teal">
+      {" "}
+      {x}{" "}
+    </Tag>
+  ));
+}
+
+const samples = [
+  {
+    _id: "63afa1681c28e81e755fa0dc",
+    name: "Connor Levenson",
+    email: "clevenson@ucsb.edu",
+    password: "$2a$10$Dx50n6s2g1l.8jmm/THxE.GiwpWxqo7wQuE7u01a6lKZzY9jnMMwW",
+    pic:
+      "https://res.cloudinary.com/dzz3nkuyy/image/upload/v1672202058/dcfgeabl7xfqe2vdibmi.jpg",
+    isAdmin: false,
+    major: "Data Science",
+    interests: ["Golf", "Trump", "Joe Biden", "Football"],
+    projectinterests: ["Beef", "Cooking"],
+    projectblurb: "I like golf and trump and this relates to beef and cooking",
+    skills: ["Octave", "React"],
+    __v: 0
+  },
+  {
+    _id: "63afa26da39e0d08aba40e3a",
+    name: "Kennard Peters",
+    email: "kennardpeters@ucsb.edu",
+    password: "$2a$10$5n0ahhFFtNKcWyEurxgfYej4LswRcKru9/3aj2UB6LpRa8TNRwKMG",
+    pic:
+      "https://res.cloudinary.com/dzz3nkuyy/image/upload/v1672202058/dcfgeabl7xfqe2vdibmi.jpg",
+    isAdmin: false,
+    major: "Financial Math",
+    interests: ["Tennis", "Biden"],
+    projectinterests: ["Creatine", "Beans"],
+    projectblurb:
+      "I like tennis and biden and this relates to creatine and beans",
+    skills: ["Python", "Swift"],
+    __v: 0
+  }
+];
+
+const imURL =
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ";
+
+// add major to each person -  add a filter button that
+// people can filter by
