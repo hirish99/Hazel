@@ -60,7 +60,7 @@ const Hero = () => {
                 })
 
                 localStorage.setItem("userInfo", JSON.stringify(data));
-                history.push('/chats');
+                history.push('/explore');
             }
             else
             {

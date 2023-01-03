@@ -22,7 +22,7 @@ const MyChats = () => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     user = JSON.parse(localStorage.getItem("userInfo"));
     fetchChats();
-  }, [])
+  }, [chats])
 
   const fetchChats = async () => {
     try {
@@ -32,7 +32,6 @@ const MyChats = () => {
         },
       };
       const {data} = await axios.get(`http://localhost:5000/api/chat/fetch`, config);
-      console.log(data);
       setChats(data);
     }
     catch(error)
