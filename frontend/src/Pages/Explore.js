@@ -1,113 +1,183 @@
-import React from 'react'
-import { Container, Box, Text,Tabs,TabList,Tab,TabPanel,TabPanels, Image, Badge, StarIcon} from '@chakra-ui/react'
+import * as React from "react";
+import * as ReactDOMClient from "react-dom/client";
+import { Box, ChakraProvider } from "@chakra-ui/react";
+import {
+  Container,
+  Grid,
+  GridItem,
+  Text,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  TabPanels,
+  Image,
+  Tag,
+  Badge,
+  StarIcon,
+  Link,
+  Wrap,
+  WrapItem
+} from "@chakra-ui/react";
+import {
+  Heading,
+  Avatar,
+  Center,
+  Flex,
+  Stack,
+  Button,
+  useColorModeValue
+} from "@chakra-ui/react";
 
+const Profile = () => {
+  return <div> "Text" </div>;
+};
 
-
-const Explore = () => {
-
-    const property = {
-    imageUrl: 'https://bit.ly/2Z4KKcF',
-    imageAlt: 'Rear view of modern home with pool',
-    beds: 3,
-    baths: 2,
-    title: 'Modern home in city center in the heart of historic Los Angeles',
-    formattedPrice: '$1,900.00',
-    reviewCount: 34,
-    rating: 4,
-    }
-
-
-
+function App() {
   return (
-    <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' justifyContent='center'>
-      <Image src={property.imageUrl} alt={property.imageAlt} />
-      <Box p='6'>
-        <Box display='flex' alignItems='baseline'>
-          <Badge borderRadius='full' px='2' colorScheme='teal'>
-            New
-          </Badge>
-          <Box
-            color='gray.500'
-            fontWeight='semibold'
-            letterSpacing='wide'
-            fontSize='xs'
-            textTransform='uppercase'
-            ml='2'
-          >
-            {property.beds} beds &bull; {property.baths} baths
-          </Box>
-        </Box>
-
-        <Box
-          mt='1'
-          fontWeight='semibold'
-          as='h4'
-          lineHeight='tight'
-          noOfLines={1}
-        >
-          {property.title}
-        </Box>
-
-        <Box>
-          {property.formattedPrice}
-          <Box as='span' color='gray.600' fontSize='sm'>
-            / wk
-          </Box>
-        </Box>
-
-        <Box display='flex' mt='2' alignItems='center'>
-          <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-            {property.reviewCount} reviews
-          </Box>
-        </Box>
-      </Box>
-
-      <Image src={property.imageUrl} alt={property.imageAlt} />
-      <Box p='6'>
-        <Box display='flex' alignItems='baseline'>
-          <Badge borderRadius='full' px='2' colorScheme='teal'>
-            New
-          </Badge>
-          <Box
-            color='gray.500'
-            fontWeight='semibold'
-            letterSpacing='wide'
-            fontSize='xs'
-            textTransform='uppercase'
-            ml='2'
-          >
-            {property.beds} beds &bull; {property.baths} baths
-          </Box>
-        </Box>
-
-        <Box
-          mt='1'
-          fontWeight='semibold'
-          as='h4'
-          lineHeight='tight'
-          noOfLines={1}
-        >
-          {property.title}
-        </Box>
-
-        <Box>
-          {property.formattedPrice}
-          <Box as='span' color='gray.600' fontSize='sm'>
-            / wk
-          </Box>
-        </Box>
-
-        <Box display='flex' mt='2' alignItems='center'>
-          <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-            {property.reviewCount} reviews
-          </Box>
-        </Box>
-      </Box>
-    </Box>
-
-    
-    
-  )
+    <Wrap spacing="20px" justify="center">
+      {console.log(samples)};{createProfileWraps(samples)}
+    </Wrap>
+  );
 }
 
-export default Explore
+const rootElement = document.getElementById("root");
+const root = ReactDOMClient.createRoot(rootElement);
+
+root.render(
+  <React.StrictMode>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
+  </React.StrictMode>
+);
+
+function SocialProfileWithImage(name, image, email, interests, projectblurb) {
+  return (
+    <Center py={6}>
+      <Box
+        maxW={"270px"}
+        w={"full"}
+        bg={useColorModeValue("white", "gray.800")}
+        boxShadow={"2xl"}
+        rounded={"md"}
+        overflow={"hidden"}
+      >
+        <Image
+          h={"120px"}
+          w={"full"}
+          src={
+            "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+          }
+          objectFit={"cover"}
+        />
+        <Flex justify={"center"} mt={-12}>
+          <Avatar
+            size={"xl"}
+            src={image}
+            alt={"Author"}
+            css={{
+              border: "2px solid white"
+            }}
+          />
+        </Flex>
+
+        <Box p={6}>
+          <Stack spacing={0} align={"center"} mb={5}>
+            <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
+              {name}
+            </Heading>
+            <Text color={"gray.500"}>{email}</Text>
+          </Stack>
+
+          <Stack direction={"row"} justify={"center"} spacing={6}></Stack>
+
+          <Wrap>{createTagsFromInterests(interests)}</Wrap>
+
+          <Box p={3}>
+            <Text>{projectblurb}</Text>
+          </Box>
+
+          <Button
+            w={"full"}
+            mt={8}
+            bg={useColorModeValue("#151f21", "gray.900")}
+            color={"white"}
+            rounded={"md"}
+            _hover={{
+              transform: "translateY(-2px)",
+              boxShadow: "lg"
+            }}
+          >
+            Message
+          </Button>
+        </Box>
+      </Box>
+    </Center>
+  );
+}
+
+//function
+
+function createOneProfile(singleUserJSON) {
+  return SocialProfileWithImage(
+    singleUserJSON.name,
+    singleUserJSON.pic,
+    singleUserJSON.email,
+    singleUserJSON.interests,
+    singleUserJSON.projectblurb
+  );
+}
+
+function createProfileWraps(userJSON) {
+  return userJSON.map((x) => <WrapItem>{createOneProfile(x)}</WrapItem>);
+}
+
+function createTagsFromInterests(interests) {
+  return interests.map((x) => (
+    <Tag variant="solid" colorScheme="teal">
+      {" "}
+      {x}{" "}
+    </Tag>
+  ));
+}
+
+const samples = [
+  {
+    _id: "63afa1681c28e81e755fa0dc",
+    name: "Connor Levenson",
+    email: "clevenson@ucsb.edu",
+    password: "$2a$10$Dx50n6s2g1l.8jmm/THxE.GiwpWxqo7wQuE7u01a6lKZzY9jnMMwW",
+    pic:
+      "https://res.cloudinary.com/dzz3nkuyy/image/upload/v1672202058/dcfgeabl7xfqe2vdibmi.jpg",
+    isAdmin: false,
+    major: "Data Science",
+    interests: ["Golf", "Trump", "Joe Biden", "Football"],
+    projectinterests: ["Beef", "Cooking"],
+    projectblurb: "I like golf and trump and this relates to beef and cooking",
+    skills: ["Octave", "React"],
+    __v: 0
+  },
+  {
+    _id: "63afa26da39e0d08aba40e3a",
+    name: "Kennard Peters",
+    email: "kennardpeters@ucsb.edu",
+    password: "$2a$10$5n0ahhFFtNKcWyEurxgfYej4LswRcKru9/3aj2UB6LpRa8TNRwKMG",
+    pic:
+      "https://res.cloudinary.com/dzz3nkuyy/image/upload/v1672202058/dcfgeabl7xfqe2vdibmi.jpg",
+    isAdmin: false,
+    major: "Financial Math",
+    interests: ["Tennis", "Biden"],
+    projectinterests: ["Creatine", "Beans"],
+    projectblurb:
+      "I like tennis and biden and this relates to creatine and beans",
+    skills: ["Python", "Swift"],
+    __v: 0
+  }
+];
+
+const imURL =
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ";
+
+// add major to each person -  add a filter button that
+// people can filter by
