@@ -53,7 +53,7 @@ const accessChat = asyncHandler(async (req, res) => {
   });
 
 const fetchChats = asyncHandler(async (req, res) => {
-    console.log("Hello");
+    console.log("Hello Bit");
 try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
     .populate("users", "-password")
@@ -86,18 +86,18 @@ const createGroupChat = asyncHandler(async (req, res) => {
     return res.status(400).send("More than 2 users needed.")
   }
 
+console.log(req.user);
 users.push(req.user);
 
 //Anytime you write to mongoDb you need the await keyword
 try {
     var groupChat = await Chat.findOne({
-      chatName: req.body.name,
       users: users,
       isGroupChat: true,
-      groupAdmin: req.user,
     });
 
-    if (groupChat == null)
+    console.log(groupChat === null);
+    if (groupChat === null)
     {
         groupChat = await Chat.create({
           chatName: req.body.name,

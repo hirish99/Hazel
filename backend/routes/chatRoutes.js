@@ -7,8 +7,9 @@ const {renameGroup,removeFromGroup,addToGroup} = require("../controllers/chatCon
  
 const router = express.Router();
 
-router.route('/').get(protect, fetchChats);
+
 router.route('/').post(protect, accessChat);
+router.route('/fetch').get(protect, fetchChats);
 router.route('/group').post(protect, createGroupChat);
 router.route('/rename').put(protect, renameGroup);
 router.route('/groupremove').put(protect, removeFromGroup);

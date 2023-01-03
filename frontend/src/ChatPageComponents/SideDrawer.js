@@ -17,9 +17,44 @@ const SideDrawer = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
+  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const accessChat = (userId) => {
+  const accessChat = async (userId) => {
       console.log(userId);
+      try{
+        setLoadingChat(true);
+        const config = {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`
+          },
+        };
+
+        const {data} = await axios.post("http://localhost:5000/api/chat", {userId}, config);
+
+        if (!chats.find((c) => c._id === data._id))
+        {
+          setChats([data, ...chats]);
+        }
+
+        setSelectedChat(data);
+        setLoadingChat(false);
+        onClose();
+      }
+      catch(error)
+      {
+          toast({
+            title: "Error fetching the chat",
+            description: error.message,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "botton-left",
+          })
+      }
   }
 
   const onCloseHelper=()=> {
@@ -27,17 +62,13 @@ const SideDrawer = () => {
     setSearchResult([]);
   }
 
-  const { user } = ChatState();
+  
 
   const history = useHistory();
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
     history.push("/");
   }
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const toast = useToast();
 
 
   const handleSearch = async () => {
@@ -120,10 +151,10 @@ const SideDrawer = () => {
         <ModalOverlay />
           <ModalContent>
           <ModalHeader
-            fontSize="40px"
             d="flex"
             justifyContent="center"
           >
+           <Center> <Text> Search Users</Text></Center>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
@@ -139,10 +170,10 @@ const SideDrawer = () => {
               value={search}
               onChange={(e)=>setSearch(e.target.value)}
               />
-              <Button width="100%" style={{marginTop: 15}} onClick={handleSearch}>Go</Button>
+              <Button width="100%" colorScheme="blue" style={{marginTop: 15}} onClick={handleSearch}>Go</Button>
             </Box>
 
-            {loading ? <ChatLoading/> : 
+            {false ? <ChatLoading/> : 
               (
                 searchResult?.map(user=> (
                   <UserListItem key={user._id} user={user} handleFunction={()=>accessChat(user._id)}

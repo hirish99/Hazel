@@ -27,17 +27,6 @@ app.use('/api/chat', chatRoutes)
 //a get request.
 //app.get is where you route all get requests. So when the webpage loads it does a get request
 //from the web server. You can define a response doing the following:
-
-app.get("/api/chat/dog", (req, res) => {
-    res.send(chats);
-});
-
-app.get('/api/chat/:id', (req, res) => {
-    //console.log(req.params.id);
-    const singleChat = chats.find(c=>c._id = req.params.id);
-    res.send(singleChat)
-});
-
 //abstract all the logic for api/user in userRoutes.js
 
 
