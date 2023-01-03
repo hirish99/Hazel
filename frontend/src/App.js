@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route } from "react-router-dom";
-import Homepage from './Pages/Homepage';
 import ChatPage from './Pages/ChatPage';
 import Explore from './Pages/Explore';
 import Hero from './Pages/Hero';

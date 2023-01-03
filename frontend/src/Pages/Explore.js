@@ -29,28 +29,15 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 
+
+
+
+
 const Profile = () => {
   return <div> "Text" </div>;
 };
 
-function App() {
-  return (
-    <Wrap spacing="20px" justify="center">
-      {console.log(samples)};{createProfileWraps(samples)}
-    </Wrap>
-  );
-}
 
-const rootElement = document.getElementById("root");
-const root = ReactDOMClient.createRoot(rootElement);
-
-root.render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <App />
-    </ChakraProvider>
-  </React.StrictMode>
-);
 
 function SocialProfileWithImage(name, image, email, interests, projectblurb) {
   return (
@@ -181,3 +168,15 @@ const imURL =
 
 // add major to each person -  add a filter button that
 // people can filter by
+
+const Explore = () => {
+  return (
+    <div>
+      <Wrap spacing="20px" justify="center">
+      {console.log(samples)};{createProfileWraps(samples)}
+    </Wrap>
+    </div>
+  )
+}
+
+export default Explore
