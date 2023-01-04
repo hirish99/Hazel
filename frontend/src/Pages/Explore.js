@@ -32,6 +32,7 @@ import {
 
 import { useEffect ,useState } from "react";
 import axios from 'axios';
+import SideDrawer from "../ChatPageComponents/SideDrawer";
 
 // add major to each person -  add a filter button that
 // people can filter by
@@ -106,6 +107,7 @@ const imURL =
 
   function SocialProfileWithImage(name, image, email, interests, projectblurb) {
     return (
+   
       <Center py={6}>
         <Box
           maxW={"270px"}
@@ -166,6 +168,7 @@ const imURL =
           </Box>
         </Box>
       </Center>
+
     );
   }
   
@@ -195,10 +198,13 @@ const imURL =
   }
 
 
+  const {user} = ChatState();
+
 
 
   return (
-    <div>
+    <div style={{width:'100%'}}>
+    {user && <SideDrawer displaySearch={false}/>}
       <Wrap spacing="20px" justify="center">
       {console.log(samples)};{createProfileWraps(samples)}
     </Wrap>

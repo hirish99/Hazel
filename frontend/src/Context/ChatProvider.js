@@ -17,7 +17,7 @@ const ChatProvider = ({children}) => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
         setUser(userInfo);
 
-        if (!userInfo) {
+        if (!userInfo && history) {
             //If user is not logged in you get redirected to the login page
             history.push('/');
         }

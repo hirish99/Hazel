@@ -1,28 +1,22 @@
 import { Spacer, useToast } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import React from 'react'
 import {ChatState} from "../Context/ChatProvider";
 import axios from 'axios';
-import { Text, Button, Box, HStack, Stack } from '@chakra-ui/react';
+import {Flex, Text, Button, Box, HStack, Stack, Center } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import ChatLoading from './ChatLoading';
+import GroupChatModal from './Modals/GroupChatModal';
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
-  const {selectedChat, setSelectedChat, chats, setChats} = ChatState();
+  const {selectedChat, setSelectedChat, chats, setChats, user, setUser} = ChatState();
 
   const toast = useToast();
-  var user;
 
   const getSender = (users) => {
     return users[0]._id === loggedUser._id ? users[1].name : users[0].name;
   }
-
-  useEffect(()=>{
-    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
-    user = JSON.parse(localStorage.getItem("userInfo"));
-    fetchChats();
-  }, [chats])
 
   const fetchChats = async () => {
     try {
@@ -49,16 +43,26 @@ const MyChats = () => {
     }
   }
 
+  useEffect(()=>{
+    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+    setUser(JSON.parse(localStorage.getItem("userInfo")));
+    if (user)
+    {
+      fetchChats();
+    }
+  }, [ ])
+
   return (
-    <Stack
+    <Flex
     d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
     flexDir="column"
     alignItems="center"
     p={3}
     bg="white"
-    w={{ base: "100%", md: "44%" }}
+    w={{ base: "100%", md: "34%" }}
     borderRadius="lg"
     borderWidth="1px"
+    h='100%'
   >
     <Box
       pb={3}
@@ -66,18 +70,31 @@ const MyChats = () => {
       fontSize={{ base: "28px", md: "30px" }}
       d="flex"
       w="100%"
-      alignItems="right"
-      justifyContent={"space-between"}
+      alignItems="center"
+      justifyContent="space-between"
     >
-      My Chats
+
+      <HStack
+      justifyContent={"space-between"}
+      alignContent="center"
+      >
+
       
+      <Center>My Chats</Center>
+      
+      <GroupChatModal>
         <Button
         d="flex"
         fontSize={{ base: "17px", md: "10px", lg: "17px" }}
         rightIcon={<AddIcon />}
         >
-          New Group Chat
+          <Text d={{ base: "none", md: "flex" }}>
+              New Group Chat
+            </Text>
         </Button>
+      </GroupChatModal>
+
+        </HStack>
       </Box>
 
       <Box
@@ -117,7 +134,7 @@ const MyChats = () => {
             <ChatLoading />
         )}
       </Box>
-    </Stack>
+    </Flex>
   );
 }
 

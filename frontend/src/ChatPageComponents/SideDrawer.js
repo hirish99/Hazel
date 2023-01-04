@@ -1,17 +1,57 @@
 import React, { useContext, useState } from 'react'
-import { Box, Flex,Tooltip, Button, Stack, Menu, MenuButton, Center, MenuList, MenuItem, MenuDivider, Portal, Modal, Input, Toast, useToast } from '@chakra-ui/react'
+import { Box, Flex,Tooltip, Button, Stack, Menu, MenuButton, Center, MenuList, MenuItem, MenuDivider, Portal, Modal, Input, Toast, useToast, ModalFooter } from '@chakra-ui/react'
 import { Icon ,Text, Grid,Spacer} from '@chakra-ui/react'
 import { BellIcon, ChevronDownIcon, SearchIcon } from '@chakra-ui/icons'
 import { Avatar } from '@chakra-ui/react'
 import { ChatState } from '../Context/ChatProvider'
 import ProfileModal from './Modals/ProfileModal'
 import { useHistory } from 'react-router-dom'
-import { useDisclosure, ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody } from '@chakra-ui/react'
+import { useDisclosure, ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody} from '@chakra-ui/react'
 import axios from 'axios'
 import ChatLoading from './ChatLoading'
 import UserListItem from './UserListItem'
+import { checkTargetForNewValues } from 'framer-motion'
 
-const SideDrawer = () => {
+
+function ReturnFocus({children}) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const finalRef = React.useRef(null)
+
+  return (
+    <>
+
+      <span onClick={onOpen}>{children}</span>
+      <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Contact</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>
+            Email: hirish99@gmail.com 
+            </Text>
+            <Text>
+            Text: 4083183662
+            </Text>
+            <Text>
+            Social: chandra_hirish
+            </Text>
+            <Text>
+            Please give me a description of steps to reproduce the problem and on what url/components were involved. If you'd like to give any sort of feedback as well please dont hesitate. Thank you!
+            </Text>
+
+          </ModalBody>
+          <ModalFooter></ModalFooter>
+
+        
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
+
+
+const SideDrawer = ({displaySearch=true}) => {
 
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -121,6 +161,7 @@ const SideDrawer = () => {
       p="5px 10px 5px 10px"
       borderwidth="5px"
       direction="row">
+        {displaySearch &&
         <Tooltip label="Search Users To Chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
             <Stack
@@ -129,6 +170,7 @@ const SideDrawer = () => {
             </Stack>
           </Button>
         </Tooltip>
+        } 
         <Text fontSize="3xl">
           Hazel
         </Text>
@@ -143,6 +185,9 @@ const SideDrawer = () => {
               <MenuItem>My Profile</MenuItem>
             </ProfileModal>
             <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
+            <ReturnFocus>
+              <MenuItem>Report A Problem</MenuItem>
+            </ReturnFocus>
           </MenuList>
         </Menu>
       </Flex>
