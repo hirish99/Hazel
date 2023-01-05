@@ -1,6 +1,7 @@
 import React from 'react'
 import { ChatState } from '../Context/ChatProvider'
 import { Box, VStack, Flex, HStack, Center } from '@chakra-ui/react';
+import SingleChat from './SingleChat';
 
 const ChatBox = () => {
   const {selectedChat} = ChatState();
@@ -27,10 +28,24 @@ const ChatBox = () => {
       justifyContent="space-between"
     >
       <Center>Chat</Center>
-
-
-
       </Box>
+      <Box
+      d="flex"
+      flexDir="column"
+      bg="#E8E8E8"
+      w="100%"
+      h="100%"
+      borderRadius="lg"
+      overflowY="hidden"
+    >
+      <SingleChat>
+
+      </SingleChat>
+    </Box>
+
+
+
+      
       
     </Flex>
   )

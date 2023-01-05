@@ -201,10 +201,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
     history.push("/");
   }
 
-  useEffect(()=>{
-    setUser(JSON.parse(localStorage.getItem("userInfo")));
-    console.log(user);
-  },[user])
+
 
 
   return (
@@ -238,13 +235,13 @@ const MobileNav = ({ onOpen, ...rest }) => {
         
         <Flex alignItems={'center'}>
 
-{/*         <Menu>
+        <Menu>
           <MenuButton as={Button} variant="ghost" rightIcon={<ChevronDownIcon/>}>
             <Avatar size='sm' cursor='pointer' name={JSON.parse(localStorage.getItem("userInfo")).name} src={JSON.parse(localStorage.getItem("userInfo")).pic}>
             </Avatar>
           </MenuButton>
-          <MenuList bg="#FEEBC8">
-            <ProfileModal user={user}>
+          <MenuList >
+            <ProfileModal user={JSON.parse(localStorage.getItem("userInfo"))}>
               <MenuItem>My Profile</MenuItem>
             </ProfileModal>
             <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
@@ -252,7 +249,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <MenuItem>Report A Problem</MenuItem>
             </ReturnFocus>
           </MenuList>
-        </Menu> */}
+        </Menu>
 
 
 

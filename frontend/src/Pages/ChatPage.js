@@ -18,7 +18,6 @@ const ChatPage = () => {
   return (
     <SidebarWithHeader >
     <div style={{width:'100%'}}>
-      {user && <SideDrawer />}
       <HStack
       d='flex'
       justifyContent='space-between'

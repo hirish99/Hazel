@@ -207,7 +207,6 @@ const imURL =
   return (
     <SidebarWithHeader >
     <div style={{width:'100%'}}>
-    {user && <SideDrawer displaySearch={false}/>}
       <Wrap spacing="20px" justify="center">
       {console.log(samples)};{createProfileWraps(samples)}
     </Wrap>

@@ -10,6 +10,7 @@ import GroupChatModal from './Modals/GroupChatModal';
 import {Tooltip,Icon, Modal, Input,useDisclosure, ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody} from '@chakra-ui/react'
 import UserListItem from './UserListItem';
 import {SearchIcon } from '@chakra-ui/icons'
+import { useHistory } from 'react-router-dom';
 
 
 const MyChats = () => {
@@ -105,6 +106,8 @@ const MyChats = () => {
 
   const toast = useToast();
 
+  const history = useHistory();
+
   const getSender = (users) => {
     return users[0]._id === loggedUser._id ? users[1].name : users[0].name;
   }
@@ -121,16 +124,19 @@ const MyChats = () => {
     }
     catch(error)
     {
+      history.push('/chats');
+      /*
       console.log(user);
       console.log(error);
        toast({
         title: "Error Occurred!",
-        description: "Failed to load the chats",
-        status: "error",
+        description: "Reload Page - API Issue",
+        status: "info",
         duration: 5000,
         isClosable: true,
         position: "bottom-left",
        });
+      */
     }
   }
 
@@ -167,7 +173,7 @@ const MyChats = () => {
       justifyContent="space-between"
     >
       
-      <HStack
+      <Flex
       justifyContent={"space-between"}
       alignContent="center"
       >
@@ -176,35 +182,39 @@ const MyChats = () => {
       
       
 
+     
 
+      <span>
+
+    
       <Button
           d="flex"
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          m={2}
+          ml={0}
           rightIcon={<SearchIcon />}onClick={onOpen}>
             <Text d={{ base: "none", md: "flex" }}>
-                New User Chat
+              User
               </Text>
           </Button>
+          </span>
 
-          <Center>My Chats</Center>
 
           <GroupChatModal>
           <Button
           d="flex"
-          m={2}
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
           rightIcon={<AddIcon />}
           >
             <Text d={{ base: "none", md: "flex" }}>
-                New Group Chat
+                Group
               </Text>
           </Button>
         </GroupChatModal>
 
+
       
 
-        </HStack>
+        </Flex>
       </Box>
 
       <Box
@@ -254,7 +264,7 @@ const MyChats = () => {
             d="flex"
             justifyContent="center"
           >
-           <Center> <Text> Search Users</Text></Center>
+           <Center> <Text> Message User</Text></Center>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
