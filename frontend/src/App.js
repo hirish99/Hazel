@@ -5,6 +5,7 @@ import Explore from './Pages/Explore';
 import Hero from './Pages/Hero';
 import GoogleSignUp from './Pages/GoogleSignUp';
 import SidebarWithHeader from './Pages/SidebarWithHeader';
+import BlogPostPage from './Pages/BlogPostPage';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Route path="/explore" component={Explore} exact/>
       <Route path="/signup" component={GoogleSignUp} exact/>
       <Route path="/play" component={SidebarWithHeader} exact/>
+      <Route path="/projects" component={BlogPostPage} exact/>
 
     </div>
   );

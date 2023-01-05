@@ -390,6 +390,7 @@ const possibleProjects = [
   { value: "artificialintelligence", label: "Artificial Intelligence" },
   { value: "socialmedia", label: "Social Media" },
   { value: "enviorment", label: "Enviroment" },
+  { value: "other", label: "Other"},
 ];
 
 const possibleSkills = [
