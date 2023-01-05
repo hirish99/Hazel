@@ -30,6 +30,8 @@ import {
   useColorModeValue
 } from "@chakra-ui/react";
 
+import SidebarWithHeader from "./SidebarWithHeader";
+
 import { useEffect ,useState } from "react";
 import axios from 'axios';
 import SideDrawer from "../ChatPageComponents/SideDrawer";
@@ -203,12 +205,14 @@ const imURL =
 
 
   return (
+    <SidebarWithHeader >
     <div style={{width:'100%'}}>
     {user && <SideDrawer displaySearch={false}/>}
       <Wrap spacing="20px" justify="center">
       {console.log(samples)};{createProfileWraps(samples)}
     </Wrap>
     </div>
+    </SidebarWithHeader>
   )
 }
 

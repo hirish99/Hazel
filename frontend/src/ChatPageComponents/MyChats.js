@@ -1,4 +1,4 @@
-import { Spacer, useToast } from '@chakra-ui/react';
+import { Spacer, useToast, VStack } from '@chakra-ui/react';
 import { useCallback, useEffect, useState } from 'react';
 import React from 'react'
 import {ChatState} from "../Context/ChatProvider";
@@ -7,10 +7,101 @@ import {Flex, Text, Button, Box, HStack, Stack, Center } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons';
 import ChatLoading from './ChatLoading';
 import GroupChatModal from './Modals/GroupChatModal';
+import {Tooltip,Icon, Modal, Input,useDisclosure, ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody} from '@chakra-ui/react'
+import UserListItem from './UserListItem';
+import {SearchIcon } from '@chakra-ui/icons'
+
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+
+  /*Importing Search*/
   const {selectedChat, setSelectedChat, chats, setChats, user, setUser} = ChatState();
+  const onCloseHelper=()=> {
+    onClose();
+    setSearchResult([]);
+  }
+  const handleSearch = async () => {
+    if (!search) {
+      toast({
+        title: "Search Empty",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-center",
+      })
+    }
+
+    try {
+
+        const config = {
+          headers: {
+            Authorization:`Bearer ${user.token}`
+          },
+        };
+
+        const {data} = await axios.get(`http://localhost:5000/api/user?search=${search}`, config);
+
+        setSearchResult(data);
+        console.log(data);
+
+    }
+    catch(err){
+      console.log(err);
+      toast({
+        title: "API Call to Search Failed",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-center",
+      })
+    }
+
+  }
+
+  const accessChat = async (userId) => {
+    console.log(userId);
+    try{
+      const config = {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`
+        },
+      };
+
+      const {data} = await axios.post("http://localhost:5000/api/chat", {userId}, config);
+
+      if (!chats.find((c) => c._id === data._id))
+      {
+        setChats([data, ...chats]);
+      }
+
+      setSelectedChat(data);
+
+      onClose();
+    }
+    catch(error)
+    {
+        toast({
+          title: "Error fetching the chat",
+          description: error.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "botton-left",
+        })
+    }
+}
+
+
+
+  /*Importing Search*/
+
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   const toast = useToast();
 
@@ -53,6 +144,8 @@ const MyChats = () => {
   }, [ ])
 
   return (
+    <>
+    
     <Flex
     d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
     flexDir="column"
@@ -73,26 +166,43 @@ const MyChats = () => {
       alignItems="center"
       justifyContent="space-between"
     >
-
+      
       <HStack
       justifyContent={"space-between"}
       alignContent="center"
       >
+      
 
       
-      <Center>My Chats</Center>
       
-      <GroupChatModal>
-        <Button
-        d="flex"
-        fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-        rightIcon={<AddIcon />}
-        >
-          <Text d={{ base: "none", md: "flex" }}>
-              New Group Chat
-            </Text>
-        </Button>
-      </GroupChatModal>
+
+
+      <Button
+          d="flex"
+          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+          m={2}
+          rightIcon={<SearchIcon />}onClick={onOpen}>
+            <Text d={{ base: "none", md: "flex" }}>
+                New User Chat
+              </Text>
+          </Button>
+
+          <Center>My Chats</Center>
+
+          <GroupChatModal>
+          <Button
+          d="flex"
+          m={2}
+          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+          rightIcon={<AddIcon />}
+          >
+            <Text d={{ base: "none", md: "flex" }}>
+                New Group Chat
+              </Text>
+          </Button>
+        </GroupChatModal>
+
+      
 
         </HStack>
       </Box>
@@ -135,6 +245,48 @@ const MyChats = () => {
         )}
       </Box>
     </Flex>
+
+
+    <Modal size="lg" onClose={onCloseHelper} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+          <ModalContent>
+          <ModalHeader
+            d="flex"
+            justifyContent="center"
+          >
+           <Center> <Text> Search Users</Text></Center>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody
+            d="flex"
+            flexDir="column"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box d="flex" pb={2}>
+              <Input
+              placeholder="Search by name or email"
+              mr={2}
+              value={search}
+              onChange={(e)=>setSearch(e.target.value)}
+              />
+              <Button width="100%" colorScheme="blue" style={{marginTop: 15}} onClick={handleSearch}>Go</Button>
+            </Box>
+
+            {false ? <ChatLoading/> : 
+              (
+                searchResult?.map(user=> (
+                  <UserListItem key={user._id} user={user} handleFunction={()=>accessChat(user._id)}
+                  />
+                ))
+              )
+            }
+
+          </ModalBody>
+          </ModalContent>
+      </Modal>
+
+    </>
   );
 }
 

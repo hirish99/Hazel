@@ -218,7 +218,7 @@ const SideDrawer = ({displaySearch=true}) => {
               <Button width="100%" colorScheme="blue" style={{marginTop: 15}} onClick={handleSearch}>Go</Button>
             </Box>
 
-            {false ? <ChatLoading/> : 
+            {loading ? <ChatLoading/> : 
               (
                 searchResult?.map(user=> (
                   <UserListItem key={user._id} user={user} handleFunction={()=>accessChat(user._id)}

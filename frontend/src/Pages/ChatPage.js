@@ -5,6 +5,7 @@ import { ChatState } from '../Context/ChatProvider';
 import SideDrawer from '../ChatPageComponents/SideDrawer';
 import ChatBox from '../ChatPageComponents/ChatBox';
 import MyChats from '../ChatPageComponents/MyChats';
+import SidebarWithHeader from './SidebarWithHeader';
 
 import { useEffect } from 'react';
 import {useHistory} from 'react-router';
@@ -15,20 +16,22 @@ const ChatPage = () => {
   const {user} = ChatState();
 
   return (
-    <span className="chatstyle">
+    <SidebarWithHeader >
     <div style={{width:'100%'}}>
       {user && <SideDrawer />}
-      <Box
+      <HStack
       d='flex'
       justifyContent='space-between'
       w='100%'
       h='91.5vh'
       p='10px'
       >
-        {user && <MyChats/>}
-      </Box>
+      {user && <MyChats/>}
+      {user && <ChatBox/>}
+      </HStack>
+      
     </div>
-    </span>
+    </SidebarWithHeader>
     
   );
 };
