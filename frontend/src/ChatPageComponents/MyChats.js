@@ -11,6 +11,7 @@ import {Tooltip,Icon, Modal, Input,useDisclosure, ModalOverlay,ModalContent,Moda
 import UserListItem from './UserListItem';
 import {SearchIcon } from '@chakra-ui/icons'
 import { useHistory } from 'react-router-dom';
+import { Avatar, AvatarGroup } from '@chakra-ui/react';
 
 
 const MyChats = () => {
@@ -110,6 +111,10 @@ const MyChats = () => {
 
   const getSender = (users) => {
     return users[0]._id === loggedUser._id ? users[1].name : users[0].name;
+  }
+
+  const getIndex  = (users) => {
+    return users[0]._id === loggedUser._id ? 1: 0;
   }
 
   const fetchChats = async () => {
@@ -230,7 +235,7 @@ const MyChats = () => {
         {chats ? (
             <Stack overflowY='scroll'>
                 {chats.map((chat)=>(
-                  <Box
+                  <Flex
                   onClick={()=>setSelectedChat(chat)}
                   cursor="pointer"
                   bg={selectedChat===chat ?  "#38B2AC":"#E8E8E8"}
@@ -239,15 +244,30 @@ const MyChats = () => {
                   py={3}
                   borderRadius="lg"
                   key={chat._id}
+                  justifyContent="space-between"
                   >
-                    <Text>
+                    <Text
+                     py={3}
+                    >
                       {/* {!chat.isGroupChat?(
                         getSender(loggedUser, chat.users)
                       ):(chat.chatName)} */}
                       {!chat.isGroupChat?(getSender(chat.users)):(chat.chatName)}
                     </Text>
 
-                  </Box>
+
+
+                    {!chat.isGroupChat &&
+                    <Avatar name={chat.users[getIndex(chat.users)].name} src={chat.users[getIndex(chat.users)].pic} />}
+
+                    {chat.isGroupChat &&
+                    <AvatarGroup>
+                        {(chat.users).map((u)=>(<Avatar name={u.name} src={u.pic} />))}
+                    </AvatarGroup>
+                    }
+
+
+                  </Flex>
                 ))}
             </Stack>
         ):(
