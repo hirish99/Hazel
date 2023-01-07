@@ -70,8 +70,24 @@ io.on("connection", (socket)=>{
         chat.users.forEach(user=>{
             if (user._id ==  newMessageRecieved.sender._id) return;
 
-            socket.in(user._id).emit("message recieved", newMessageRecieved);
-        })
-    })
+            socket.in(user._id).emit("message_recieved", newMessageRecieved);
+        });
+    });
+
+    socket.on('update_chat', (newChatCreated) => {
+        var chat_new = newChatCreated;
+
+        console.log("Created");
+
+        if (!chat_new.users) return console.log('no chat users');
+
+        chat_new.users.forEach(user=>{
+            socket.in(user._id).emit("update_chat_recieved", newChatCreated);
+            console.log("Chat");
+        });
+    }
+    
+    
+    ) 
 });
 

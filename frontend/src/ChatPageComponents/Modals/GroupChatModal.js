@@ -25,6 +25,11 @@ import axios from  'axios'
 import UserListItem from '../UserListItem';
 import UserBadgeItem from '../UserBadgeItem';
 
+import io from "socket.io-client"
+
+const ENDPOINT = "http://localhost:5000";
+var socket;
+
 
 const GroupChatModal = ({children}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,6 +42,16 @@ const GroupChatModal = ({children}) => {
   const toast = useToast();
 
   const {user, chats, setChats} = ChatState();
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on('connection', (userData)=>{
+      socket.join(userData._id);
+      console.log(userData._id);
+      socket.emit("connected");
+    });
+  });
   
   const onCloseHelper = () => {
     onClose();
@@ -130,6 +145,7 @@ const GroupChatModal = ({children}) => {
         isClosable: true,
         position: "bottom",
       });
+      socket.emit("update_chat", data);
     } catch (error) {
       toast({
         title: "Failed to Create the Chat!",

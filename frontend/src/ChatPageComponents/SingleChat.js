@@ -47,24 +47,29 @@ const SingleChat = () => {
       socket.join(userData._id);
       console.log(userData._id);
       socket.emit("connected");
-    })
+    });
+  });
 
-    fetchMessages();
-
-    selectedChatCompare = selectedChat;
-  }, [selectedChat])
+    
+    useEffect(() => {
+      fetchMessages();
+  
+      selectedChatCompare = selectedChat;
+      // eslint-disable-next-line
+    }, [selectedChat]);
 
   useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved)=>{
-    if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id)
-    {
-      //give notification
-    }
-    else {
-      setMessages([...messages,newMessageRecieved]);
-    }
-  });
-  });
+    socket.on("message_recieved", (newMessageRecieved)=>{
+      if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id)
+      {
+        //give notification
+      }
+      else {
+        setMessages([...messages,newMessageRecieved]);
+      }
+    })});
+    
+ 
 
 
 

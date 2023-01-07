@@ -12,14 +12,14 @@ import UserListItem from './UserListItem';
 import {SearchIcon } from '@chakra-ui/icons'
 import { useHistory } from 'react-router-dom';
 import { Avatar, AvatarGroup } from '@chakra-ui/react';
+import io from "socket.io-client"
 
+const ENDPOINT = "http://localhost:5000";
+var socket;
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
-
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   /*Importing Search*/
   const {selectedChat, setSelectedChat, chats, setChats, user, setUser} = ChatState();
@@ -91,6 +91,8 @@ const MyChats = () => {
 
       setSelectedChat(data);
 
+      socket.emit("update_chat", data);
+
       onClose();
     }
     catch(error)
@@ -125,6 +127,16 @@ const MyChats = () => {
     return users[0]._id === loggedUser._id ? 1: 0;
   }
 
+  useEffect(() => {
+  socket = io(ENDPOINT);
+  socket.emit("setup", user);
+  socket.on('connection', (userData)=>{
+    socket.join(userData._id);
+    console.log(userData._id);
+    socket.emit("connected");
+  });
+});
+
   const fetchChats = async () => {
     try {
       const config = {
@@ -137,30 +149,37 @@ const MyChats = () => {
     }
     catch(error)
     {
-      history.push('/chats');
       /*
       console.log(user);
       console.log(error);
-       toast({
+      toast({
         title: "Error Occurred!",
         description: "Reload Page - API Issue",
         status: "info",
         duration: 5000,
         isClosable: true,
         position: "bottom-left",
-       });
+      });
       */
     }
   }
 
+  useEffect(() => {
+    socket.on("update_chat_recieved", (newChatCreated)=>{
+
+    console.log(newChatCreated);
+    fetchChats();
+
+
+        
+    })
+  });
+
   useEffect(()=>{
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     setUser(JSON.parse(localStorage.getItem("userInfo")));
-    if (user)
-    {
-      fetchChats();
-    }
-  }, [ ])
+    fetchChats();
+  }, [])
 
   return (
     <>
