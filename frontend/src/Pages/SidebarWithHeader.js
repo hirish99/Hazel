@@ -226,9 +226,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
       <Text
         display={{ base: 'flex', md: 'none' }}
         fontSize="2xl"
-        fontFamily="monospace"
         fontWeight="bold">
-        Logo
+        Hazel
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>

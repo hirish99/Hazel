@@ -34,80 +34,37 @@ import SidebarWithHeader from "./SidebarWithHeader";
 
 import { useEffect ,useState } from "react";
 import axios from 'axios';
-import SideDrawer from "../ChatPageComponents/SideDrawer";
-
-// add major to each person -  add a filter button that
-// people can filter by
 
 const Explore = () => {
 
+  const [samples, setSamples] =  useState([]);
 
-/* const samples = [
-  {
-    _id: "63afa1681c28e81e755fa0dc",
-    name: "Connor Levenson",
-    email: "clevenson@ucsb.edu",
-    password: "$2a$10$Dx50n6s2g1l.8jmm/THxE.GiwpWxqo7wQuE7u01a6lKZzY9jnMMwW",
-    pic:
-      "https://res.cloudinary.com/dzz3nkuyy/image/upload/v1672202058/dcfgeabl7xfqe2vdibmi.jpg",
-    isAdmin: false,
-    major: "Data Science",
-    interests: ["Golf", "Trump", "Joe Biden", "Football"],
-    projectinterests: ["Beef", "Cooking"],
-    projectblurb: "I like golf and trump and this relates to beef and cooking",
-    skills: ["Octave", "React"],
-    __v: 0
-  },
-  {
-    _id: "63afa26da39e0d08aba40e3a",
-    name: "Kennard Peters",
-    email: "kennardpeters@ucsb.edu",
-    password: "$2a$10$5n0ahhFFtNKcWyEurxgfYej4LswRcKru9/3aj2UB6LpRa8TNRwKMG",
-    pic:
-      "https://res.cloudinary.com/dzz3nkuyy/image/upload/v1672202058/dcfgeabl7xfqe2vdibmi.jpg",
-    isAdmin: false,
-    major: "Financial Math",
-    interests: ["Tennis", "Biden"],
-    projectinterests: ["Creatine", "Beans"],
-    projectblurb:
-      "I like tennis and biden and this relates to creatine and beans",
-    skills: ["Python", "Swift"],
-    __v: 0
+  const createTagsFromInterests=(interests) =>{
+    return interests.map((x) => (
+      <Tag variant="solid" colorScheme="teal">
+        {" "}
+        {x}{" "}
+      </Tag>
+    ));
   }
-]; */
 
 
-const [samples, setSamples] =  useState([]);
 
-const fetchMembers = async () =>
-{
-  try{
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    const config = {
-      headers: {
-        Authorization:`Bearer ${user.token}`
-      },
-    };
-    const {data} = await axios.get(`http://localhost:5000/api/user?search=`, config);
-    console.log(data);
-    setSamples(data);
+  const createOneProfile=(singleUserJSON)=> {
+    return SocialProfileWithImage(
+      singleUserJSON.name,
+      singleUserJSON.pic,
+      singleUserJSON.email,
+      singleUserJSON.interests,
+      singleUserJSON.projectblurb
+    );
   }
-  catch (error)
-  {
-    console.log(error);
+
+  const createProfileWraps=(userJSON) =>{
+    return userJSON.map((x) => (<WrapItem>{createOneProfile(x)}</WrapItem>));
   }
-}
 
-useEffect(() => {
-  fetchMembers();
-
-},[]);
-
-const imURL =
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ";
-
-
-  function SocialProfileWithImage(name, image, email, interests, projectblurb) {
+  const SocialProfileWithImage= (name, image, email, interests, projectblurb) =>{
     return (
    
       <Center py={6}>
@@ -171,38 +128,27 @@ const imURL =
         </Box>
       </Center>
 
-    );
-  }
-  
-  //function
-  
-  function createOneProfile(singleUserJSON) {
-    return SocialProfileWithImage(
-      singleUserJSON.name,
-      singleUserJSON.pic,
-      singleUserJSON.email,
-      singleUserJSON.interests,
-      singleUserJSON.projectblurb
-    );
-  }
-  
-  function createProfileWraps(userJSON) {
-    return userJSON.map((x) => <WrapItem>{createOneProfile(x)}</WrapItem>);
-  }
-  
-  function createTagsFromInterests(interests) {
-    return interests.map((x) => (
-      <Tag variant="solid" colorScheme="teal">
-        {" "}
-        {x}{" "}
-      </Tag>
-    ));
+        );
   }
 
+  useEffect(() => {
 
-  const {user} = ChatState();
+    const fetchMembers = async () =>
+    {
+      const user = JSON.parse(localStorage.getItem("userInfo"));
+      const config = {
+        headers: {
+          Authorization:`Bearer ${user.token}`
+        },
+      };
+      const {data} = await axios.get(`http://localhost:5000/api/user?search=`, config);
+      setSamples(data);
+    }
 
 
+    fetchMembers().catch(console.error);
+
+  },[]);
 
   return (
     <SidebarWithHeader >
