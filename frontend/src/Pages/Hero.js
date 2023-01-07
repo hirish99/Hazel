@@ -123,7 +123,8 @@ const Hero = () => {
                     var decoded = jwt_decode(credentialResponse.credential);
                     if (decoded.email_verified) 
                     {
-                      if (decoded.hd === "ucsb.edu")
+                      //if (decoded.hd === "ucsb.edu")
+                      if (true)
                       {
                         console.log(decoded);
 

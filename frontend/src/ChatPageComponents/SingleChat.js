@@ -3,12 +3,15 @@ import { ChatState } from '../Context/ChatProvider'
 import { Center, Text, VStack, Box, Spacer,Container, Flex, HStack, FormControl, Input,useToast, useEditable} from '@chakra-ui/react';
 import axios from 'axios';
 import ScrollableChat from './ScrollableChat';
+import io from "socket.io-client"
 
-
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 const SingleChat = () => {
   const {selectedChat, user, setSelectedChat} =  ChatState();
-
+  
+  const [socketConnected, setSocketConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState();
@@ -29,6 +32,8 @@ const SingleChat = () => {
       const {data} = await axios.get(`/api/message/${selectedChat._id}`, config);
       setMessages(data);
       setLoading(false);
+
+      socket.emit("join_chat", selectedChat._id);
     }
     catch(error) {
 
@@ -36,8 +41,36 @@ const SingleChat = () => {
   }
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on('connection', (userData)=>{
+      socket.join(userData._id);
+      console.log(userData._id);
+      socket.emit("connected");
+    })
+
     fetchMessages();
+
+    selectedChatCompare = selectedChat;
   }, [selectedChat])
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved)=>{
+    if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id)
+    {
+      //give notification
+    }
+    else {
+      setMessages([...messages,newMessageRecieved]);
+    }
+  });
+  });
+
+
+
+  
+
+
 
 
 
@@ -61,6 +94,8 @@ const SingleChat = () => {
         )
 
         console.log(data);
+
+        socket.emit("new_message", data);
 
         setNewMessage("");
         setMessages([...messages,data]);

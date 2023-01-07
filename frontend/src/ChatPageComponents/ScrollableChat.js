@@ -80,7 +80,7 @@ const ScrollableChat = ({messages}) => {
                     hasArrow
                     >
                         <Avatar
-                            mt={aloneMessage(messages, m, i, user._id) ? "3px" : "3px"}
+                            mt="3px"
                             mr={1}
                             size="sm"
                             cursor="pointer"
@@ -101,7 +101,7 @@ const ScrollableChat = ({messages}) => {
                     padding: "5px 15px",
                     maxWidth: "75%",
                     marginLeft: isSameSenderMargin(messages, m, i, user._id),
-                    marginTop: aloneMessage(messages, m, i, user._id) ? 5 : 5,
+                    marginTop: 5,
                 }}
                 >
                 {m.content}
