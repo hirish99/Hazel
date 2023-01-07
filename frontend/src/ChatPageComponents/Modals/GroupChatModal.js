@@ -56,6 +56,7 @@ const GroupChatModal = ({children}) => {
   const onCloseHelper = () => {
     onClose();
     setSearchResult([]);
+    setSelectedUsers([]);
   }
 
   const handleDelete = (delUser) => {

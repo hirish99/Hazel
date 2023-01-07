@@ -98,7 +98,7 @@ const Hero = () => {
               Connect with
             </Text>
             <br />{' '}
-            <Text color={'#F6AD55'} as={'span'}>
+            <Text color={'red.400'} as={'span'}>
               Hazel
             </Text>{' '}
           </Heading>

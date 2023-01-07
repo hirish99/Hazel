@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOMClient from "react-dom/client";
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider, VStack } from "@chakra-ui/react";
 import { ChatState } from '../Context/ChatProvider'
 import {
   Container,
@@ -67,14 +67,18 @@ const Explore = () => {
   const SocialProfileWithImage= (name, image, email, interests, projectblurb) =>{
     return (
    
-      <Center py={6}>
+
+      <VStack py={10}>
         <Box
           maxW={"270px"}
-          w={"full"}
+          w={"300px"}
+          h="500px"
+          l="10px"
           bg={useColorModeValue("white", "gray.800")}
           boxShadow={"2xl"}
           rounded={"md"}
           overflow={"hidden"}
+ 
         >
           <Image
             h={"120px"}
@@ -104,17 +108,38 @@ const Explore = () => {
             </Stack>
   
             <Stack direction={"row"} justify={"center"} spacing={6}></Stack>
-  
+
+            <Box p={2}  h="150px"  rounded='md' bg='white' overflowY='auto' maxHeight="70px">
+              
             <Wrap>{createTagsFromInterests(interests)}</Wrap>
-  
-            <Box p={3}>
-              <Text>{projectblurb}</Text>
             </Box>
   
-            <Button
-              w={"full"}
-              mt={8}
+            <Box p={2} h="150px"  rounded='md' bg='white' overflowY='auto' maxHeight="130px">
+             {projectblurb}
+            </Box>
+
+
+
+
+  
+
+          </Box>
+
+
+        </Box>
+        <Box bg={useColorModeValue("white", "gray.800")}
+        boxShadow={"2xl"}
+        rounded={"md"}
+        
+        w='100%' p={4} color='white'>
+          <Center>
+
+          
+        <Button
+              w={"90%"}
               bg={useColorModeValue("#151f21", "gray.900")}
+              justify="bottom"
+              align="bottom"
               color={"white"}
               rounded={"md"}
               _hover={{
@@ -124,9 +149,12 @@ const Explore = () => {
             >
               Message
             </Button>
-          </Box>
-        </Box>
-      </Center>
+            </Center>
+      </Box>
+
+        
+
+      </VStack>
 
         );
   }
