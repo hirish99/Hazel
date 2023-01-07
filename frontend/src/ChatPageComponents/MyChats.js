@@ -19,6 +19,8 @@ const MyChats = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
 
+
+
   /*Importing Search*/
   const {selectedChat, setSelectedChat, chats, setChats, user, setUser} = ChatState();
   const onCloseHelper=()=> {
@@ -47,6 +49,7 @@ const MyChats = () => {
         const {data} = await axios.get(`http://localhost:5000/api/user?search=${search}`, config);
 
         setSearchResult(data);
+
         console.log(data);
 
     }
@@ -65,6 +68,9 @@ const MyChats = () => {
 
   const accessChat = async (userId) => {
     console.log(userId);
+
+
+
     try{
       const config = {
         headers: {
@@ -75,6 +81,8 @@ const MyChats = () => {
       };
 
       const {data} = await axios.post("http://localhost:5000/api/chat", {userId}, config);
+
+
 
       if (!chats.find((c) => c._id === data._id))
       {
@@ -230,7 +238,7 @@ const MyChats = () => {
         w="100%"
         h="100%"
         borderRadius="lg"
-        overflowY="hidden"
+        overflowY="auto"
       >
         {chats ? (
             <Stack overflowY='scroll'>

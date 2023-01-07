@@ -78,7 +78,7 @@ const SidebarWithHeader = ({children}) => {
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} p="1">
         {children}
       </Box>
     </Box>
@@ -171,10 +171,13 @@ function ReturnFocus({children}) {
             Text: 4083183662
             </Text>
             <Text>
+            
+            </Text>
+            <Text>
             Social: chandra_hirish
             </Text>
             <Text>
-            Please give me a description of steps to reproduce the problem and on what url/components were involved. If you'd like to give any sort of feedback as well please dont hesitate. Thank you!
+            If you'd like to give any sort of feedback as well please dont hesitate. Thank you! If you'd like you can submit an issue on the github as well for bugs/features (https://github.com/hirish99/mern-chat-app).
             </Text>
 
           </ModalBody>
@@ -232,7 +235,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
       <HStack spacing={{ base: '0', md: '6' }}>
         
-        <Flex alignItems={'center'}>
+        <Flex alignItems={'center'} >
 
         <Menu>
           <MenuButton as={Button} variant="ghost" rightIcon={<ChevronDownIcon/>}>

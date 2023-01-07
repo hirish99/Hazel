@@ -18,40 +18,7 @@ const ChatBox = () => {
       borderWidth="1px"
       h='100%'
     >
-      <Box
-      pb={3}
-      px={3}
-      fontSize={{ base: "28px", md: "30px" }}
-      d="flex"
-      w="100%"
-      alignItems="center"
-      justifyContent="space-between"
-    >
-      <Center>Chat</Center>
-      </Box>
-      <Box
-      d="flex"
-      flexDir="column"
-      bg="#E8E8E8"
-      w="100%"
-      h="100%"
-      borderRadius="lg"
-      overflowY="hidden"
-    >
-
-        {!selectedChat? (
-          <Text
-          fontSize='50px'
-          ></Text>
-
-        ):
-          <SingleChat></SingleChat>
-        }   
-    </Box>
-
-
-
-      
+      <SingleChat></SingleChat>
       
     </Flex>
   )
