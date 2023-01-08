@@ -245,7 +245,7 @@ function createPage(projectArray){
       <AddProjectButton></AddProjectButton>
       <div style={{width:'100%'}}>
         <Wrap spacing="20px" justify="center">
-          {console.log(projectArray)};{createProjectWraps(projectArray)}
+          {console.log(projectArray)}{createProjectWraps(projectArray)}
         </Wrap>
       </div>
     </SidebarWithHeader>

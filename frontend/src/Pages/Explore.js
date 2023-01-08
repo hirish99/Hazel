@@ -39,13 +39,23 @@ const Explore = () => {
 
   const [samples, setSamples] =  useState([]);
 
-  const createTagsFromInterests=(interests) =>{
-    return interests.map((x) => (
-      <Tag variant="solid" colorScheme="teal">
+
+  const createTagsFromInterests=(interests, skills) =>{
+    var a =  skills.map((x) => (
+      <Tag variant="solid" colorScheme={"teal"}>
+        {" "}
+        {x}{" "}
+      </Tag>
+    )) 
+    var b= 
+    interests.map((x) => (
+      <Tag variant="solid" colorScheme={"green"}>
         {" "}
         {x}{" "}
       </Tag>
     ));
+
+    return [...a, ...b]
   }
 
 
@@ -56,6 +66,7 @@ const Explore = () => {
       singleUserJSON.pic,
       singleUserJSON.email,
       singleUserJSON.interests,
+      singleUserJSON.skills,
       singleUserJSON.projectblurb
     );
   }
@@ -64,7 +75,7 @@ const Explore = () => {
     return userJSON.map((x) => (<WrapItem>{createOneProfile(x)}</WrapItem>));
   }
 
-  const SocialProfileWithImage= (name, image, email, interests, projectblurb) =>{
+  const SocialProfileWithImage= (name, image, email, interests,skills, projectblurb) =>{
     return (
    
 
@@ -109,12 +120,13 @@ const Explore = () => {
   
             <Stack direction={"row"} justify={"center"} spacing={6}></Stack>
 
-            <Box p={2}  h="150px"  rounded='md' bg='white' overflowY='auto' maxHeight="70px">
-              
-            <Wrap>{createTagsFromInterests(interests)}</Wrap>
+            <Box p={3}   boxShadow='base' h="150px"  rounded='md' bg='white' overflowY='auto' maxHeight="70px">
+              <Center>
+            <Wrap>{createTagsFromInterests(interests, skills)}</Wrap>
+            </Center>
             </Box>
   
-            <Box p={2} h="150px"  rounded='md' bg='white' overflowY='auto' maxHeight="130px">
+            <Box p={2} mt={2} h="150px" boxShadow='base' rounded='md' bg='white' overflowY='auto' maxHeight="130px">
              {projectblurb}
             </Box>
 
@@ -178,11 +190,27 @@ const Explore = () => {
 
   },[]);
 
+
+  const filterCriteria = (sample) => {
+    let needle = ["Tensorflow"];
+    let needle1 = ["Trump"];
+
+    if (needle.length ==0 && needle1.length == 0)
+      return true;
+    
+
+    let haystack = sample.skills;
+    let haystack1 = sample.interests;
+
+    return needle.every(i => haystack.includes(i)) && needle1.every(i => haystack1.includes(i));
+  }
+
+
   return (
     <SidebarWithHeader >
     <div style={{width:'100%'}}>
-      <Wrap spacing="20px" justify="center">
-      {console.log(samples)};{createProfileWraps(samples)}
+      <Wrap spacing="20px" justify="center" p={1}>
+        {createProfileWraps(samples.filter(sample=>filterCriteria(sample)))}
     </Wrap>
     </div>
     </SidebarWithHeader>

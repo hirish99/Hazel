@@ -37,6 +37,7 @@ import {
 
 
 const GoogleSignUp = () => {
+    const { email, setEmail, possibleProjects, possibleSkills, possibleinterests } = ChatState();
 
     const [pickerItems, setPickerItems] = React.useState(possibleinterests);
     const [interests, setSelectedItems] = React.useState([]);
@@ -56,7 +57,7 @@ const GoogleSignUp = () => {
     const [name, setName] = useState();
     const [major, setMajor] = useState();
 
-    const { email, setEmail } = ChatState();
+
 
     const handleCreateItem = (item) => {
       setPickerItems((curr) => [...curr, item]);
@@ -353,56 +354,5 @@ const GoogleSignUp = () => {
   )
 }
 
-const possibleinterests = [
-  { value: "bicycling", label: "Bicycling" },
-  { value: "workingout", label: "Working Out" },
-  { value: "dancing", label: "Dancing" },
-  { value: "videogames", label: "Video Games" },
-  { value: "anime", label: "Anime" },
-  { value: "partying", label: "Partying" },
-  { value: "surfing", label: "Surfing" },
-  { value: "painting", label: "Painting" },
-  { value: "hiking", label: "Hiking" },
-  { value: "martialarts", label: "Martial Arts" },
-  { value: "photography", label: "Photography" },
-  { value: "physics", label: "Physics" },
-  { value: "math", label: "Math" },
-  { value: "finance", label: "Finance" },
-  { value: "entrepreneurship", label: "Entrepreneurship" },
-  { value: "music", label: "Music" },
-  { value: "baking", label: "Baking" },
-  { value: "grilling", label: "Grilling" },
-  { value: "soccer", label: "Soccer" },
-  { value: "instrument", label: "Instrument (ex. Piano)" },
-  { value: "coffee", label: "Coffee" },
-];
-
-
-const possibleProjects = [
-  { value: "finance", label: "Finance" },
-  { value: "politics", label: "Politics" },
-  { value: "diseasemodeling", label: "Disease Modeling" },
-  { value: "nlp", label: "Natural Language Processing" },
-  { value: "computervision", label: "Computer Vision" },
-  { value: "recommendationsystem", label: "Recommendation System" },
-  { value: "food", label: "Food" },
-  { value: "buisness", label: "Buisnesses" },
-  { value: "artificialintelligence", label: "Artificial Intelligence" },
-  { value: "socialmedia", label: "Social Media" },
-  { value: "enviorment", label: "Enviroment" },
-  { value: "other", label: "Other"},
-];
-
-const possibleSkills = [
-  { value: "python", label: "Python" },
-  { value: "tensorflow", label: "TensorFlow" },
-  { value: "pytorch", label: "PyTorch" },
-  { value: "pandas", label: "Pandas" },
-  { value: "numpy", label: "Numpy" },
-  { value: "scikit-learn", label: "scikit-learn" },
-  { value: "r", label: "R" },
-  { value: "sql", label: "SQL" },
-  { value: "c++", label: "C++" },
-];
 
 export default GoogleSignUp
