@@ -52,7 +52,7 @@ const ChatProvider = ({children}) => {
 
       const possibleSkills = [
         { value: "Python", label: "Python" },
-        { value: "Rensorflow", label: "TensorFlow" },
+        { value: "TensorFlow", label: "TensorFlow" },
         { value: "PyTorch", label: "PyTorch" },
         { value: "Pandas", label: "Pandas" },
         { value: "Numpy", label: "Numpy" },

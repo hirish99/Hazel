@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import { Box, ChakraProvider, VStack } from "@chakra-ui/react";
+import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import { ChatState } from '../Context/ChatProvider'
 import {
   Container,
@@ -27,17 +28,150 @@ import {
   Flex,
   Stack,
   Button,
-  useColorModeValue
+  useColorModeValue,
+  useToast
 } from "@chakra-ui/react";
 
 import SidebarWithHeader from "./SidebarWithHeader";
 
 import { useEffect ,useState } from "react";
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
+
+import io from "socket.io-client";
+const ENDPOINT = "http://localhost:5000";
+var socket;
 
 const Explore = () => {
 
+
+  const toast = useToast();
+  const history = useHistory();
+  
+
+  const { possibleSkills, possibleinterests,setSelectedChat,setChats, user, setUser,chats } = ChatState();
+
+
+
+  useEffect(() => {
+
+    setUser(JSON.parse(localStorage.getItem("userInfo")));
+    console.log(user);
+
+    if (user)  {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on('connection', (userData)=>{
+      socket.join(userData._id);
+      console.log(userData._id);
+      socket.emit("connected");
+    });
+  }
+
+    const fetchMembers = async () =>
+    {
+      const user = JSON.parse(localStorage.getItem("userInfo"));
+      const config = {
+        headers: {
+          Authorization:`Bearer ${user.token}`
+        },
+      };
+      const {data} = await axios.get(`http://localhost:5000/api/user?search=`, config);
+      setSamples(data);
+    }
+
+
+    fetchMembers().catch(console.error);
+  });
+  const accessChat = async (userId) => {
+    console.log(userId);
+    
+
+
+
+    try{
+      
+      const config = {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`
+        },
+      };
+
+      const {data} = await axios.post("http://localhost:5000/api/chat", {userId}, config);
+      console.log(data);
+
+
+      if (!chats.find((c) => c._id === data._id))
+      {
+        setChats([data, ...chats]);
+      }
+
+      setSelectedChat(data);
+
+      socket.emit("update_chat", data);
+
+
+
+  
+
+
+    }
+    catch(error)
+    {
+        toast({
+          title: "Error fetching the chat",
+          description: error.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "botton-left",
+        })
+    }
+
+    history.push("/chats");
+  }
+
+  const [pickerItems, setPickerItems] = React.useState(possibleinterests);
+  const [interestsP, setSelectedItems] = React.useState([]);
+
+  const [pickerItems2, setPickerItems2] = React.useState(possibleSkills);
+  const [skillsP, setSelectedItems2] = React.useState([]);
+
+
+
+  const handleCreateItem = (item) => {
+    setPickerItems((curr) => [...curr, item]);
+    setSelectedItems((curr) => [...curr, item]);
+  };
+
+  const handleCreateItem2 = (item) => {
+    setPickerItems2((curr) => [...curr, item]);
+    setSelectedItems2((curr) => [...curr, item]);
+  };
+
+  const handleSelectedItemsChange = (selectedItems) => {
+    console.log(selectedItems);
+    if (selectedItems) {
+      setSelectedItems(selectedItems);
+    }
+  };
+
+  const handleSelectedItemsChange2 = (selectedItems2) => {
+    console.log(selectedItems2);
+    if (selectedItems2) {
+      setSelectedItems2(selectedItems2);
+    }
+  };
+
+
+
+
+
   const [samples, setSamples] =  useState([]);
+
+
 
 
   const createTagsFromInterests=(interests, skills) =>{
@@ -62,6 +196,7 @@ const Explore = () => {
 
   const createOneProfile=(singleUserJSON)=> {
     return SocialProfileWithImage(
+      singleUserJSON._id,
       singleUserJSON.name,
       singleUserJSON.pic,
       singleUserJSON.email,
@@ -75,7 +210,12 @@ const Explore = () => {
     return userJSON.map((x) => (<WrapItem>{createOneProfile(x)}</WrapItem>));
   }
 
-  const SocialProfileWithImage= (name, image, email, interests,skills, projectblurb) =>{
+  const handleClickMessage = (id) => {
+    console.log(id);
+    accessChat(id);
+  }
+
+  const SocialProfileWithImage= (id, name, image, email, interests,skills, projectblurb) =>{
     return (
    
 
@@ -148,6 +288,7 @@ const Explore = () => {
 
           
         <Button
+              onClick={() => accessChat(id)}
               w={"90%"}
               bg={useColorModeValue("#151f21", "gray.900")}
               justify="bottom"
@@ -158,8 +299,9 @@ const Explore = () => {
                 transform: "translateY(-2px)",
                 boxShadow: "lg"
               }}
+              
             >
-              Message
+              Message Me
             </Button>
             </Center>
       </Box>
@@ -171,44 +313,61 @@ const Explore = () => {
         );
   }
 
-  useEffect(() => {
 
-    const fetchMembers = async () =>
-    {
-      const user = JSON.parse(localStorage.getItem("userInfo"));
-      const config = {
-        headers: {
-          Authorization:`Bearer ${user.token}`
-        },
-      };
-      const {data} = await axios.get(`http://localhost:5000/api/user?search=`, config);
-      setSamples(data);
-    }
-
-
-    fetchMembers().catch(console.error);
-
-  },[]);
 
 
   const filterCriteria = (sample) => {
-    let needle = ["Tensorflow"];
-    let needle1 = ["Trump"];
-
-    if (needle.length ==0 && needle1.length == 0)
-      return true;
-    
+    let needle = skillsP.map(element => element.value);
+    let needle1 = interestsP.map(element => element.value);
 
     let haystack = sample.skills;
     let haystack1 = sample.interests;
 
-    return needle.every(i => haystack.includes(i)) && needle1.every(i => haystack1.includes(i));
+    return ((needle.length===0 || needle.every(i => haystack.includes(i))) && (needle1.length===0 || needle1.every(i => haystack1.includes(i))));
   }
 
 
   return (
     <SidebarWithHeader >
     <div style={{width:'100%'}}>
+
+    <Box 
+          d="flex"
+          flexDir="column"
+          justifyContent={"space-between"}
+          p={10}
+          bg="white"
+          w="100%"
+          h="90%"
+          borderRadius="lg"
+    
+    >
+
+    
+    <CUIAutoComplete
+          label="Filter by Interest"
+          placeholder="Type a Interest"
+          onCreateItem={handleCreateItem}
+          items={pickerItems}
+          selectedItems={interestsP}
+          onSelectedItemsChange={(changes) =>
+            handleSelectedItemsChange(changes.selectedItems)
+          }/>
+
+    <CUIAutoComplete
+          label="Filter by Skill"
+          placeholder="Type a Skill"
+          onCreateItem={handleCreateItem2}
+          items={pickerItems2}
+          selectedItems={skillsP}
+          onSelectedItemsChange={(changes) =>
+            handleSelectedItemsChange2(changes.selectedItems)
+          }/>
+      </Box>
+
+
+
+
       <Wrap spacing="20px" justify="center" p={1}>
         {createProfileWraps(samples.filter(sample=>filterCriteria(sample)))}
     </Wrap>

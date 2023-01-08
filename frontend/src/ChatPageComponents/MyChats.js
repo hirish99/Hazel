@@ -120,11 +120,14 @@ const MyChats = () => {
   const history = useHistory();
 
   const getSender = (users) => {
-    return users[0]._id === loggedUser._id ? users[1].name : users[0].name;
+    console.log("PROBLEM")
+    console.log(loggedUser)
+    console.log("PROBLEM")
+    return users[0]._id === JSON.parse(localStorage.getItem("userInfo"))._id ? users[1].name : users[0].name;
   }
 
   const getIndex  = (users) => {
-    return users[0]._id === loggedUser._id ? 1: 0;
+    return users[0]._id === JSON.parse(localStorage.getItem("userInfo"))._id ? 1: 0;
   }
 
   useEffect(() => {
@@ -279,6 +282,7 @@ const MyChats = () => {
                       {/* {!chat.isGroupChat?(
                         getSender(loggedUser, chat.users)
                       ):(chat.chatName)} */}
+                      {console.log(chat)}
                       {!chat.isGroupChat?(getSender(chat.users)):(chat.chatName)}
                     </Text>
 
