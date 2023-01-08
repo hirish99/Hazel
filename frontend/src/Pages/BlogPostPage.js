@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex,  Heading, Text, Link, Button, WrapItem, Wrap, IconButton, Form} from '@chakra-ui/react'
 import {
   Modal,
@@ -26,7 +26,7 @@ import {
   Image
 } from '@chakra-ui/react';
 
-import { useIsomorphicLayoutEffect } from 'framer-motion'
+import axios from "axios"
 
 
 const BlogPostPage = () => {
@@ -108,6 +108,10 @@ const BlogPostPage = () => {
     "updatedAt": "2023-01-06T21:32:37.078Z",
     "__v": 0
   }]
+
+  useEffect(()=>{
+
+  });
   const createAvatar = (creator, createdAt) => {
     return (
     <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
@@ -238,7 +242,7 @@ const BlogPostPage = () => {
             </ModalBody>
   
             <ModalFooter>
-              <Button onClick={saveProjectDetails('test')} colorScheme='blue' mr={3}>
+              <Button onClick={()=>saveProjectDetails('test')} colorScheme='blue' mr={3}>
                 Save
               </Button>
               <Button onClick={onClose}>Cancel</Button>
@@ -251,7 +255,6 @@ const BlogPostPage = () => {
     console.log(projectName)
     return('')
   }
-
 
   return (
     <SidebarWithHeader >

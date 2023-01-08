@@ -30,13 +30,27 @@ const createProject = asyncHandler(async (req, res) => {
         throw new Error(error.message);
     }
 
-    
-
-
-
-
-
-
 });
 
-module.exports = {createProject};
+const allProjects = asyncHandler(async (req, res) => {
+    try{
+        const keyword = req.query.search
+        ? {
+            $or: [
+                { projectName: { $regex: req.query.search, $options: "i" } },
+                { projectTopic: { $regex: req.query.search, $options: "i" } },
+                { projectDescription: { $regex: req.query.search, $options: "i" } },
+            ],
+            }
+        : {};
+    
+        const users = await Project.find(keyword);
+        res.send(users);
+    }
+    catch(error){
+        res.status(400);
+        throw new Error(error.message);
+    }
+  });
+
+module.exports = {createProject, allProjects};
