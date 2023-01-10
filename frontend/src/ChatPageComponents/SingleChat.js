@@ -5,7 +5,7 @@ import axios from 'axios';
 import ScrollableChat from './ScrollableChat';
 import io from "socket.io-client"
 
-const ENDPOINT = process.env.REACT_APP_BASE_URL;
+const ENDPOINT = "https://hazel.herokuapp.com";
 var socket, selectedChatCompare;
 
 const SingleChat = () => {

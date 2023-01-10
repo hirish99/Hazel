@@ -73,7 +73,7 @@ const SideDrawer = ({displaySearch=true}) => {
           },
         };
 
-        const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chat`, {userId}, config);
+        const {data} = await axios.post(`https://hazel.herokuapp.com/api/chat`, {userId}, config);
 
         if (!chats.find((c) => c._id === data._id))
         {
@@ -131,7 +131,7 @@ const SideDrawer = ({displaySearch=true}) => {
           },
         };
 
-        const {data} = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/user?search=${search}`, config);
+        const {data} = await axios.get(`https://hazel.herokuapp.com/api/user?search=${search}`, config);
 
         setLoading(false);
         setSearchResult(data);

@@ -137,8 +137,8 @@ const GoogleSignUp = () => {
         try{
 
             
-                const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user`, {
-                hash:   encrypt(email,process.env.REACT_APP_KEY),
+                const {data} = await axios.post(`https://hazel.herokuapp.com/api/user`, {
+                hash:   encrypt(email,h73jd7asbkfasfy7asdf),
                 name: name,
                 email: email,
                 password: email,

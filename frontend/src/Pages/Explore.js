@@ -39,7 +39,7 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 
 import io from "socket.io-client";
-const ENDPOINT = process.env.REACT_APP_BASE_URL;
+const ENDPOINT = "https://hazel.herokuapp.com";
 var socket;
 
 const Explore = () => {
@@ -76,7 +76,7 @@ const Explore = () => {
           Authorization:`Bearer ${user.token}`
         },
       };
-      const {data} = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/user?search=`, config);
+      const {data} = await axios.get(`https://hazel.herokuapp.com/api/user?search=`, config);
       setSamples(data);
     }
 
@@ -99,7 +99,7 @@ const Explore = () => {
         },
       };
 
-      const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chat`, {userId}, config);
+      const {data} = await axios.post(`https://hazel.herokuapp.com/api/chat`, {userId}, config);
 
 
 

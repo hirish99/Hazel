@@ -47,8 +47,8 @@ const Hero = () => {
 
     const emailCheck = async (email) => {
         try{
-          const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/emaillookup`, {
-            hash:  encrypt(email, process.env.REACT_APP_KEY)
+          const {data} = await axios.post(`https://hazel.herokuapp.com/api/user/emaillookup`, {
+            hash:  encrypt(email, h73jd7asbkfasfy7asdf)
           }, {
             headers: {
               'Accept': 'application/json',
