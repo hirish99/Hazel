@@ -16,7 +16,7 @@ const ScrollableChat = ({messages}) => {
     };
 
     const aloneMessage = (messages, m, i, userId) => {
-        console.log(messages[i],m,i)
+        //console.log(messages[i],m,i)
 
         if (i > 0  && i < messages.length - 1)
         {
@@ -46,7 +46,7 @@ const ScrollableChat = ({messages}) => {
     };
 
     const isSameSenderMargin = (messages, m, i, userId) => {
-        // console.log(i === messages.length - 1);
+        // //console.log(i === messages.length - 1);
       
         if (
           i < messages.length - 1 &&

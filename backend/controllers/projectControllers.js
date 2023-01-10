@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 const Project = require("../models/projectModel");
 
 const createProject = asyncHandler(async (req, res) => {
-    const {projectName, projectTopic, projectDescription, skillsNeeded} = req.body;
+    const {projectName, projectTopic, projectDescription, skillsNeeded, pic} = req.body;
 
     if (!req.user._id) {
         console.log("UserId param not sent with authorization");
@@ -16,6 +16,7 @@ const createProject = asyncHandler(async (req, res) => {
         projectDescription: projectDescription,
         skillsNeeded: skillsNeeded,
         creator: req.user._id,
+        pic: pic,
     }
 
     try {
@@ -44,13 +45,15 @@ const allProjects = asyncHandler(async (req, res) => {
             }
         : {};
     
-        const users = await Project.find(keyword);
-        res.send(users);
+        const projects = await Project.find(keyword).sort({'createdAt':-1}).populate("creator");
+        res.send(projects);
     }
     catch(error){
         res.status(400);
         throw new Error(error.message);
     }
   });
+
+
 
 module.exports = {createProject, allProjects};

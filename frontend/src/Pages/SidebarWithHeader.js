@@ -52,7 +52,7 @@ const LinkItems = [
   { name: 'Explore', icon: FiCompass,linkto: '/explore'  },
   { name: 'Chat', icon: ChatIcon, linkto: '/chats'},
   { name: 'Projects', icon: FiTrendingUp,linkto: '/projects' },
-  { name: 'Settings', icon: FiSettings ,linkto: '/signup' },
+  { name: 'Settings', icon: FiSettings ,linkto: '/profile' },
 ];
 
 const SidebarWithHeader = ({children}) => {

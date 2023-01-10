@@ -13,9 +13,9 @@ const ChatProvider = ({children}) => {
 
     const possibleinterests = [
         { value: "Bicycling", label: "Bicycling" },
-        { value: "Workingout", label: "Working Out" },
+        { value: "Working Out", label: "Working Out" },
         { value: "Dancing", label: "Dancing" },
-        { value: "Videogames", label: "Video Games" },
+        { value: "Video Games", label: "Video Games" },
         { value: "Anime", label: "Anime" },
         { value: "Partying", label: "Partying" },
         { value: "Surfing", label: "Surfing" },

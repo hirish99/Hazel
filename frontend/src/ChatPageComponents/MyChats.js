@@ -50,11 +50,11 @@ const MyChats = () => {
 
         setSearchResult(data);
 
-        console.log(data);
+        //console.log(data);
 
     }
     catch(err){
-      console.log(err);
+      //console.log(err);
       toast({
         title: "API Call to Search Failed",
         status: "error",
@@ -67,7 +67,7 @@ const MyChats = () => {
   }
 
   const accessChat = async (userId) => {
-    console.log(userId);
+    //console.log(userId);
 
 
 
@@ -120,9 +120,6 @@ const MyChats = () => {
   const history = useHistory();
 
   const getSender = (users) => {
-    console.log("PROBLEM")
-    console.log(loggedUser)
-    console.log("PROBLEM")
     return users[0]._id === JSON.parse(localStorage.getItem("userInfo"))._id ? users[1].name : users[0].name;
   }
 
@@ -130,12 +127,26 @@ const MyChats = () => {
     return users[0]._id === JSON.parse(localStorage.getItem("userInfo"))._id ? 1: 0;
   }
 
+  const setBg = (selectedChat, chat) => {
+    if (!selectedChat) {
+      return "#E8E8E8";
+    }
+    return selectedChat._id===chat._id ?  "#38B2AC":"#E8E8E8";
+  }
+
+  const setColor = (selectedChat, chat) => {
+    if (!selectedChat) {
+      return "black";
+    }
+    return selectedChat._id===chat._id?"white":"black";
+  }
+
   useEffect(() => {
   socket = io(ENDPOINT);
   socket.emit("setup", user);
   socket.on('connection', (userData)=>{
     socket.join(userData._id);
-    console.log(userData._id);
+    //console.log(userData._id);
     socket.emit("connected");
   });
 });
@@ -153,8 +164,8 @@ const MyChats = () => {
     catch(error)
     {
       /*
-      console.log(user);
-      console.log(error);
+      //console.log(user);
+      //console.log(error);
       toast({
         title: "Error Occurred!",
         description: "Reload Page - API Issue",
@@ -170,7 +181,7 @@ const MyChats = () => {
   useEffect(() => {
     socket.on("update_chat_recieved", (newChatCreated)=>{
 
-    console.log(newChatCreated);
+    //console.log(newChatCreated);
     fetchChats();
 
 
@@ -179,6 +190,7 @@ const MyChats = () => {
   });
 
   useEffect(()=>{
+    //console.log("Chat Fetch");
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     setUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
@@ -268,8 +280,8 @@ const MyChats = () => {
                   <Flex
                   onClick={()=>setSelectedChat(chat)}
                   cursor="pointer"
-                  bg={selectedChat===chat ?  "#38B2AC":"#E8E8E8"}
-                  color={selectedChat===chat?"white":"black"}
+                  bg={setBg(selectedChat, chat)}
+                  color={setColor(selectedChat, chat)}
                   px={3}
                   py={3}
                   borderRadius="lg"
@@ -282,7 +294,7 @@ const MyChats = () => {
                       {/* {!chat.isGroupChat?(
                         getSender(loggedUser, chat.users)
                       ):(chat.chatName)} */}
-                      {console.log(chat)}
+
                       {!chat.isGroupChat?(getSender(chat.users)):(chat.chatName)}
                     </Text>
 

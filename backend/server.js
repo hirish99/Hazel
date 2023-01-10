@@ -2,7 +2,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
 //Usually javascript has curly brackets. Here we are putting the chats in this variable
-const { chats } = require("./data/data");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes")
 const chatRoutes = require("./routes/chatRoutes")
@@ -10,7 +9,10 @@ const messageRoutes = require("./routes/messageRoutes")
 const projectRoutes = require("./routes/projectRoutes")
 const {notFound, errorHandler} = require("./middleware/errorMiddleware")
 const cors = require("cors")
-const corsOptions = require('./config/corsOptions')
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+
+var corsOptions = require('./config/corsOptions')
+
 
 //Loads `.env` file contents into process.env.
 dotenv.config()
@@ -22,10 +24,50 @@ const app = express();
 app.use(cors())
 app.use(express.json());
 
-app.use('/api/user', userRoutes);
+
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/project', projectRoutes);
+
+
+
+
+
+
+/*GOOGLE AUTHENTICATION BUISSNESS */
+var session = require("express-session");
+var passport = require('passport');
+var SQLiteStore = require('connect-sqlite3')(session);
+
+
+
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
+  }));
+
+app.use(session({
+secret: 'keyboard cat',
+resave: false,
+saveUninitialized: false,
+store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
+}));
+
+var authRouter = require('./routes/auth');
+app.use('/', authRouter);
+
+app.use('/api/user', userRoutes);
+
+
+
+
+
+/*GOOGLE AUTHENTICATION BUISSNESS */
+
+
+
 
 //Essentially by using express you are defining what the physical web server does everytime it makes
 //a get request.

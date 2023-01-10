@@ -14,7 +14,7 @@ const Homepage = () => {
     //If the user is already logged in then you push them to the homepage
     if (user) 
     {
-      console.log(user);
+      //console.log(user);
       //history.push("/chats");
     }
   })

@@ -24,6 +24,8 @@ import {
     Textarea,
   } from '@chakra-ui/react';
 
+  import SidebarWithHeader from "./SidebarWithHeader";
+
   import {useHistory} from 'react-router';
 
   import axios from 'axios';
@@ -34,30 +36,36 @@ import {
 
   import { ChatState } from "../Context/ChatProvider";
 
-  import CryptoJS from 'crypto-js'
 
-
-
-const GoogleSignUp = () => {
-    const { email, setEmail, possibleProjects, possibleSkills, possibleinterests } = ChatState();
+const Settings = () => {
+    const { email, setEmail, possibleProjects, possibleSkills, possibleinterests, user, setUser } = ChatState();
 
     const [pickerItems, setPickerItems] = React.useState(possibleinterests);
-    const [interests, setSelectedItems] = React.useState([]);
+    const [interests, setSelectedItems] = React.useState((JSON.parse(localStorage.getItem("userInfo")).interests).map((x)=>({"value":x,"label":x})));
+
+
+    const [pic, setPic] = useState(JSON.parse(localStorage.getItem("userInfo")).pic);
+    const [inputName, setInputName] = useState(JSON.parse(localStorage.getItem("userInfo")).name);
+    const [inputMajor, setInputMajor] = useState(JSON.parse(localStorage.getItem("userInfo")).major);
+
+    const [inputProjectBlurb, setInputProjectBlurb] = useState(JSON.parse(localStorage.getItem("userInfo")).projectblurb);
+
+
+
 
     const [pickerItems1, setPickerItems1] = React.useState(possibleProjects);
-    const [projects, setSelectedItems1] = React.useState([]);
+    const [projects, setSelectedItems1] = React.useState((JSON.parse(localStorage.getItem("userInfo")).projectinterests).map((x)=>({"value":x,"label":x})));
 
     const [pickerItems2, setPickerItems2] = React.useState(possibleSkills);
-    const [skills, setSelectedItems2] = React.useState([]);
+    const [skills, setSelectedItems2] = React.useState((JSON.parse(localStorage.getItem("userInfo")).skills).map((x)=>({"value":x,"label":x})));
 
-    const [bioBlurb, setBioBlurb] = useState();
+
     
     const history = useHistory();
-    const [pic, setPic] = useState();
+
     const toast = useToast();
 
-    const [name, setName] = useState();
-    const [major, setMajor] = useState();
+
 
 
 
@@ -101,24 +109,19 @@ const GoogleSignUp = () => {
         setPic("");
     }
 
-
-    const encrypt = (text, key) => {
-      const hash = CryptoJS.SHA256(key);
-      const ciphertext = CryptoJS.AES.encrypt(text, hash, {
-        mode: CryptoJS.mode.ECB,
-      });
-      return ciphertext.toString();
-    };
-
     const submitHandler = async () => {
-  /*       //console.log(name);
-        //console.log(email);
+        //console.log(inputName);
         //console.log(pic);
-        //console.log(major);
+        //console.log(inputMajor);
         //console.log(interests.map(element => element.value));
         //console.log(projects.map(element => element.value));
-        //console.log(bioBlurb);
-        //console.log(skills.map(element => element.value)); */
+        //console.log(inputProjectBlurb);
+        //console.log(skills.map(element => element.value));
+
+
+        const name = inputName;
+        const major = inputMajor;
+        const bioBlurb = inputProjectBlurb;
 
 
         if (!name || !major || !pic || !bioBlurb || interests.length==0 || projects.length==0 || skills.length==0) {
@@ -132,16 +135,12 @@ const GoogleSignUp = () => {
               return;
         }
 
-        
-
         try{
 
-            
-                const {data} = await axios.post('http://localhost:5000/api/user', {
-                hash:   encrypt(email,process.env.REACT_APP_KEY),
+             
+                const {data} = await axios.put('http://localhost:5000/api/user/update', {
                 name: name,
                 email: email,
-                password: email,
                 pic: pic,
                 major: major,
                 interests: interests.map(element => element.value),
@@ -152,12 +151,13 @@ const GoogleSignUp = () => {
                 }, {
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization:`Bearer ${user.token}`
                 }
                 })  
 
                   toast({
-                      title:"Registration Successful",
+                      title:"Update Successful",
                       status: "success",
                       duration: 5000,
                       isClosable: true,
@@ -165,14 +165,15 @@ const GoogleSignUp = () => {
                   });
 
                   localStorage.setItem("userInfo", JSON.stringify(data));
-                  history.push('/explore');
+                  setUser(data);
 
 
         }
         catch(err){
-            //console.log(err);
-        } 
+            console.log(err);
 
+        } 
+ 
 
     }
 
@@ -219,6 +220,9 @@ const GoogleSignUp = () => {
 
 
   return (
+
+    <SidebarWithHeader >
+
     <Flex
       minH={'100vh'}
       align={'center'}
@@ -234,7 +238,7 @@ const GoogleSignUp = () => {
         p={6}
         my={12}>
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          User Profile Creation
+          Edit User Profile
         </Heading>
         <FormControl id="userIcon" isRequired>
           <FormLabel>User Icon</FormLabel>
@@ -278,14 +282,16 @@ const GoogleSignUp = () => {
             placeholder="First Last"
             _placeholder={{ color: 'gray.500' }}
             type="text"
-            onChange={(e)=>setName(e.target.value)}
+            value={inputName}
+            onChange={(e)=>setInputName(e.target.value)}
           />
         </FormControl>
 
         <FormControl isRequired>
         <FormLabel>Major</FormLabel>
         <Select placeholder='Select Major'
-        onChange={(e)=>setMajor(e.target.value)}
+        value={inputMajor}
+        onChange={(e)=>setInputMajor(e.target.value)}
         >
             <option>Computer Science</option>
             <option>Data Science</option>
@@ -321,8 +327,9 @@ const GoogleSignUp = () => {
             <Textarea
             placeholder="Bio Goes Here"
             _placeholder={{ color: 'gray.500' }}
+            value={inputProjectBlurb}
             type="text"
-            onChange={(e)=>setBioBlurb(e.target.value)}
+            onChange={(e)=>setInputProjectBlurb(e.target.value)}
           />
             <FormHelperText>Introduce yourself and elaborate on the project ideas you would be interested in. </FormHelperText>
         </FormControl>
@@ -354,8 +361,8 @@ const GoogleSignUp = () => {
         </Stack>
       </Stack>
     </Flex>
+    </SidebarWithHeader>
   )
 }
 
-
-export default GoogleSignUp
+export default Settings

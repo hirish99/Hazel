@@ -6,6 +6,12 @@ const projectModel = mongoose.Schema(
         projectTopic:{type:String,trim:true},
         projectDescription:{type:String},
         skillsNeeded:[{type:String,trim:true}],
+        pic: {
+            type: "String",
+            required: true,
+            default:
+              "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+        },
         creator:
             {
             type:mongoose.Schema.Types.ObjectId,

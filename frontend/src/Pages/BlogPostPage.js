@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Flex,  Heading, Text, Link, Button, WrapItem, Wrap, IconButton, Form} from '@chakra-ui/react'
+import { Flex,  Heading, Text, Link, Button, WrapItem, Wrap, IconButton, Form, useToast} from '@chakra-ui/react'
 import {
   Modal,
   ModalOverlay,
@@ -12,6 +12,9 @@ import {
   useDisclosure,
   FormControl,
   FormLabel,
+  Textarea,
+  Select,
+  Tag
 } from '@chakra-ui/react'
 import { AddIcon} from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
@@ -27,102 +30,248 @@ import {
 } from '@chakra-ui/react';
 
 import axios from "axios"
+import { ChatState } from '../Context/ChatProvider'
+import { CUIAutoComplete } from 'chakra-ui-autocomplete'
+
+import { useHistory } from 'react-router-dom'
+
+import io from "socket.io-client";
+const ENDPOINT = "http://localhost:5000";
+var socket;
+
+
 
 
 const BlogPostPage = () => {
 
-  const projectList = 
-  [{
-    "projectName": "First Project",
-    "projectTopic": "Bananas and Eggs",
-    "projectDescription": "A project description should go here",
-    "projectImage": "https://img.freepik.com/free-vector/vector-ripe-yellow-banana-bunch-isolated-white-background_1284-45456.jpg?w=2000",
-    "skillsNeeded": [
-        "The skills you need go here"
-    ],
-    "creator": {
-        "_id": "63afe6b81c31a430afc6abc3",
-        "name": "Hirish Chandrasekaran",
-        "email": "hirish@ucsb.edu",
-        "password": "$2a$10$5EhkNP8gFiPo0UlRlrieteWYcFYi2CrjIlFrjfMTSkCtWf0gwb8OW",
-        "pic": "http://res.cloudinary.com/dzz3nkuyy/image/upload/v1672472117/pbfqetm6nefxme5zejl1.jpg",
-        "isAdmin": false,
-        "major": "Computer Science",
-        "interests": [
-            "videogames",
-            "anime",
-            "entrepreneurship",
-            "soccer"
-        ],
-        "projectinterests": [
-            "politics",
-            "computervision",
-            "artificialintelligence"
-        ],
-        "projectblurb": "Hi! I am Hirish! I am interested in working on a project involving predicting FIFA results!",
-        "skills": [
-            "python"
-        ],
-        "__v": 0
-    },
-    "_id": "63b9e3f55fe9b79785fd23cf",
-    "createdAt": "2023-01-06T21:32:37.078Z",
-    "updatedAt": "2023-01-06T21:32:37.078Z",
-    "__v": 0
-  },
-  {
-    "projectName": "Second Project",
-    "projectTopic": "Pancakes",
-    "projectDescription": "A project description about pancakes",
-    "projectImage": "https://img.freepik.com/free-vector/vector-ripe-yellow-banana-bunch-isolated-white-background_1284-45456.jpg?w=2000",
-    "skillsNeeded": [
-        "The skills you need go here"
-    ],
-    "creator": {
-        "_id": "63afe6b81c31a430afc6abc3",
-        "name": "Connor Levenson",
-        "email": "hirish@ucsb.edu",
-        "password": "$2a$10$5EhkNP8gFiPo0UlRlrieteWYcFYi2CrjIlFrjfMTSkCtWf0gwb8OW",
-        "pic": "http://res.cloudinary.com/dzz3nkuyy/image/upload/v1672472117/pbfqetm6nefxme5zejl1.jpg",
-        "isAdmin": false,
-        "major": "Computer Science",
-        "interests": [
-            "videogames",
-            "anime",
-            "entrepreneurship",
-            "soccer"
-        ],
-        "projectinterests": [
-            "politics",
-            "computervision",
-            "artificialintelligence"
-        ],
-        "projectblurb": "Hi! I am Hirish! I am interested in working on a project involving predicting FIFA results!",
-        "skills": [
-            "python"
-        ],
-        "__v": 0
-    },
-    "_id": "63b9e4f55fe9b79785fd23cf",
-    "createdAt": "2023-01-06T21:32:37.078Z",
-    "updatedAt": "2023-01-06T21:32:37.078Z",
-    "__v": 0
-  }]
+
+  const history = useHistory();
+  const [projectList, setProjectList] = useState([]);
+  const {user, setUser,possibleSkills, possibleProjects, chats, setChats, setSelectedChat } = ChatState();
+
+  const [selectedTopic, setSelectedTopic] = useState();
+
+  const [projectName, setProjectName] = useState();
+  const [topic, setTopic] = useState();
+  const [projectDescription, setProjectDescription] = useState();
+
+
+  const [pickerItems2, setPickerItems2] = React.useState(possibleSkills);
+  const [skills, setSelectedItems2] = React.useState([]);
+
+
+
+  const [pic, setPic] = useState();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const toast = useToast();
+
+
+  const handleCreateItem2 = (item) => {
+    setPickerItems2((curr) => [...curr, item]);
+    setSelectedItems2((curr) => [...curr, item]);
+  };
+
+  const handleSelectedItemsChange2 = (selectedItems2) => {
+    //console.log(selectedItems2);
+    if (selectedItems2) {
+      setSelectedItems2(selectedItems2);
+    }
+  };
+
+
+
+  const postDetails = (pics)=> {
+    if (pics === undefined) {
+      toast({
+        title: "Please Select an Image!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "chat-app");
+      data.append("cloud_name", "dzz3nkuyy");
+      fetch("https://api.cloudinary.com/v1_1/dzz3nkuyy/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPic(data.url.toString());
+          //console.log(data.url.toString());
+        })
+        .catch((err) => {
+          //console.log(err);
+        });
+    } else {
+      toast({
+        title: "Please Select an Image!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+  };
+
+  const createProject = async () => {
+    try{
+      const project = {
+        "projectName": projectName,
+        "projectTopic": topic,
+        "projectDescription": projectDescription,
+        "skillsNeeded": skills.map(element => element.value),
+        "pic": pic,
+      }
+      //console.log(project);
+
+      const config = {
+        headers: {
+          Authorization:`Bearer ${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
+      };
+
+      const {data} = await axios.post("http://localhost:5000/api/project", project, config);
+
+      fetchProjects();
+      
+      onClose();
+    }
+    catch(error)
+    {
+      //console.log(error);
+    }
+
+  }
+
+  const fetchProjects = async () => {
+    try {
+      setUser(JSON.parse(localStorage.getItem("userInfo")));
+      const config = {
+        headers: {
+          Authorization:`Bearer ${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
+      };
+
+      const {data} = await axios.get(`http://localhost:5000/api/project/?search=`, config);
+
+      setProjectList(data);
+
+      //console.log("Hello");
+  }
+
+
+
+  catch(err){
+    //console.log(err);
+/*      toast({
+      title: "API Call to Search Failed",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-center",u
+    })  */
+  }
+
+  }
+
+
+  const accessChat = async (userId) => {
+
+    try{
+
+      
+      
+      const config = {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`
+        },
+      };
+
+      const {data} = await axios.post("http://localhost:5000/api/chat", {userId}, config);
+
+
+
+
+      if (!chats.find((c) => c._id === data._id))
+      {
+        setChats([data, ...chats]);
+      }
+
+      setSelectedChat(data);
+
+      
+
+      socket.emit("update_chat", data);
+
+
+
+  
+
+
+    }
+    catch(error)
+    {
+        toast({
+          title: "Error fetching the chat",
+          description: error.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "botton-left",
+        })
+    }
+
+    history.push("/chats");
+  }
+
+  
 
   useEffect(()=>{
 
-  });
+    setUser(JSON.parse(localStorage.getItem("userInfo")));
+
+
+    if (user)  {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on('connection', (userData)=>{
+      socket.join(userData._id);
+      //console.log(userData._id);
+      socket.emit("connected");
+    });
+    }
+
+
+    fetchProjects();
+
+  },[]);
+
+
+
   const createAvatar = (creator, createdAt) => {
     return (
-    <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
+    <Stack mt={6} direction={'row'} spacing={4} align={'center'}justify='space-between' >
+      <Stack direction={'row'} spacing={0} fontSize={'sm'} >
       <Avatar
         src={creator.pic}
         alt={'Author'}
       />
-      <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-        <Text fontWeight={600}>{creator.name}</Text>
+      <Box p={3}>
+      <Text fontWeight={600}>{creator.name}</Text>
+      </Box>
+        
       </Stack>
-      <Button>
+      <Button onClick={()=>{accessChat(creator._id)}}>
         Message
       </Button>
     </Stack>
@@ -138,17 +287,33 @@ const BlogPostPage = () => {
   const createSingleProjectFromJson=(projectJSON)=>{
     var title = projectJSON.projectName;
     var topic = projectJSON.projectTopic;
-    var pic = projectJSON.projectImage;
+    var pic = projectJSON.pic;
     var blurb = projectJSON.projectDescription;
     var avatar = createAvatar(projectJSON.creator, projectJSON.createdAt);
+    var skillsN = projectJSON.skillsNeeded;
     
-    return (singleProject(title, topic, pic, blurb, avatar))
+    return (singleProject(title, topic, pic, blurb, avatar, skillsN))
   }
-  const singleProject=(title, topic, pic, blurb, avatar)=>{
+
+  const createTagsFromInterests=(skills) =>{
+    var a =  skills.map((x) => (
+      <Tag variant="solid" colorScheme={"teal"} m={1}>
+        {" "}
+        {x}{" "}
+      </Tag>
+    )) 
+    
+
+    return a
+  }
+
+  const singleProject=(title, topic, pic, blurb, avatar, skillsN)=>{
     return (
     <Center py={6}>
           <Box
             maxW={'445px'}
+            maxH={'590px'}
+            h="590px"
             w={'full'}
             bg={"white"}
             boxShadow={'2xl'}
@@ -164,7 +329,6 @@ const BlogPostPage = () => {
               pos={'relative'}
               overflowY="hidden"
               >
-              
               <Image
                 src={
                   pic
@@ -187,10 +351,18 @@ const BlogPostPage = () => {
                 fontFamily={'body'}>
                 {title}
               </Heading>
-              <Text color={'gray.500'}>
+              <Text color={'gray.500'} overflowY='auto' h="140px" maxH="140px">
                 {blurb}
               </Text>
+
             </Stack>
+            <Box
+            h='60px'
+            maxH="60px"
+            overflowY="auto"
+            >
+            {createTagsFromInterests(skillsN)}
+            </Box>
             {avatar}
           </Box>
         </Center>
@@ -200,71 +372,145 @@ const BlogPostPage = () => {
     return projectArray.map((x) => (<WrapItem key={x._id}>{createSingleProjectFromJson(x)}</WrapItem>));
   }
   const AddProjectButton=() => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-    const initialRef = React.useRef(null)
-    const finalRef = React.useRef(null)
 
     return (
       <>
-        <IconButton icon={<AddIcon></AddIcon>} colorScheme='teal' onClick={onOpen}></IconButton>
-        {createProjectCreateModal(initialRef, finalRef, isOpen, onClose)}
+        <IconButton mb={5} icon={<AddIcon></AddIcon>} colorScheme='teal' onClick={onOpen}>
+        </IconButton>
+
       </>
     )
   }
-  const createProjectCreateModal=(initialRef, finalRef, isOpen, onClose)=>{
-    return(
-    <Modal
-          initialFocusRef={initialRef}
-          finalFocusRef={finalRef}
+  
+
+  const filterCriteria = (x) => {
+    if (!selectedTopic || selectedTopic===''){
+      return true;
+   }
+    return x.projectTopic === selectedTopic;
+  }
+
+
+  return (
+    <>
+    
+   
+    <SidebarWithHeader >
+    
+
+    <Flex
+          d="flex"
+          flexDir="column"
+          justifyContent={"space-between"}
+          p={10}
+          bg="white"
+          w="100%"
+          h="90%"
+          borderRadius="lg"
+    
+    >
+<AddProjectButton></AddProjectButton>
+    <FormControl >
+        <Select placeholder='Select Topic To Filter'
+        onChange={(e)=>setSelectedTopic(e.target.value)}
+        >
+          {possibleProjects.map((x)=>(
+          
+          <option>{x.value}</option>))}
+        </Select>
+        </FormControl>
+
+        
+        </Flex>
+    
+    
+
+
+
+    <div style={{width:'100%'}}>
+      <Wrap spacing="20px" justify="center">
+        {createProjectWraps(projectList.filter(x=>filterCriteria(x)))}
+      </Wrap>
+    </div>
+  </SidebarWithHeader>
+
+  <Modal
           isOpen={isOpen}
           onClose={onClose}
         >
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Create Project</ModalHeader>
-            <ModalCloseButton />
             <ModalBody pb={6}>
+
+
               <FormControl>
                 <FormLabel>Project Name</FormLabel>
-                <Input ref={initialRef} id='projectName' placeholder='Provide your project name...' />
+                <Input  onChange={(e)=>{setProjectName(e.target.value)}} id='projectName' placeholder='Provide your project name...' />
               </FormControl>
-              <FormControl>
-                <FormLabel>Project Topic</FormLabel>
-                <Input ref={initialRef} placeholder='Give a topic...' />
-    
+
+              <FormControl isRequired>
+        <FormLabel>Topic</FormLabel>
+        <Select placeholder='Select Topic'
+        onChange={(e)=>setTopic(e.target.value)}
+        >
+          {possibleProjects.map((x)=>(
+          
+          <option>{x.value}</option>))}
+        </Select>
+        </FormControl>
+
+            <FormControl>
+              <FormLabel>Project Description</FormLabel>
+                <Textarea
+                  placeholder="Bio Goes Here"
+                  _placeholder={{ color: 'gray.500' }}
+                  type="text"
+                  onChange={(e)=>{setProjectDescription(e.target.value)}}
+                />
               </FormControl>
   
               <FormControl mt={4}>
                 <FormLabel>Project Image</FormLabel>
-                <Input ref={initialRef} type="file" />
+                <Input
+                type="file"
+                p={1.5}
+                accept="image/*"
+                sx={{
+                    "::file-selector-button": {
+                        borderRadius: 2,
+                        mr: 3,
+                        justifyContent: "center",
+                    },
+                    }}
+                onChange={(e)=>postDetails(e.target.files[0])}
+                />
               </FormControl>
             </ModalBody>
+
+
+            <Center>
+            <Box w="90%">
+            <CUIAutoComplete
+          label="Select Skills You Need"
+          placeholder="Type a Skill"
+          onCreateItem={handleCreateItem2}
+          items={pickerItems2}
+          selectedItems={skills}
+          onSelectedItemsChange={(changes) =>
+            handleSelectedItemsChange2(changes.selectedItems)
+          }/>
+          </Box>
+          </Center>
   
             <ModalFooter>
-              <Button onClick={()=>saveProjectDetails('test')} colorScheme='blue' mr={3}>
+              <Button onClick={()=>createProject()} colorScheme='blue' mr={3}>
                 Save
               </Button>
-              <Button onClick={onClose}>Cancel</Button>
             </ModalFooter>
           </ModalContent>
-        </Modal>
-    )
-  }
-  const saveProjectDetails=(projectName)=>{
-    console.log(projectName)
-    return('')
-  }
-
-  return (
-    <SidebarWithHeader >
-    <AddProjectButton></AddProjectButton>
-    <div style={{width:'100%'}}>
-      <Wrap spacing="20px" justify="center">
-        {console.log(projectList)}{createProjectWraps(projectList)}
-      </Wrap>
-    </div>
-  </SidebarWithHeader>
+        </Modal> 
+</>
   )
 }
 

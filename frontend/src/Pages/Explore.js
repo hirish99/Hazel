@@ -56,14 +56,14 @@ const Explore = () => {
   useEffect(() => {
 
     setUser(JSON.parse(localStorage.getItem("userInfo")));
-    console.log(user);
+
 
     if (user)  {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on('connection', (userData)=>{
       socket.join(userData._id);
-      console.log(userData._id);
+      //console.log(userData._id);
       socket.emit("connected");
     });
   }
@@ -82,9 +82,9 @@ const Explore = () => {
 
 
     fetchMembers().catch(console.error);
-  });
+  },[]);
   const accessChat = async (userId) => {
-    console.log(userId);
+
     
 
 
@@ -100,7 +100,7 @@ const Explore = () => {
       };
 
       const {data} = await axios.post("http://localhost:5000/api/chat", {userId}, config);
-      console.log(data);
+
 
 
       if (!chats.find((c) => c._id === data._id))
@@ -152,14 +152,12 @@ const Explore = () => {
   };
 
   const handleSelectedItemsChange = (selectedItems) => {
-    console.log(selectedItems);
     if (selectedItems) {
       setSelectedItems(selectedItems);
     }
   };
 
   const handleSelectedItemsChange2 = (selectedItems2) => {
-    console.log(selectedItems2);
     if (selectedItems2) {
       setSelectedItems2(selectedItems2);
     }
@@ -210,11 +208,6 @@ const Explore = () => {
     return userJSON.map((x) => (<WrapItem>{createOneProfile(x)}</WrapItem>));
   }
 
-  const handleClickMessage = (id) => {
-    console.log(id);
-    accessChat(id);
-  }
-
   const SocialProfileWithImage= (id, name, image, email, interests,skills, projectblurb) =>{
     return (
    
@@ -260,13 +253,13 @@ const Explore = () => {
   
             <Stack direction={"row"} justify={"center"} spacing={6}></Stack>
 
-            <Box p={3}   boxShadow='base' h="150px"  rounded='md' bg='white' overflowY='auto' maxHeight="70px">
+            <Box p={3}    h="150px"  rounded='md' bg='white' overflowY='auto' maxHeight="70px">
               <Center>
             <Wrap>{createTagsFromInterests(interests, skills)}</Wrap>
             </Center>
             </Box>
   
-            <Box p={2} mt={2} h="150px" boxShadow='base' rounded='md' bg='white' overflowY='auto' maxHeight="130px">
+            <Box p={2} mt={2} h="150px" rounded='md' bg='white' overflowY='auto' maxHeight="130px">
              {projectblurb}
             </Box>
 

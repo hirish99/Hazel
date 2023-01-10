@@ -45,7 +45,7 @@ const SingleChat = () => {
     socket.emit("setup", user);
     socket.on('connection', (userData)=>{
       socket.join(userData._id);
-      console.log(userData._id);
+      //console.log(userData._id);
       socket.emit("connected");
     });
   });
@@ -98,7 +98,7 @@ const SingleChat = () => {
           config
         )
 
-        console.log(data);
+        //console.log(data);
 
         socket.emit("new_message", data);
 

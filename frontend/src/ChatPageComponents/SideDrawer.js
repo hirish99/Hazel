@@ -62,7 +62,7 @@ const SideDrawer = ({displaySearch=true}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const accessChat = async (userId) => {
-      console.log(userId);
+      //console.log(userId);
       try{
         setLoadingChat(true);
         const config = {
@@ -135,11 +135,11 @@ const SideDrawer = ({displaySearch=true}) => {
 
         setLoading(false);
         setSearchResult(data);
-        console.log(data);
+        //console.log(data);
 
     }
     catch(err){
-      console.log(err);
+      //console.log(err);
       toast({
         title: "API Call to Search Failed",
         status: "error",

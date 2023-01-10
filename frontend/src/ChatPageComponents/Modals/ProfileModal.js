@@ -12,11 +12,116 @@ import {
   IconButton,
   Text,
   Image,
-  Center
+  Center,
+  VStack,
+  Box,
+  useColorModeValue,
+  Flex,
+  Avatar,
+  Stack,
+  Heading,
+  Wrap,
+  Tag,
+
+
+
 } from "@chakra-ui/react";
 
 const ProfileModal = ({ user, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+
+  const createTagsFromInterests=(interests, skills) =>{
+    var a =  skills.map((x) => (
+      <Tag variant="solid" colorScheme={"teal"}>
+        {" "}
+        {x}{" "}
+      </Tag>
+    )) 
+    var b= 
+    interests.map((x) => (
+      <Tag variant="solid" colorScheme={"green"}>
+        {" "}
+        {x}{" "}
+      </Tag>
+    ));
+
+    return [...a, ...b]
+  }
+
+
+  const SocialProfileWithImage= (id, name, image, email, interests,skills, projectblurb) =>{
+    return (
+   
+
+      <VStack py={10}>
+        <Box
+          maxW={"270px"}
+          w={"300px"}
+          h="500px"
+          l="10px"
+          bg={useColorModeValue("white", "gray.800")}
+          boxShadow={"2xl"}
+          rounded={"md"}
+          overflow={"hidden"}
+ 
+        >
+          <Image
+            h={"120px"}
+            w={"full"}
+            src={
+              "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+            }
+            objectFit={"cover"}
+          />
+          <Flex justify={"center"} mt={-12}>
+            <Avatar
+              size={"xl"}
+              src={image}
+              alt={"Author"}
+              css={{
+                border: "2px solid white"
+              }}
+            />
+          </Flex>
+  
+          <Box p={6}>
+            <Stack spacing={0} align={"center"} mb={5}>
+              <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
+                {name}
+              </Heading>
+              <Text color={"gray.500"}>{email}</Text>
+            </Stack>
+  
+            <Stack direction={"row"} justify={"center"} spacing={6}></Stack>
+
+            <Box p={3}   boxShadow='base' h="150px"  rounded='md' bg='white' overflowY='auto' maxHeight="70px">
+              <Center>
+            <Wrap>{createTagsFromInterests(interests, skills)}</Wrap>
+            </Center>
+            </Box>
+  
+            <Box p={2} mt={2} h="150px" boxShadow='base' rounded='md' bg='white' overflowY='auto' maxHeight="130px">
+             {projectblurb}
+            </Box>
+
+
+
+
+  
+
+          </Box>
+
+
+        </Box>
+    
+
+        
+
+      </VStack>
+
+        );
+  }
 
   return (
     <>
@@ -25,17 +130,11 @@ const ProfileModal = ({ user, children }) => {
       ) : (
         <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
       )}
-      <Modal size="sm" onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal size="xs" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
         <Center>
-          <ModalHeader
-            fontSize="40px"
-            d="flex"
-            justifyContent="center"
-          >
-            {user.name}
-          </ModalHeader>
+         
           </Center>
           <ModalCloseButton />
           <ModalBody
@@ -43,19 +142,11 @@ const ProfileModal = ({ user, children }) => {
             flexDir="column"
             alignItems="center"
             justifyContent="space-between"
+            w="100%"
           >
             <Center>
-            <Image
-              src={user.pic}
-              alt={user.name}
-            />
-            </Center>
-            <Center>
-            <Text
-              fontSize={{ base: "28px", md: "30px" }}
-            >
-              Email: {user.email}
-            </Text>
+            {SocialProfileWithImage(user._id, user.name, user.pic, user.email, user.interests,user.skills, user.projectblurb)}
+            
             </Center>
             
           </ModalBody>

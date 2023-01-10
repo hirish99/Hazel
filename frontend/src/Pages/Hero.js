@@ -1,5 +1,8 @@
 import React from 'react'
 
+
+
+
 import {
   Flex,
   Heading,
@@ -11,6 +14,8 @@ import {
 } from '@chakra-ui/react';
 
 import { GoogleLogin } from '@react-oauth/google';
+
+import CryptoJS from 'crypto-js'
 
 import jwt_decode from "jwt-decode";
 
@@ -32,10 +37,18 @@ const Hero = () => {
       // Update the document title using the browser API
     });
 
+    const encrypt = (text, key) => {
+      const hash = CryptoJS.SHA256(key);
+      const ciphertext = CryptoJS.AES.encrypt(text, hash, {
+        mode: CryptoJS.mode.ECB,
+      });
+      return ciphertext.toString();
+    };
+
     const emailCheck = async (email) => {
         try{
           const {data} = await axios.post('http://localhost:5000/api/user/emaillookup', {
-            email:email
+            hash:  encrypt(email, process.env.REACT_APP_KEY)
           }, {
             headers: {
               'Accept': 'application/json',
@@ -43,23 +56,11 @@ const Hero = () => {
             }
           })
 
-            console.log("Hello");
-            console.log("Bye");
-            console.log(data.token);
 
-            if (data.token === "1")
+            if (data.accept === "1")
             {
-              //User exists in the database already (Log Them IN!!)
-                const {data} = await axios.post('http://localhost:5000/api/user/login', {
-                  "email":email
-                }, {
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  }
-                })
 
-                localStorage.setItem("userInfo", JSON.stringify(data));
+                localStorage.setItem("userInfo", JSON.stringify(data)); 
                 history.push('/explore');
             }
             else
@@ -73,7 +74,7 @@ const Hero = () => {
         }
         catch(err)
         {
-            console.log(err);
+            //console.log(err);
         }
     }
 
@@ -118,15 +119,16 @@ const Hero = () => {
               DataScience UCSB
             </Button> */}
 
+
             <GoogleLogin
                 onSuccess={credentialResponse => {
                     var decoded = jwt_decode(credentialResponse.credential);
                     if (decoded.email_verified) 
                     {
                       //if (decoded.hd === "ucsb.edu")
-                      if (true)
+                      if (decoded.hd === "ucsb.edu")
                       {
-                        console.log(decoded);
+
 
                         emailCheck(decoded.email);
                       }
@@ -142,7 +144,7 @@ const Hero = () => {
                     }
                 }}
                 onError={() => {
-                    console.log('Login Failed');
+                    //console.log('Login Failed');
                 }}
                 useOneTap
 />;

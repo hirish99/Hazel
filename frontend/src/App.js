@@ -6,6 +6,8 @@ import Hero from './Pages/Hero';
 import GoogleSignUp from './Pages/GoogleSignUp';
 import SidebarWithHeader from './Pages/SidebarWithHeader';
 import BlogPostPage from './Pages/BlogPostPage';
+import Settings from './Pages/Settings'
+import Test from './Pages/Test';
 
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
       <Route path="/signup" component={GoogleSignUp} exact/>
       <Route path="/play" component={SidebarWithHeader} exact/>
       <Route path="/projects" component={BlogPostPage} exact/>
+      <Route path="/profile" component={Settings} exact/>
+      <Route path="/test" component={Test} exact/>
 
     </div>
   );

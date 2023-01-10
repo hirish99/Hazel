@@ -23,7 +23,7 @@ const allUsers = asyncHandler(async (req, res) => {
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic, major, interests, projectinterests, projectblurb, skills} = req.body;
+  const { hash, name, email, password, pic, major, interests, projectinterests, projectblurb, skills} = req.body;
 
   if (!name || !email || !password) {
     res.status(400);
@@ -38,6 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
+    hash,
     name,
     email,
     password,
@@ -74,9 +75,9 @@ const registerUser = asyncHandler(async (req, res) => {
 //@route           POST /api/users/login
 //@access          Public
 const authUser = asyncHandler(async (req, res) => {
-  const { email } = req.body;
+  const { hash } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ hash });
 
   if (user) {
     res.json({
@@ -100,8 +101,36 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 const emailLookUp = (async(req,res) => {
+  const { hash} = req.body;
 
-    const {email} = req.body;
+  const user = await User.findOne({hash:hash});
+
+
+
+  if (user==null){
+      res.json({accept:"0"});
+  }
+  else {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      pic: user.pic,
+      token: generateToken(user._id),
+
+      major: user.major,
+      interests: user.interests,
+      projectinterests: user.projectinterests,
+      projectblurb: user.projectblurb,
+      skills: user.skills,
+      accept: "1"
+    });
+  }
+
+
+
+/*     const {email} = req.body;
     console.log(email);
     const user = await User.findOne({email:email});
 
@@ -113,9 +142,48 @@ const emailLookUp = (async(req,res) => {
     }
     else {
         res.json({token:"1"});
-    }
+    } */
+
 
 
 });
 
-module.exports = {registerUser, authUser, allUsers, emailLookUp};
+const updateUser = asyncHandler(async (req, res) => {
+  const {name, pic, major, interests, projectinterests, projectblurb, skills} = req.body;
+
+  const updatedUser= await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      _id: req.user._id,
+      name:name,
+      pic:pic,
+      major:major,
+      interests:interests,
+      projectinterests:projectinterests,
+      projectblurb:projectblurb,
+      skills:skills
+    },
+  )
+
+  if (!updatedUser) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.status(201).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      pic: updatedUser.pic,
+      token: generateToken(updatedUser._id),
+
+      major: updatedUser.major,
+      interests: updatedUser.interests,
+      projectinterests: updatedUser.projectinterests,
+      projectblurb: updatedUser.projectblurb,
+      skills: updatedUser.skills,
+    });
+  }
+});
+
+module.exports = {registerUser, authUser, allUsers, emailLookUp, updateUser};

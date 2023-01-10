@@ -48,7 +48,7 @@ const GroupChatModal = ({children}) => {
     socket.emit("setup", user);
     socket.on('connection', (userData)=>{
       socket.join(userData._id);
-      console.log(userData._id);
+      //console.log(userData._id);
       socket.emit("connected");
     });
   });
