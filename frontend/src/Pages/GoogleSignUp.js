@@ -137,7 +137,7 @@ const GoogleSignUp = () => {
         try{
 
             
-                const {data} = await axios.post('http://localhost:5000/api/user', {
+                const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user`, {
                 hash:   encrypt(email,process.env.REACT_APP_KEY),
                 name: name,
                 email: email,

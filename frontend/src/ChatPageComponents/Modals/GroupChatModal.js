@@ -27,7 +27,7 @@ import UserBadgeItem from '../UserBadgeItem';
 
 import io from "socket.io-client"
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = process.env.REACT_APP_BASE_URL;
 var socket;
 
 
@@ -93,7 +93,7 @@ const GroupChatModal = ({children}) => {
         },
       };
 
-      const {data} = await axios.get(`http://localhost:5000/api/user?search=${search}`, config);
+      const {data} = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/user?search=${search}`, config);
       setLoading(false);
       setSearchResult(data);
     }
@@ -132,7 +132,7 @@ const GroupChatModal = ({children}) => {
         },
       };
 
-      const {data} = await axios.post("http://localhost:5000/api/chat/group", {
+      const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chat/group`, {
         name: groupChatName,
         users:JSON.stringify(selectedUsers.map((u)=>u._id)),
       }, config);

@@ -2,6 +2,22 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Project = require("../models/projectModel");
 
+
+const deleteProject = asyncHandler(async (req, res)  => {
+    const {_id}= req.body;
+
+    console.log(_id);
+
+    try {
+        var project= await Project.deleteOne({_id: _id});
+        res.send(project);
+    }
+    catch(error){
+        console.log(error);
+    }
+})
+
+
 const createProject = asyncHandler(async (req, res) => {
     const {projectName, projectTopic, projectDescription, skillsNeeded, pic} = req.body;
 
@@ -56,4 +72,4 @@ const allProjects = asyncHandler(async (req, res) => {
 
 
 
-module.exports = {createProject, allProjects};
+module.exports = {createProject, allProjects, deleteProject};

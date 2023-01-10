@@ -5,7 +5,7 @@ const Test = () => {
 
     const testF = async()=>{
         try{
-            const {data} = await axios.post('http://localhost:5000/api/user/emaillookup', {
+            const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/emaillookup`, {
             }, {
               headers: {
                 'Accept': 'application/json',

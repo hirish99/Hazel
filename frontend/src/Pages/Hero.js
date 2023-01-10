@@ -47,7 +47,7 @@ const Hero = () => {
 
     const emailCheck = async (email) => {
         try{
-          const {data} = await axios.post('http://localhost:5000/api/user/emaillookup', {
+          const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/emaillookup`, {
             hash:  encrypt(email, process.env.REACT_APP_KEY)
           }, {
             headers: {

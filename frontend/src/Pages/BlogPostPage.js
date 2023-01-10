@@ -14,7 +14,8 @@ import {
   FormLabel,
   Textarea,
   Select,
-  Tag
+  Tag,
+  CloseButton
 } from '@chakra-ui/react'
 import { AddIcon} from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
@@ -36,7 +37,7 @@ import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import { useHistory } from 'react-router-dom'
 
 import io from "socket.io-client";
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = process.env.REACT_APP_BASE_URL;
 var socket;
 
 
@@ -138,7 +139,7 @@ const BlogPostPage = () => {
         },
       };
 
-      const {data} = await axios.post("http://localhost:5000/api/project", project, config);
+      const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/project`, project, config);
 
       fetchProjects();
       
@@ -160,7 +161,7 @@ const BlogPostPage = () => {
         },
       };
 
-      const {data} = await axios.get(`http://localhost:5000/api/project/?search=`, config);
+      const {data} = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/project/?search=`, config);
 
       setProjectList(data);
 
@@ -197,7 +198,7 @@ const BlogPostPage = () => {
         },
       };
 
-      const {data} = await axios.post("http://localhost:5000/api/chat", {userId}, config);
+      const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chat`, {userId}, config);
 
 
 
@@ -258,7 +259,7 @@ const BlogPostPage = () => {
 
 
 
-  const createAvatar = (creator, createdAt) => {
+  const createAvatar = (id, creator, createdAt) => {
     return (
     <Stack mt={6} direction={'row'} spacing={4} align={'center'}justify='space-between' >
       <Stack direction={'row'} spacing={0} fontSize={'sm'} >
@@ -271,9 +272,15 @@ const BlogPostPage = () => {
       </Box>
         
       </Stack>
-      <Button onClick={()=>{accessChat(creator._id)}}>
+      <Flex>
+        {JSON.parse(localStorage.getItem("userInfo"))._id !== creator._id &&  <Button onClick={()=>{accessChat(creator._id)}}>
         Message
-      </Button>
+      </Button>}
+     
+      {JSON.parse(localStorage.getItem("userInfo"))._id === creator._id && <CloseButton p ={5} onClick={()=>{handleDelete(id)}}></CloseButton>}
+      </Flex>
+      
+      
     </Stack>
     )
   }
@@ -289,7 +296,7 @@ const BlogPostPage = () => {
     var topic = projectJSON.projectTopic;
     var pic = projectJSON.pic;
     var blurb = projectJSON.projectDescription;
-    var avatar = createAvatar(projectJSON.creator, projectJSON.createdAt);
+    var avatar = createAvatar(projectJSON._id, projectJSON.creator, projectJSON.createdAt);
     var skillsN = projectJSON.skillsNeeded;
     
     return (singleProject(title, topic, pic, blurb, avatar, skillsN))
@@ -305,6 +312,38 @@ const BlogPostPage = () => {
     
 
     return a
+  }
+
+  const handleDelete=async(projectId)=>{
+    try {
+
+
+
+      const config = {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("userInfo")).token}`
+        },
+      };
+
+      const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/project/delete`,{_id: projectId}, config);
+
+      fetchProjects();
+
+      //console.log(data);
+
+  }
+  catch(err){
+    console.log(err);
+    toast({
+      title: "Delete Failed",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom-center",
+    })
+  }
   }
 
   const singleProject=(title, topic, pic, blurb, avatar, skillsN)=>{
@@ -335,6 +374,13 @@ const BlogPostPage = () => {
                 }
                 layout={'fill'}
               />
+              
+              
+              <Stack direction='row' spacing={6}>
+          
+
+          </Stack>
+
             </Box>
             <Stack>
               <Text
@@ -354,6 +400,7 @@ const BlogPostPage = () => {
               <Text color={'gray.500'} overflowY='auto' h="140px" maxH="140px">
                 {blurb}
               </Text>
+              
 
             </Stack>
             <Box
@@ -469,7 +516,7 @@ const BlogPostPage = () => {
                   onChange={(e)=>{setProjectDescription(e.target.value)}}
                 />
               </FormControl>
-  
+
               <FormControl mt={4}>
                 <FormLabel>Project Image</FormLabel>
                 <Input

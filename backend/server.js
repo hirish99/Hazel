@@ -10,6 +10,7 @@ const projectRoutes = require("./routes/projectRoutes")
 const {notFound, errorHandler} = require("./middleware/errorMiddleware")
 const cors = require("cors")
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+const path = require("path")
 
 var corsOptions = require('./config/corsOptions')
 
@@ -28,14 +29,33 @@ app.use(express.json());
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/project', projectRoutes);
+app.use('/api/user', userRoutes);
+
+//------------DEPLOYMENT
 
 
+/* const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production")  {
+    app.use(express.static(path.join(__dirname1,"/frontend/build")));
 
+    app.get('*',(req,res)=> {
+        res.sendFile(path.resolve(__dirname1,"frontend","build","index.html"));
+    })
+
+} else {
+    app.get("/", (req, res)=> {
+        res.send("API is Running Successfully");
+    })
+}
+
+
+ */
+//------------DEPLOYMENT
 
 
 
 /*GOOGLE AUTHENTICATION BUISSNESS */
-var session = require("express-session");
+/* var session = require("express-session");
 var passport = require('passport');
 var SQLiteStore = require('connect-sqlite3')(session);
 
@@ -56,9 +76,9 @@ store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
 }));
 
 var authRouter = require('./routes/auth');
-app.use('/', authRouter);
+app.use('/', authRouter); */
 
-app.use('/api/user', userRoutes);
+
 
 
 

@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { Avatar, AvatarGroup } from '@chakra-ui/react';
 import io from "socket.io-client"
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = process.env.REACT_APP_BASE_URL;
 var socket;
 
 const MyChats = () => {
@@ -46,7 +46,7 @@ const MyChats = () => {
           },
         };
 
-        const {data} = await axios.get(`http://localhost:5000/api/user?search=${search}`, config);
+        const {data} = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/user?search=${search}`, config);
 
         setSearchResult(data);
 
@@ -80,7 +80,7 @@ const MyChats = () => {
         },
       };
 
-      const {data} = await axios.post("http://localhost:5000/api/chat", {userId}, config);
+      const {data} = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/chat`, {userId}, config);
 
 
 
@@ -158,7 +158,7 @@ const MyChats = () => {
           Authorization:`Bearer ${user.token}`,
         },
       };
-      const {data} = await axios.get(`http://localhost:5000/api/chat/fetch`, config);
+      const {data} = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/chat/fetch`, config);
       setChats(data);
     }
     catch(error)
