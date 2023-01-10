@@ -126,7 +126,8 @@ const Hero = () => {
                     if (decoded.email_verified) 
                     {
                       //if (decoded.hd === "ucsb.edu")
-                      if (decoded.hd === "ucsb.edu")
+                      //if (decoded.hd === "ucsb.edu")
+                      if (true)
                       {
 
 
