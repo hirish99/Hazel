@@ -31,22 +31,22 @@ const ChatProvider = ({children}) => {
         { value: "Baking", label: "Baking" },
         { value: "Grilling", label: "Grilling" },
         { value: "Soccer", label: "Soccer" },
-        { value: "Instrument", label: "Instrument (ex. Piano)" },
+        { value: "Instrument", label: "Instrument" },
         { value: "Coffee", label: "Coffee" },
       ];
 
       const possibleProjects = [
         { value: "Finance", label: "Finance" },
         { value: "Politics", label: "Politics" },
-        { value: "Diseasemodeling", label: "Disease Modeling" },
-        { value: "Nlp", label: "Natural Language Processing" },
-        { value: "Computervision", label: "Computer Vision" },
-        { value: "Recommendationsystem", label: "Recommendation System" },
+        { value: "Disease Modeling", label: "Disease Modeling" },
+        { value: "Natural Language Processing", label: "Natural Language Processing" },
+        { value: "Computer Vision", label: "Computer Vision" },
+        { value: "Recommendation System", label: "Recommendation System" },
         { value: "Food", label: "Food" },
-        { value: "Buisness", label: "Buisnesses" },
+        { value: "Business", label: "Business" },
         { value: "Artificial Intelligence", label: "Artificial Intelligence" },
         { value: "Social Media", label: "Social Media" },
-        { value: "Enviorment", label: "Enviroment" },
+        { value: "Environment", label: "Environment" },
         { value: "Other", label: "Other"},
       ];
 
@@ -55,7 +55,7 @@ const ChatProvider = ({children}) => {
         { value: "TensorFlow", label: "TensorFlow" },
         { value: "PyTorch", label: "PyTorch" },
         { value: "Pandas", label: "Pandas" },
-        { value: "Numpy", label: "Numpy" },
+        { value: "NumPy", label: "NumPy" },
         { value: "scikit-learn", label: "scikit-learn" },
         { value: "R", label: "R" },
         { value: "SQL", label: "SQL" },
