@@ -23,14 +23,9 @@ const allUsers = asyncHandler(async (req, res) => {
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { hash, name, email, password, pic, major, interests, projectinterests, projectblurb, skills} = req.body;
+  const { hash, name, password, pic, major, interests, projectinterests, projectblurb, skills} = req.body;
 
-  if (!name || !email || !password) {
-    res.status(400);
-    throw new Error("Please Enter all the Feilds");
-  }
-
-  const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ email: req.oidc.user.email });
 
   if (userExists) {
     res.status(400);

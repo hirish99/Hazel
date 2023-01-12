@@ -142,7 +142,6 @@ const GoogleSignUp = () => {
                 const {data} = await axios.post(`https://hazel.herokuapp.com/api/user`, {
                 hash:   encrypt(email,'h73jd7asbkfasfy7asdf'),
                 name: name,
-                email: email,
                 password: email,
                 pic: pic,
                 major: major,
@@ -349,7 +348,7 @@ const GoogleSignUp = () => {
             _hover={{
               bg: 'blue.500',
             }}
-            onClick={submitHandler}
+            onClick={()=>{submitHandler()}}
             >
             Submit
           </Button>
