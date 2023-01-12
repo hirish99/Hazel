@@ -58,6 +58,14 @@ const LinkItems = [
 
 const SidebarWithHeader = ({children}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const history = useHistory();
+
+  useEffect(()=>{
+    if (!localStorage.getItem("userInfo")) 
+    {
+      history.push('/');
+    }
+  });
   return (
     <div>
       <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
@@ -260,7 +268,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <MenuItem>My Profile</MenuItem>
             </ProfileModal>
             
-            <Link href="http://localhost:5000/logout">
+            <Link href="https://hazel.herokuapp.com/logout">
             
 
             <MenuItem >Log Out</MenuItem>

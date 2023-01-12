@@ -59,6 +59,8 @@ const GoogleSignUp = () => {
     const [name, setName] = useState();
     const [major, setMajor] = useState();
 
+   
+
 
 
     const handleCreateItem = (item) => {
