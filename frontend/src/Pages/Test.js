@@ -5,14 +5,16 @@ const Test = () => {
 
     const testF = async()=>{
         try{
-            const {data} = await axios.post(`https://hazel.herokuapp.com/api/user/emaillookup`, {
+          console.log("POST");
+            const {data} = await axios.get(`localhost:5000/api/user/emaillookup`, {
             }, {
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               }
             })
-            //console.log("POST");
+
+            console.log("POST");
               
           }
           catch(err)

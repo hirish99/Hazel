@@ -11,6 +11,8 @@ const {notFound, errorHandler} = require("./middleware/errorMiddleware")
 const cors = require("cors")
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 const path = require("path")
+const axios = require("axios")
+const User = require("./models/userModel");
 
 var corsOptions = require('./config/corsOptions')
 
@@ -24,6 +26,38 @@ const app = express();
 
 app.use(cors())
 app.use(express.json());
+
+
+/* AUTH0 AUTHENTICATION */
+const { auth } = require('express-openid-connect');
+
+const config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: process.env.AUTH0_SECRET,
+    baseURL: 'http://localhost:5000',
+    clientID: 'gDuK4C6oOKoE5sHIjc7F0JwPEjaadH0z',
+    issuerBaseURL: 'https://dev-x7u0n0vidxu5dgjx.us.auth0.com'
+
+
+};
+
+
+
+
+
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
+
+// req.isAuthenticated is provided from the auth router
+
+
+
+
+
+
+
+/* AUTH0 AUTHENTICATION */
 
 
 app.use('/api/chat', chatRoutes);
@@ -49,7 +83,7 @@ if (process.env.NODE_ENV === "production")  {
 }
 
 
- 
+  
 //------------DEPLOYMENT
 
 
@@ -94,6 +128,9 @@ app.use('/', authRouter); */
 //app.get is where you route all get requests. So when the webpage loads it does a get request
 //from the web server. You can define a response doing the following:
 //abstract all the logic for api/user in userRoutes.js
+
+
+
 
 
 app.use(notFound)

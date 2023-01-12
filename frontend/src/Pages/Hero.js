@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 
 
@@ -10,7 +10,9 @@ import {
   Stack,
   Text,
   useBreakpointValue,
-  useToast
+  useToast,
+  Link,
+  Button
 } from '@chakra-ui/react';
 
 import { GoogleLogin } from '@react-oauth/google';
@@ -21,7 +23,7 @@ import jwt_decode from "jwt-decode";
 
 import {useHistory} from 'react-router';
 
-import { useEffect } from 'react';
+import { useEffect} from 'react';
 import axios from 'axios';
 
 import { ChatState } from "../Context/ChatProvider";
@@ -33,9 +35,52 @@ const Hero = () => {
 
     const { email, setEmail } = ChatState();
 
+    const [redirect, setRedirect] = useState(false);
+
     useEffect(() => {
       // Update the document title using the browser API
+        emailCheck1();
     });
+
+
+    const emailCheck1 = async (email) => {
+      try{
+
+
+
+
+        const {data} = await axios.get(`https://hazel.herokuapp.com/api/user/emaillookup1`, {
+        }, {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+        })
+
+        console.log(data);
+
+
+          if (data.accept === "1")
+          {
+
+              localStorage.setItem("userInfo", JSON.stringify(data)); 
+              history.push('/explore');
+          }
+          else
+          {
+            setEmail(email);
+            //User doesn't exist in the database yet (REGISTER THEM!!!)
+            history.push('/signup');
+          }
+
+          
+      }
+      catch(err)
+      {
+          //console.log(err);
+      }
+  }
+
 
     const encrypt = (text, key) => {
       const hash = CryptoJS.SHA256(key);
@@ -45,14 +90,20 @@ const Hero = () => {
       return ciphertext.toString();
     };
 
+    
+
     const emailCheck = async (email) => {
         try{
+
+
+
+
           const {data} = await axios.post(`https://hazel.herokuapp.com/api/user/emaillookup`, {
             hash:  encrypt(email, 'h73jd7asbkfasfy7asdf')
           }, {
             headers: {
               'Accept': 'application/json',
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             }
           })
 
@@ -119,8 +170,17 @@ const Hero = () => {
               DataScience UCSB
             </Button> */}
 
+            <Link href="https://hazel.herokuapp.com/login">
+            
 
-            <GoogleLogin
+                <Button colorScheme='blue' onClick={()=>{setRedirect(true)}}>
+                Log In</Button>
+            </Link>
+
+
+                
+
+            {/* <GoogleLogin
                 onSuccess={credentialResponse => {
                     var decoded = jwt_decode(credentialResponse.credential);
                     if (decoded.email_verified) 
@@ -148,7 +208,7 @@ const Hero = () => {
                     //console.log('Login Failed');
                 }}
                 useOneTap
-/>;
+/>; */}
 {/*             <Button rounded={'full'}>Alpha Version</Button> */}
           </Stack>
         </Stack>

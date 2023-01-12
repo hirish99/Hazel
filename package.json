@@ -6,7 +6,6 @@
   "scripts": {
     "start": "nodemon backend/server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
-
   },
   "author": "Hirish Chandrasekaran",
   "license": "ISC",
@@ -20,8 +19,11 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "express-jwt": "^8.3.0",
+    "express-openid-connect": "^2.11.0",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^3.0.0",
     "mongoose": "^6.7.2",
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",

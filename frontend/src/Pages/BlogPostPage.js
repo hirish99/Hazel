@@ -123,14 +123,26 @@ const BlogPostPage = () => {
   };
 
   const createProject = async () => {
+    const project = {
+      "projectName": projectName,
+      "projectTopic": topic,
+      "projectDescription": projectDescription,
+      "skillsNeeded": skills.map(element => element.value),
+      "pic": pic,
+    }
+
+    if (!projectName || !topic || !projectDescription || !project.skillsNeeded || !pic) {
+      toast({
+        title: "Please Fill All Fields",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
     try{
-      const project = {
-        "projectName": projectName,
-        "projectTopic": topic,
-        "projectDescription": projectDescription,
-        "skillsNeeded": skills.map(element => element.value),
-        "pic": pic,
-      }
+      
       //console.log(project);
 
       const config = {

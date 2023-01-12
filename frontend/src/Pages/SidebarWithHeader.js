@@ -47,6 +47,7 @@ import { ChatIcon } from '@chakra-ui/icons';
 
 import { ChatState } from '../Context/ChatProvider';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const LinkItems = [
   { name: 'Explore', icon: FiCompass,linkto: '/explore'  },
@@ -197,11 +198,23 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
   const {user, setUser} = ChatState();
 
-  const history = useHistory();
 
-  const logoutHandler = () => {
-    //localStorage.removeItem("userInfo");
-    history.push("/");
+
+  const logoutHandler = async () => {
+    localStorage.removeItem('userInfo');
+    try{
+    const {data} = await axios.get(`http://localhost:5000/logout`, {
+        }, {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+        })
+      }
+      catch(error){
+        console.log(error);
+      }
+
   }
 
 
@@ -246,7 +259,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
             <ProfileModal user={JSON.parse(localStorage.getItem("userInfo"))}>
               <MenuItem>My Profile</MenuItem>
             </ProfileModal>
-            <MenuItem onClick={logoutHandler}>Log Out</MenuItem>
+            
+            <Link href="http://localhost:5000/logout">
+            
+
+            <MenuItem >Log Out</MenuItem>
+            </Link>
             <ReturnFocus>
               <MenuItem>Report A Problem</MenuItem>
             </ReturnFocus>

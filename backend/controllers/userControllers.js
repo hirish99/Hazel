@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     hash,
     name,
-    email,
+    "email": req.oidc.user.email,
     password,
     pic,
     major, 
@@ -129,21 +129,39 @@ const emailLookUp = (async(req,res) => {
   }
 
 
+});
 
-/*     const {email} = req.body;
-    console.log(email);
-    const user = await User.findOne({email:email});
+const emailLookUp1 = (async(req,res) => {
 
-    console.log(user);
-    console.log(user==null);
+
+
+   console.log("Reached");
+   console.log(req.oidc.user.email);
+
+    const user = await User.findOne({email:req.oidc.user.email});
+
+
 
     if (user==null){
-        res.json({token:"0"});
+        res.json({accept:"0"});
     }
     else {
-        res.json({token:"1"});
-    } */
-
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        pic: user.pic,
+        token: generateToken(user._id),
+  
+        major: user.major,
+        interests: user.interests,
+        projectinterests: user.projectinterests,
+        projectblurb: user.projectblurb,
+        skills: user.skills,
+        accept: "1"
+      });
+    }
 
 
 });
@@ -186,4 +204,6 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = {registerUser, authUser, allUsers, emailLookUp, updateUser};
+
+
+module.exports = {registerUser, authUser, allUsers, emailLookUp, emailLookUp1, updateUser};
