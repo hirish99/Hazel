@@ -203,7 +203,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const logoutHandler = async () => {
     localStorage.removeItem('userInfo');
     try{
-    const {data} = await axios.get(`http://localhost:5000/logout`, {
+    const {data} = await axios.get(`https://hazel.herokuapp.com/logout`, {
         }, {
           headers: {
             'Accept': 'application/json',
