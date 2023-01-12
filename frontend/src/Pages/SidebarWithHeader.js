@@ -186,8 +186,9 @@ function ReturnFocus({children}) {
             Social: chandra_hirish
             </Text>
             <Text>
-            If you'd like to give any sort of feedback as well please dont hesitate. Thank you! If you'd like you can submit an issue on the github as well for bugs/features (https://github.com/hirish99/mern-chat-app).
+            If you'd like to give any sort of feedback as well please dont hesitate. Thank you! If you'd like you can submit an issue on the github as well for bugs/features (https://github.com/hirish99/mern-chat-app/issues).
             </Text>
+
 
           </ModalBody>
           <ModalFooter></ModalFooter>
