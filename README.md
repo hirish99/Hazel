@@ -1,5 +1,4 @@
-# mern-chat-app
-
+# Hazel
 1. Clone Repository
 2. npm install/start in root directory
 3. npm install/start in frontend
