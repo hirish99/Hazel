@@ -35,7 +35,7 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: process.env.AUTH0_SECRET,
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://hazel.herokuapp.com',
     clientID: 'gDuK4C6oOKoE5sHIjc7F0JwPEjaadH0z',
     issuerBaseURL: 'https://dev-x7u0n0vidxu5dgjx.us.auth0.com'
 
