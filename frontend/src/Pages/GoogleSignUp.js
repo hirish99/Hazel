@@ -140,9 +140,9 @@ const GoogleSignUp = () => {
 
             
                 const {data} = await axios.post(`https://hazel.herokuapp.com/api/user`, {
-                hash:   encrypt(email,'h73jd7asbkfasfy7asdf'),
+
                 name: name,
-                password: email,
+
                 pic: pic,
                 major: major,
                 interests: interests.map(element => element.value),

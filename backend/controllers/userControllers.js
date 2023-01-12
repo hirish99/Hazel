@@ -23,7 +23,7 @@ const allUsers = asyncHandler(async (req, res) => {
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { hash, name, password, pic, major, interests, projectinterests, projectblurb, skills} = req.body;
+  const {  name,  pic, major, interests, projectinterests, projectblurb, skills} = req.body;
 
   const userExists = await User.findOne({ email: req.oidc.user.email });
 
@@ -33,10 +33,10 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    hash,
+    "hash":"1234",
     name,
     "email": req.oidc.user.email,
-    password,
+    "password":"1234",
     pic,
     major, 
     interests, 
