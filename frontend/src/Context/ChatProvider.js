@@ -19,7 +19,6 @@ const ChatProvider = ({children}) => {
         { value: "Clubbing", label: "Clubbing" },
         { value: "Bar Hopping", label: "Bar Hopping" },
         { value: "Wine", label: "Wine" },
-        { value: "Smoking", label: "Smoking" },
         { value: "Kickbacks", label: "Kickbacks" },
         { value: "Bicycling", label: "Bicycling" },
         { value: "Working Out", label: "Working Out" },
