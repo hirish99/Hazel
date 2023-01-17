@@ -270,7 +270,7 @@ const SingleChat = () => {
 
           <Center>
             <Text fontSize="3xl" fontFamily="Work sans">
-                    Click on a user to start chatting
+                    Click Chat
             </Text>
           </Center>
 
