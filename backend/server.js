@@ -68,7 +68,7 @@ app.use('/api/user', userRoutes);
 //------------DEPLOYMENT
 
 
-/* const __dirname1 = path.resolve();
+const __dirname1 = path.resolve();
 if (process.env.NODE_ENV === "production")  {
     app.use(express.static(path.join(__dirname1,"/frontend/build")));
 
@@ -81,7 +81,7 @@ if (process.env.NODE_ENV === "production")  {
         res.send("API is Running Successfully");
     })
 }
- */
+ 
 
   
 //------------DEPLOYMENT
