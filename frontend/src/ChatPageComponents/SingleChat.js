@@ -1,6 +1,6 @@
 import {React, useState, initialState, useEffect} from 'react'
 import { ChatState } from '../Context/ChatProvider'
-import { Center, Text, VStack, Stack,Avatar,Box, Button,  Spacer,Container, Flex, HStack, FormControl, Input,useToast, ModalFooter,useEditable,useDisclosure,Modal,ModalOverlay,ModalBody,ModalContent,ModalHeader,ModalCloseButton, AvatarGroup, WrapItem, Tooltip} from '@chakra-ui/react';
+import { Center, Text, VStack, Stack,Avatar,Box, Button,  Spacer,Container, Flex, HStack, FormControl, Input,useToast, ModalFooter,useEditable,useDisclosure,Modal,ModalOverlay,ModalBody,ModalContent,ModalHeader,ModalCloseButton, AvatarGroup, WrapItem, Tooltip, DrawerBody} from '@chakra-ui/react';
 import axios from 'axios';
 import ScrollableChat from './ScrollableChat';
 import io from "socket.io-client"
@@ -148,71 +148,97 @@ const SingleChat = () => {
 
 
       <Drawer isOpen={isOpen} onClose={onClose}
+      allowPinchZoom={true}
       placement={left ? ('left'):('right')}
+      blockScrollOnMount={false}
       >
-      <DrawerOverlay />
+
    
       <DrawerContent>
-      {left && <>
-        <DrawerHeader>Chat List</DrawerHeader>
-        <DrawerCloseButton />
-        <Box
-        w="100%"
-        l="100%">
-        <MyChats></MyChats>
-        </Box>
-        </>} 
-        {!left && !selectedChat && <Text>Select A Chat</Text>}
+      {left ? ( <>
+                          <DrawerHeader>Chat List</DrawerHeader>
+                          <DrawerCloseButton />
+                          <DrawerBody
+                          >
+
+                        
+                    
+                          <MyChats></MyChats>
+                          </DrawerBody>
+                          </>
+        
+        ) : (
+    
     
 
-       
-        {!left &&  <Stack  
-            >
-            { !selectedChat && <Text></Text>}
-        { selectedChat && selectedChat.users.filter(s=>(s.name!=user.name)).map(user=>(
-          <ProfileModal user={user}>
-<Box
-      cursor="pointer"
-      bg="#E8E8E8"
-      _hover={{
-        background: "#38B2AC",
-        color: "white",
-      }}
-      w="90%"
-      d="flex"
-      alignItems="center"
-      color="black"
-      p={2}
-      ml={4}
-      mt={4}
-      justify="center"
-      borderRadius="lg"
-    >
-      <Avatar
+                              
+                              <Stack  
+                              overflowY='scroll' h="100%">
+                                <DrawerCloseButton />
+                                
+                                <DrawerBody 
+                                >
+                                  <Box
+                                d="flex"
+                                flexDir="column"
+                                p={3}
+                                bg="#F8F8F8F8"
+                                w="100%"
+                                h="100%"
+                                borderRadius="lg"
+                                overflowY="auto"
+                              >
 
-        size="sm"
-        cursor="pointer"
-        name={user.name}
-        src={user.pic}
-      />
-      <Box>
-        <Text>{user.name}</Text>
-        <Text fontSize="xs">
-          <b>Email : </b>
-          {user.email}
-        </Text>
-      </Box>
-    </Box>
-        </ProfileModal>
-        
-        ))}
-        </Stack>  }
+                                
+                                { selectedChat && selectedChat.users.filter(s=>(s.name!=user.name)).map(user=>(
+
+                                  <ProfileModal user={user}>
+                        <Box
+                              cursor="pointer"
+                              bg="#E8E8E8"
+                              _hover={{
+                                background: "#38B2AC",
+                                color: "white",
+                              }}
+                              w="90%"
+                              d="flex"
+                              alignItems="center"
+                              color="black"
+                              p={2}
+                              ml={2}
+                              mt={2}
+                              justify="center"
+                              borderRadius="lg"
+                            >
+                              <Avatar
+
+                                size="sm"
+                                cursor="pointer"
+                                name={user.name}
+                                src={user.pic}
+                              />
+                              <Box>
+                                <Text>{user.name}</Text>
+                                <Text fontSize="xs">
+                                  <b>Email : </b>
+                                  {user.email}
+                                </Text>
+                              </Box>
+                            </Box>
+                                </ProfileModal>
+
+                                
+                                ))}
+
+                        </Box>
+                                </DrawerBody>
+                                </Stack>
+          )}
 
     
        
 
         
-
 
       </DrawerContent>
       </Drawer>
