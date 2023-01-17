@@ -205,7 +205,7 @@ const MyChats = () => {
     alignItems="center"
     p={3}
     bg="white"
-    w={{ base: "100%", md: "34%" }}
+    w={{ base: "100%", md: "100%" }}
     borderRadius="lg"
     borderWidth="1px"
     h='100%'
@@ -238,7 +238,7 @@ const MyChats = () => {
           d="flex"
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
           ml={0}
-          rightIcon={<SearchIcon />}onClick={onOpen}>
+          leftIcon={<SearchIcon />}onClick={onOpen}>
             <Text d={{ base: "none", md: "flex" }}>
               User
               </Text>

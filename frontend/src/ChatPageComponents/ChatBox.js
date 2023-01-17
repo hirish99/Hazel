@@ -13,7 +13,7 @@ const ChatBox = () => {
       alignItems="center"
       p={3}
       bg="white"
-      w={{ base: "100%", md: "66%" }}
+      w={{ base: "100%", md: "100%" }}
       borderRadius="lg"
       borderWidth="1px"
       h='100%'

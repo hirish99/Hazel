@@ -1,15 +1,20 @@
 import {React, useState, initialState, useEffect} from 'react'
 import { ChatState } from '../Context/ChatProvider'
-import { Center, Text, VStack, Box, Spacer,Container, Flex, HStack, FormControl, Input,useToast, useEditable} from '@chakra-ui/react';
+import { Center, Text, VStack, Box, Button,  Spacer,Container, Flex, HStack, FormControl, Input,useToast, ModalFooter,useEditable,useDisclosure,Modal,ModalOverlay,ModalBody,ModalContent,ModalHeader,ModalCloseButton} from '@chakra-ui/react';
 import axios from 'axios';
 import ScrollableChat from './ScrollableChat';
 import io from "socket.io-client"
+import { SearchIcon, ViewIcon, ArrowLeftIcon } from '@chakra-ui/icons'
+import MyChats from './MyChats';
+import { Drawer, DrawerOverlay,DrawerContent, DrawerHeader,DrawerCloseButton}from '@chakra-ui/react';
+
 
 const ENDPOINT = "https://hazel.herokuapp.com";
 var socket, selectedChatCompare;
 
 const SingleChat = () => {
   const {selectedChat, user, setSelectedChat} =  ChatState();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   
   const [socketConnected, setSocketConnected] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -124,8 +129,30 @@ const SingleChat = () => {
 
   return (
     <>
+
+      <>
+
+
+      <Drawer isOpen={isOpen} onClose={onClose}
+      placement='left'
+      >
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerHeader>Chat List</DrawerHeader>
+        <DrawerCloseButton />
+        <Box
+        w="100%"
+        l="100%">
+        <MyChats></MyChats>
+        </Box>
+        
+
+
+      </DrawerContent>
+      </Drawer>
+      </>
     
-      <Box
+      <Flex
         pb={3}
         px={3}
         fontSize={{ base: "28px", md: "30px" }}
@@ -133,9 +160,32 @@ const SingleChat = () => {
         w="100%"
         alignItems="center"
         justifyContent="space-between">
+        
+        <Button
+          d="flex"
+          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+          ml={0}
+          leftIcon={<ArrowLeftIcon />}
+          onClick={onOpen}
+          >
+          
+            <Text d={{ base: "none", md: "flex" }}>
+              Chats
+              </Text>
+          </Button>
 
-        <Center>Chat</Center>
-      </Box>
+
+        <Center>{!selectedChat && <Text>Chat</Text>}{selectedChat && selectedChat.users.length>2 && selectedChat.chatName}{(selectedChat && selectedChat.users.length<=2)&&((selectedChat.users.filter(u=>u.name !== JSON.parse(localStorage.getItem("userInfo")).name)).map(s=>(s.name)))}</Center>
+        <Button
+          d="flex"
+          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+          ml={0}
+          rightIcon={<ViewIcon />}>
+            <Text d={{ base: "none", md: "flex" }}>
+              Info
+              </Text>
+          </Button>
+      </Flex>
 
       {selectedChat && 
       <>
