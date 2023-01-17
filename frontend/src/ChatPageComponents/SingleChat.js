@@ -188,7 +188,7 @@ const SingleChat = () => {
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
           ml={0}
           children={<ChatIcon  />}
-          mr={3}
+          mr={6}
           onClick={()=>{onOpenArrowHandler()}}
           >
           </Button>
@@ -197,7 +197,6 @@ const SingleChat = () => {
         <Center>{!selectedChat && <Text>Chat</Text>}{selectedChat && selectedChat.users.length>2 && selectedChat.chatName}{(selectedChat && selectedChat.users.length<=2)&&((selectedChat.users.filter(u=>u.name !== JSON.parse(localStorage.getItem("userInfo")).name)).map(s=>(s.name)))}</Center>
 
             <Box  
-            p={2}
             rounded={"md"}>
             { !selectedChat && <Text></Text>}
         { selectedChat && selectedChat.users.filter(s=>(s.name!=user.name)).map(u=>(<ProfileModal user={u}>

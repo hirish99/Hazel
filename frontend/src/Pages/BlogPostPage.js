@@ -380,12 +380,20 @@ const BlogPostPage = () => {
               pos={'relative'}
               overflowY="hidden"
               >
+       
+
+              
+                <Center>
               <Image
                 src={
                   pic
                 }
-                layout={'fill'}
+                minW='800px'
+                minL='800px'
+
               />
+               </Center>
+              
               
               
               <Stack direction='row' spacing={6}>
