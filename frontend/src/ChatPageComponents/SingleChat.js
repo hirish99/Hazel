@@ -1,12 +1,13 @@
 import {React, useState, initialState, useEffect} from 'react'
 import { ChatState } from '../Context/ChatProvider'
-import { Center, Text, VStack, Box, Button,  Spacer,Container, Flex, HStack, FormControl, Input,useToast, ModalFooter,useEditable,useDisclosure,Modal,ModalOverlay,ModalBody,ModalContent,ModalHeader,ModalCloseButton} from '@chakra-ui/react';
+import { Center, Text, VStack, Avatar,Box, Button,  Spacer,Container, Flex, HStack, FormControl, Input,useToast, ModalFooter,useEditable,useDisclosure,Modal,ModalOverlay,ModalBody,ModalContent,ModalHeader,ModalCloseButton, AvatarGroup} from '@chakra-ui/react';
 import axios from 'axios';
 import ScrollableChat from './ScrollableChat';
 import io from "socket.io-client"
-import { SearchIcon, ViewIcon, ArrowLeftIcon } from '@chakra-ui/icons'
+import { SearchIcon,  ViewIcon, ArrowLeftIcon, ChatIcon } from '@chakra-ui/icons'
 import MyChats from './MyChats';
 import { Drawer, DrawerOverlay,DrawerContent, DrawerHeader,DrawerCloseButton}from '@chakra-ui/react';
+import ProfileModal from './Modals/ProfileModal';
 
 
 const ENDPOINT = "https://hazel.herokuapp.com";
@@ -127,6 +128,19 @@ const SingleChat = () => {
 
   }
 
+  const [left, setLeft]= useState(true);
+  const onOpenArrowHandler = ()=>{
+    onOpen();
+    setLeft(true);
+
+  }
+
+  const onViewHandler = ()=>{
+    setLeft(false);
+    onOpen();
+    
+  }
+
   return (
     <>
 
@@ -134,10 +148,12 @@ const SingleChat = () => {
 
 
       <Drawer isOpen={isOpen} onClose={onClose}
-      placement='left'
+      placement={left ? ('left'):('right')}
       >
       <DrawerOverlay />
+   
       <DrawerContent>
+      {left && <>
         <DrawerHeader>Chat List</DrawerHeader>
         <DrawerCloseButton />
         <Box
@@ -145,6 +161,12 @@ const SingleChat = () => {
         l="100%">
         <MyChats></MyChats>
         </Box>
+        </>} 
+        {!left && !selectedChat && <Text>Select A Chat</Text>}
+        {!left && selectedChat && <AvatarGroup>{selectedChat.users.map(u=>(<ProfileModal user={u}>
+          <Avatar name={u.name} src={u.pic} />
+        </ProfileModal>))   }</AvatarGroup>}
+
         
 
 
@@ -165,26 +187,29 @@ const SingleChat = () => {
           d="flex"
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
           ml={0}
-          leftIcon={<ArrowLeftIcon />}
-          onClick={onOpen}
+          children={<ChatIcon  />}
+          mr={3}
+          onClick={()=>{onOpenArrowHandler()}}
           >
-          
-            <Text d={{ base: "none", md: "flex" }}>
-              Chats
-              </Text>
           </Button>
 
 
         <Center>{!selectedChat && <Text>Chat</Text>}{selectedChat && selectedChat.users.length>2 && selectedChat.chatName}{(selectedChat && selectedChat.users.length<=2)&&((selectedChat.users.filter(u=>u.name !== JSON.parse(localStorage.getItem("userInfo")).name)).map(s=>(s.name)))}</Center>
-        <Button
-          d="flex"
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          ml={0}
-          rightIcon={<ViewIcon />}>
-            <Text d={{ base: "none", md: "flex" }}>
-              Info
-              </Text>
-          </Button>
+
+            <Box  
+            p={2}
+            rounded={"md"}>
+            { !selectedChat && <Text></Text>}
+        { selectedChat && selectedChat.users.filter(s=>(s.name!=user.name)).map(u=>(<ProfileModal user={u}>
+          <Avatar name={u.name} src={u.pic} />
+          
+
+
+
+        </ProfileModal>))}
+        </Box>
+
+          
       </Flex>
 
       {selectedChat && 

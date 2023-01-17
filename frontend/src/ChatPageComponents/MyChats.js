@@ -305,7 +305,7 @@ const MyChats = () => {
 
                     {chat.isGroupChat &&
                     <AvatarGroup>
-                        {(chat.users).map((u)=>(<Avatar name={u.name} src={u.pic} />))}
+                        {(chat.users.filter(s=>(s.name!=user.name))).map((u)=>(<Avatar name={u.name} src={u.pic} />))}
                     </AvatarGroup>
                     }
 
