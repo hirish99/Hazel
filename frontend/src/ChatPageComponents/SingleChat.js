@@ -1,6 +1,6 @@
 import {React, useState, initialState, useEffect} from 'react'
 import { ChatState } from '../Context/ChatProvider'
-import { Center, Text, VStack, Avatar,Box, Button,  Spacer,Container, Flex, HStack, FormControl, Input,useToast, ModalFooter,useEditable,useDisclosure,Modal,ModalOverlay,ModalBody,ModalContent,ModalHeader,ModalCloseButton, AvatarGroup} from '@chakra-ui/react';
+import { Center, Text, VStack, Stack,Avatar,Box, Button,  Spacer,Container, Flex, HStack, FormControl, Input,useToast, ModalFooter,useEditable,useDisclosure,Modal,ModalOverlay,ModalBody,ModalContent,ModalHeader,ModalCloseButton, AvatarGroup, WrapItem, Tooltip} from '@chakra-ui/react';
 import axios from 'axios';
 import ScrollableChat from './ScrollableChat';
 import io from "socket.io-client"
@@ -163,9 +163,53 @@ const SingleChat = () => {
         </Box>
         </>} 
         {!left && !selectedChat && <Text>Select A Chat</Text>}
-        {!left && selectedChat && <AvatarGroup>{selectedChat.users.map(u=>(<ProfileModal user={u}>
-          <Avatar name={u.name} src={u.pic} />
-        </ProfileModal>))   }</AvatarGroup>}
+    
+
+       
+        {!left &&  <Stack  
+            >
+            { !selectedChat && <Text></Text>}
+        { selectedChat && selectedChat.users.filter(s=>(s.name!=user.name)).map(user=>(
+          <ProfileModal user={user}>
+<Box
+      cursor="pointer"
+      bg="#E8E8E8"
+      _hover={{
+        background: "#38B2AC",
+        color: "white",
+      }}
+      w="90%"
+      d="flex"
+      alignItems="center"
+      color="black"
+      p={2}
+      ml={4}
+      mt={4}
+      justify="center"
+      borderRadius="lg"
+    >
+      <Avatar
+
+        size="sm"
+        cursor="pointer"
+        name={user.name}
+        src={user.pic}
+      />
+      <Box>
+        <Text>{user.name}</Text>
+        <Text fontSize="xs">
+          <b>Email : </b>
+          {user.email}
+        </Text>
+      </Box>
+    </Box>
+        </ProfileModal>
+        
+        ))}
+        </Stack>  }
+
+    
+       
 
         
 
@@ -173,6 +217,7 @@ const SingleChat = () => {
       </DrawerContent>
       </Drawer>
       </>
+      
     
       <Flex
         pb={3}
@@ -182,37 +227,59 @@ const SingleChat = () => {
         w="100%"
         alignItems="center"
         justifyContent="space-between">
+
         
         <Button
           d="flex"
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
           ml={0}
           children={<ChatIcon  />}
-          mr={6}
           onClick={()=>{onOpenArrowHandler()}}
           >
           </Button>
 
+          <Box
+      d="flex"
+      flexDir="column"
+      justifyContent={"space-between"}
+      w="100%"
+      borderRadius="lg"
+      >
+      <Stack w="100%"
+      p={4}
+      >
+        <Center>{!selectedChat && <Text> </Text>}{selectedChat && selectedChat.users.length>2 && (<Text fontSize="2xl">{selectedChat.chatName}</Text>)}{(selectedChat && selectedChat.users.length<=2)&&((selectedChat.users.filter(u=>u.name !== JSON.parse(localStorage.getItem("userInfo")).name)).map(s=>(<Text fontSize="2xl">{s.name}</Text>)))}</Center>
+        </Stack>
+      </Box>
 
-        <Center>{!selectedChat && <Text> </Text>}{selectedChat && selectedChat.users.length>2 && selectedChat.chatName}{(selectedChat && selectedChat.users.length<=2)&&((selectedChat.users.filter(u=>u.name !== JSON.parse(localStorage.getItem("userInfo")).name)).map(s=>(s.name)))}</Center>
+      <Button
+          d="flex"
+          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+          ml={0}
+          children={<ViewIcon  />}
+          onClick={()=>{onViewHandler()}}
+          >
+          </Button>
 
-            <Box  
-            rounded={"md"}>
-            { !selectedChat && <Text></Text>}
-        { selectedChat && selectedChat.users.filter(s=>(s.name!=user.name)).map(u=>(<ProfileModal user={u}>
-          <Avatar name={u.name} src={u.pic} />
+
+
+         
+
           
+           
 
 
 
-        </ProfileModal>))}
-        </Box>
+         
 
           
       </Flex>
 
+   
+
       {selectedChat && 
       <>
+
       <Box
       d="flex"
       flexDir="column"
@@ -224,6 +291,7 @@ const SingleChat = () => {
       borderRadius="lg"
       overflowY="auto"
       >
+        
           <Box>
             {!loading && <ScrollableChat messages={messages} />}
           </Box>

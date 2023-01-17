@@ -365,7 +365,7 @@ const BlogPostPage = () => {
             maxW={'445px'}
             maxH={'590px'}
             h="590px"
-            w={'full'}
+            w={'100%'}
             bg={"white"}
             boxShadow={'2xl'}
             rounded={'md'}
@@ -379,21 +379,11 @@ const BlogPostPage = () => {
               mb={6}
               pos={'relative'}
               overflowY="hidden"
+              backgroundImage={pic}
               >
        
 
-              
-                <Center>
-              <Image
-                src={
-                  pic
-                }
-                minW='800px'
-                minL='800px'
-
-              />
-               </Center>
-              
+        
               
               
               <Stack direction='row' spacing={6}>
