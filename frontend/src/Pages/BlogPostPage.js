@@ -133,12 +133,23 @@ const BlogPostPage = () => {
   };
 
   const createProject = async () => {
+
     const project = {
       "projectName": projectName,
       "projectTopic": topic,
       "projectDescription": projectDescription,
       "skillsNeeded": skills.map(element => element.value),
       "pic": pic,
+    }
+    if (projectName.length>30){
+      toast({
+        title: "Project Name Too Large",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
     }
 
     if (!projectName || !topic || !projectDescription || !project.skillsNeeded || !pic) {
