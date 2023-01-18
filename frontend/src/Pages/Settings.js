@@ -188,6 +188,16 @@ const Settings = () => {
       });
       return;
     }
+    if (pics.size > 1000000) {
+      toast({
+        title: "Image Larger than 1MB! Servers Can't Handle Yet!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
