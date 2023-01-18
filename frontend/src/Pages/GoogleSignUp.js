@@ -26,6 +26,8 @@ import {
 
   import {useHistory} from 'react-router';
 
+  import Compressor from 'compressorjs';
+
   import axios from 'axios';
   import { SmallCloseIcon } from '@chakra-ui/icons';
   import { useState} from 'react'
@@ -177,8 +179,8 @@ const GoogleSignUp = () => {
 
     }
 
-    const postDetails = (pics)=> {
-    if (pics === undefined) {
+    const postDetails = (file)=> {
+    if (file === undefined) {
       toast({
         title: "Please Select an Image!",
         status: "warning",
@@ -188,34 +190,62 @@ const GoogleSignUp = () => {
       });
       return;
     }
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
-      const data = new FormData();
-      data.append("file", pics);
-      data.append("upload_preset", "chat-app");
-      data.append("cloud_name", "dzz3nkuyy");
-      fetch("https://api.cloudinary.com/v1_1/dzz3nkuyy/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPic(data.url.toString());
-          //console.log(data.url.toString());
-        })
-        .catch((err) => {
-          //console.log(err);
+
+    if (file.size > 1000000) {
+      toast({
+        title: "Image Larger than 1MB! Servers Can't Handle Yet!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+
+    if (file.type === "image/jpeg" || file.type === "image/png") {
+      new Compressor(file, {
+        quality: 0.6,
+    
+        // The compression process is asynchronous,
+        // which means you have to access the `result` in the `success` hook function.
+        success(result) {
+          const formData = new FormData();
+    
+          // The third parameter is required for server
+          formData.append('file', result, result.name);
+          formData.append("upload_preset", "chat-app");
+          formData.append("cloud_name", "dzz3nkuyy");
+
+          // Send the compressed image file to server with XMLHttpRequest.
+          fetch("https://api.cloudinary.com/v1_1/dzz3nkuyy/image/upload", {
+          method: "post",
+          body: formData,
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                setPic(data.url.toString());
+                //console.log(data.url.toString());
+              })
+              .catch((err) => {
+                //console.log(err);
+              });
+        },
+          error(err) {
+            console.log(err.message);
+          },
         });
-    } else {
-      toast({
-        title: "Please Select an Image!",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      return;
-    }
-  };
+      }
+      else {
+            toast({
+              title: "Please Select an Image!",
+              status: "warning",
+              duration: 5000,
+              isClosable: true,
+              position: "bottom",
+            });
+            return;
+      }
+    };
 
 
 
