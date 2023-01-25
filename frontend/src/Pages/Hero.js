@@ -177,6 +177,17 @@ const Hero = () => {
                 Log In</Button>
             </Link>
 
+            <Link href="http://localhost:3000/clubsignup">
+            
+
+                <Button colorScheme='orange' onClick={()=>{setRedirect(true)}}>
+                Register Organization</Button>
+            </Link>
+
+            
+
+
+
 
                 
 
