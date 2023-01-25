@@ -61,6 +61,9 @@ const GoogleSignUp = () => {
     const [name, setName] = useState();
     const [major, setMajor] = useState();
 
+    const [school, setSchool] = useState();
+    const [club, setClub] = useState();
+
    
 
 
@@ -325,6 +328,28 @@ const GoogleSignUp = () => {
             <option>Humanities</option>
         </Select>
         </FormControl>
+
+        <FormControl isRequired>
+        <FormLabel>School</FormLabel>
+        <Select placeholder='Select School'
+        onChange={(e)=>setSchool(e.target.value)}
+        >
+            <option>University of Illinois, Urbana-Champaign</option>
+            <option>University of California, Santa Barbara</option>
+        </Select>
+        </FormControl>
+
+        <FormControl isRequired>
+        <FormLabel>Club</FormLabel>
+        <Select placeholder='Select Club'
+        onChange={(e)=>setClub(e.target.value)}
+        >
+            <option>University of Illinois, Urbana-Champaign</option>
+            <option>University of California, Santa Barbara</option>
+        </Select>
+        </FormControl>
+
+
 
 
             <CUIAutoComplete
