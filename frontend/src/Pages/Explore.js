@@ -401,6 +401,7 @@ const Explore = () => {
             <option>ACM UIUC GameBuilders</option>
             <option>ACM UIUC SIGGRAPH</option>
             <option>ACM UIUC SIGMusic</option>
+            <option>Illinois Design Challenge</option>
             </>
           }
           {school === "Independent"
