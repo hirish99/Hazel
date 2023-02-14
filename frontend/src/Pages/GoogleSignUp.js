@@ -330,14 +330,25 @@ const GoogleSignUp = () => {
         <Select placeholder='Select Club'
         onChange={(e)=>setClub(e.target.value)}
         >
-            <option>Data Science UCSB</option>
+            {school === "University of California, Santa Barbara"
+          &&
+          <option>Data Science UCSB</option>
+          }
+          {school === "University of Illinois, Urbana-Champaign"
+          &&
+            <>
             <option>ACM UIUC SIGPwny</option>
             <option>ACM UIUC SIGAIDA</option>
             <option>ACM UIUC SIGMobile</option>
             <option>ACM UIUC GameBuilders</option>
             <option>ACM UIUC SIGGRAPH</option>
             <option>ACM UIUC SIGMusic</option>
+            </>
+          }
+          {school === "Independent"
+          &&
             <option>No Affiliation</option>
+          }
 
 
 

@@ -15,7 +15,8 @@ import {
   Textarea,
   Select,
   Tag,
-  CloseButton
+  CloseButton,
+  HStack
 } from '@chakra-ui/react'
 import { AddIcon} from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
@@ -45,6 +46,8 @@ var socket;
 
 const BlogPostPage = () => {
 
+  const [school, setSchool] = useState(JSON.parse(localStorage.getItem("userInfo")).school);
+  const [club, setClub] = useState(JSON.parse(localStorage.getItem("userInfo")).club);
 
   const history = useHistory();
   const [projectList, setProjectList] = useState([]);
@@ -462,10 +465,12 @@ const BlogPostPage = () => {
   
 
   const filterCriteria = (x) => {
-    if (!selectedTopic || selectedTopic===''){
-      return true;
-   }
-    return x.projectTopic === selectedTopic;
+
+    if (!selectedTopic || selectedTopic==='')
+    {
+        return (school==null || x.creator.school === school) && (club== null || x.creator.club === club)
+    }
+    return (x.projectTopic === selectedTopic) && (school==null ||x.creator.school === school) && (club== null || x.creator.club === club)
   }
 
 
@@ -497,6 +502,49 @@ const BlogPostPage = () => {
           <option>{x.value}</option>))}
         </Select>
         </FormControl>
+        
+        <HStack
+        justifyContent={"space-between"}
+        alignContent="center"
+      >
+        <Select placeholder='Select School'
+        onChange={(e)=>setSchool(e.target.value)}
+        >
+            <option>University of California, Santa Barbara</option>
+            <option>University of Illinois, Urbana-Champaign</option>
+            <option>Independent</option>
+        </Select>
+
+        <Select placeholder='Select Club'
+        onChange={(e)=>setClub(e.target.value)}
+        >
+          {school === "University of California, Santa Barbara"
+          &&
+          <option>Data Science UCSB</option>
+          }
+          {school === "University of Illinois, Urbana-Champaign"
+          &&
+            <>
+            <option>ACM UIUC SIGPwny</option>
+            <option>ACM UIUC SIGAIDA</option>
+            <option>ACM UIUC SIGMobile</option>
+            <option>ACM UIUC GameBuilders</option>
+            <option>ACM UIUC SIGGRAPH</option>
+            <option>ACM UIUC SIGMusic</option>
+            </>
+          }
+          {school === "Independent"
+          &&
+            <option>No Affiliation</option>
+          }
+
+
+
+
+
+        </Select>
+
+        </HStack>
 
         
         </Flex>
@@ -507,6 +555,7 @@ const BlogPostPage = () => {
 
     <div style={{width:'100%'}}>
       <Wrap spacing="20px" justify="center">
+        {console.log(projectList)}
         {createProjectWraps(projectList.filter(x=>filterCriteria(x)))}
       </Wrap>
     </div>
@@ -536,6 +585,8 @@ const BlogPostPage = () => {
           
           <option>{x.value}</option>))}
         </Select>
+
+        
         </FormControl>
 
             <FormControl>
