@@ -19,12 +19,12 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     major: {type: "String", required: true},
-    school: {type: "String", required: true},
-    club: {type: "String", required: true},
     interests: [String],
     projectinterests: [String],
     projectblurb: { type: "String", required: true },
     skills: [String],
+    school: { type: "String"},
+    club: { type: "String"},
   },
   { timestaps: true }
 );

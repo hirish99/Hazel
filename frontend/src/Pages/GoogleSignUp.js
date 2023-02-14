@@ -60,14 +60,8 @@ const GoogleSignUp = () => {
 
     const [name, setName] = useState();
     const [major, setMajor] = useState();
-
     const [school, setSchool] = useState();
     const [club, setClub] = useState();
-
-
-
-   
-
 
 
     const handleCreateItem = (item) => {
@@ -130,7 +124,7 @@ const GoogleSignUp = () => {
         //console.log(skills.map(element => element.value)); */
 
 
-        if (!name || !major || !pic || !bioBlurb || interests.length==0 || projects.length==0 || skills.length==0) {
+        if (!name || !major || !club || !school || !pic || !bioBlurb || interests.length==0 || projects.length==0 || skills.length==0) {
             toast({
                 title: "Please Fill All Fields",
                 status: "warning",
@@ -155,7 +149,9 @@ const GoogleSignUp = () => {
                 interests: interests.map(element => element.value),
                 projectinterests: projects.map(element => element.value),
                 projectblurb: bioBlurb,
-                skills: skills.map(element => element.value)
+                skills: skills.map(element => element.value),
+                school: school,
+                club: club,
 
                 }, {
                 headers: {
@@ -319,25 +315,13 @@ const GoogleSignUp = () => {
         </FormControl>
 
         <FormControl isRequired>
-        <FormLabel>Major</FormLabel>
-        <Select placeholder='Select Major'
-        onChange={(e)=>setMajor(e.target.value)}
-        >
-            <option>Computer Science</option>
-            <option>Data Science</option>
-            <option>Natural Sciences</option>
-            <option>Engineering</option>
-            <option>Humanities</option>
-        </Select>
-        </FormControl>
-
-        <FormControl isRequired>
         <FormLabel>School</FormLabel>
         <Select placeholder='Select School'
         onChange={(e)=>setSchool(e.target.value)}
         >
-            <option>University of Illinois, Urbana-Champaign</option>
             <option>University of California, Santa Barbara</option>
+            <option>University of Illinois, Urbana-Champaign</option>
+            <option>Independent</option>
         </Select>
         </FormControl>
 
@@ -346,16 +330,50 @@ const GoogleSignUp = () => {
         <Select placeholder='Select Club'
         onChange={(e)=>setClub(e.target.value)}
         >
-            <option>University of Illinois, Urbana-Champaign</option>
-            <option>University of California, Santa Barbara</option>
+            <option>Data Science UCSB</option>
+            <option>ACM UIUC SIGPwny</option>
+            <option>ACM UIUC SIGAIDA</option>
+            <option>ACM UIUC SIGMobile</option>
+            <option>ACM UIUC GameBuilders</option>
+            <option>ACM UIUC SIGGRAPH</option>
+            <option>ACM UIUC SIGMusic</option>
+            <option>No Affiliation</option>
+
+
+
+
+
         </Select>
         </FormControl>
 
+        <FormControl isRequired>
+        <FormLabel>Major</FormLabel>
+        <Select placeholder='Select Major'
+        onChange={(e)=>setMajor(e.target.value)}
+        >
+            <option>Computer Science</option>
+            <option>Computer Engineering</option>
+            <option>Data Science</option>
+            <option>Electrical Engineering</option>
+            <option>Chemical Engineering</option>
+            <option>Mechanical Engineering</option>
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Mathematics</option>
+            <option>Biology</option>
+            <option>Writing</option>
+            <option>History</option>
+            <option>Philosophy</option>
+            <option>Film</option>
+            <option>Other</option>
+        </Select>
+        </FormControl>
 
+        
 
 
             <CUIAutoComplete
-          label="Please choose some of your interests (not related to DataScience)"
+          label="Please choose some of your interests"
           placeholder="Type a Interest"
           onCreateItem={handleCreateItem}
           items={pickerItems}

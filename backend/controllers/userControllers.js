@@ -23,7 +23,7 @@ const allUsers = asyncHandler(async (req, res) => {
 //@route           POST /api/user/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const {  name,  pic, major, interests, projectinterests, projectblurb, skills} = req.body;
+  const {  name,  pic, major, interests, projectinterests, projectblurb, skills, school,club} = req.body;
 
   const userExists = await User.findOne({ email: req.oidc.user.email });
 
@@ -43,6 +43,8 @@ const registerUser = asyncHandler(async (req, res) => {
     projectinterests, 
     projectblurb, 
     skills,
+    school,
+    club,
   });
 
   if (user) {
@@ -59,6 +61,8 @@ const registerUser = asyncHandler(async (req, res) => {
       projectinterests: user.projectinterests,
       projectblurb: user.projectblurb,
       skills: user.skills,
+      school: user.school,
+      club: user.club,
     });
   } else {
     res.status(400);

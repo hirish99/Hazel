@@ -78,6 +78,10 @@ const ChatProvider = ({children}) => {
         { value: "NumPy", label: "NumPy" },
         { value: "scikit-learn", label: "scikit-learn" },
         { value: "R", label: "R" },
+        { value: "Flutter", label: "Flutter" },
+        { value: "JavaScript", label: "JavaScript" },
+        { value: "React Native", label: "React Native" },
+        { value: "React JS", label: "React JS" },
         { value: "SQL", label: "SQL" },
         { value: "C++", label: "C++" },
       ];
