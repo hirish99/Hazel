@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOMClient from "react-dom/client";
-import { Box, ChakraProvider, VStack } from "@chakra-ui/react";
+import { Box, ChakraProvider, HStack, VStack } from "@chakra-ui/react";
 import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import { ChatState } from '../Context/ChatProvider'
 import {
@@ -19,7 +19,9 @@ import {
   StarIcon,
   Link,
   Wrap,
-  WrapItem
+  WrapItem,
+  FormLabel,
+  Select,
 } from "@chakra-ui/react";
 import {
   Heading,
@@ -47,7 +49,8 @@ const Explore = () => {
 
   const toast = useToast();
   const history = useHistory();
-  
+  const [school, setSchool] = useState(JSON.parse(localStorage.getItem("userInfo")).school);
+  const [club, setClub] = useState(JSON.parse(localStorage.getItem("userInfo")).club);
 
   const { possibleSkills, possibleinterests,setSelectedChat,setChats, user, setUser,chats } = ChatState();
 
@@ -77,6 +80,7 @@ const Explore = () => {
         },
       };
       const {data} = await axios.get(`https://hazel.herokuapp.com/api/user?search=`, config);
+      console.log(data);
       setSamples(data);
     }
 
@@ -312,11 +316,20 @@ const Explore = () => {
   const filterCriteria = (sample) => {
     let needle = skillsP.map(element => element.value);
     let needle1 = interestsP.map(element => element.value);
+    let needle2 = school;
+    let needle3 = club;
 
     let haystack = sample.skills;
     let haystack1 = sample.interests;
+    let haystack2 = sample.school;
+    let haystack3 = sample.club;
 
-    return ((needle.length===0 || needle.every(i => haystack.includes(i))) && (needle1.length===0 || needle1.every(i => haystack1.includes(i))));
+    console.log(needle2);
+
+    return ((needle.length===0 || needle.every(i => haystack.includes(i))) && (needle1.length===0 || needle1.every(i => haystack1.includes(i)))
+        && (needle2==null || (haystack2.includes(needle2)))
+        && (needle3==null || (haystack3.includes(needle3)))
+    );
   }
 
 
@@ -356,6 +369,54 @@ const Explore = () => {
           onSelectedItemsChange={(changes) =>
             handleSelectedItemsChange2(changes.selectedItems)
           }/>
+      
+      <FormLabel>
+        Filter by School and Club
+      </FormLabel>
+      <HStack
+        justifyContent={"space-between"}
+        alignContent="center"
+      >
+        <Select placeholder='Select School'
+        onChange={(e)=>setSchool(e.target.value)}
+        >
+            <option>University of California, Santa Barbara</option>
+            <option>University of Illinois, Urbana-Champaign</option>
+            <option>Independent</option>
+        </Select>
+
+        <Select placeholder='Select Club'
+        onChange={(e)=>setClub(e.target.value)}
+        >
+          {school === "University of California, Santa Barbara"
+          &&
+          <option>Data Science UCSB</option>
+          }
+          {school === "University of Illinois, Urbana-Champaign"
+          &&
+            <>
+            <option>ACM UIUC SIGPwny</option>
+            <option>ACM UIUC SIGAIDA</option>
+            <option>ACM UIUC SIGMobile</option>
+            <option>ACM UIUC GameBuilders</option>
+            <option>ACM UIUC SIGGRAPH</option>
+            <option>ACM UIUC SIGMusic</option>
+            </>
+          }
+          {school === "Independent"
+          &&
+            <option>No Affiliation</option>
+          }
+
+
+
+
+
+        </Select>
+
+        </HStack>
+    
+
       </Box>
 
 
