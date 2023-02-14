@@ -373,10 +373,7 @@ const Explore = () => {
       <FormLabel>
         Filter by School and Club
       </FormLabel>
-      <HStack
-        justifyContent={"space-between"}
-        alignContent="center"
-      >
+      
         <Select placeholder='Select School'
         onChange={(e)=>setSchool(e.target.value)}
         >
@@ -415,7 +412,7 @@ const Explore = () => {
 
         </Select>
 
-        </HStack>
+
     
 
       </Box>

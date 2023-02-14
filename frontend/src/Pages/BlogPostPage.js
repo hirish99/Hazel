@@ -503,10 +503,7 @@ const BlogPostPage = () => {
         </Select>
         </FormControl>
         
-        <HStack
-        justifyContent={"space-between"}
-        alignContent="center"
-      >
+        
         <Select placeholder='Select School'
         onChange={(e)=>setSchool(e.target.value)}
         >
@@ -545,7 +542,6 @@ const BlogPostPage = () => {
 
         </Select>
 
-        </HStack>
 
         
         </Flex>
