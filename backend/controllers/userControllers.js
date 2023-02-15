@@ -92,6 +92,8 @@ const authUser = asyncHandler(async (req, res) => {
       projectinterests: user.projectinterests,
       projectblurb: user.projectblurb,
       skills: user.skills,
+      school: user.school,
+      club: user.club,
     });
   } else {
     res.status(401);
@@ -158,7 +160,9 @@ const emailLookUp1 = (async(req,res) => {
         projectinterests: user.projectinterests,
         projectblurb: user.projectblurb,
         skills: user.skills,
-        accept: "1"
+        accept: "1",
+        school: user.school,
+        club: user.club,
       });
     }
 

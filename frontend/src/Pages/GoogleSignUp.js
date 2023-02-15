@@ -332,7 +332,10 @@ const GoogleSignUp = () => {
         >
             {school === "University of California, Santa Barbara"
           &&
+          <>
           <option>Data Science UCSB</option>
+          <option>No Affiliation</option>
+          </>
           }
           {school === "University of Illinois, Urbana-Champaign"
           &&
@@ -344,6 +347,7 @@ const GoogleSignUp = () => {
             <option>ACM UIUC SIGGRAPH</option>
             <option>ACM UIUC SIGMusic</option>
             <option>Illinois Design Challenge</option>
+            <option>No Affiliation</option>
             </>
           }
           {school === "Independent"

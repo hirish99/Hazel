@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOMClient from "react-dom/client";
-import { Box, ChakraProvider, HStack, VStack } from "@chakra-ui/react";
+import { Box, ChakraProvider, HStack, Spacer, VStack } from "@chakra-ui/react";
 import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import { ChatState } from '../Context/ChatProvider'
 import {
@@ -374,20 +374,27 @@ const Explore = () => {
         Filter by School and Club
       </FormLabel>
       
+         
+
+         
         <Select placeholder='Select School'
         onChange={(e)=>setSchool(e.target.value)}
+        mb={3}
         >
             <option>University of California, Santa Barbara</option>
             <option>University of Illinois, Urbana-Champaign</option>
             <option>Independent</option>
         </Select>
-
+         
         <Select placeholder='Select Club'
         onChange={(e)=>setClub(e.target.value)}
         >
           {school === "University of California, Santa Barbara"
           &&
+          <>
           <option>Data Science UCSB</option>
+          <option>No Affiliation</option>
+          </>
           }
           {school === "University of Illinois, Urbana-Champaign"
           &&
@@ -399,6 +406,7 @@ const Explore = () => {
             <option>ACM UIUC SIGGRAPH</option>
             <option>ACM UIUC SIGMusic</option>
             <option>Illinois Design Challenge</option>
+            <option>No Affiliation</option>
             </>
           }
           {school === "Independent"
@@ -411,6 +419,7 @@ const Explore = () => {
 
 
         </Select>
+
 
 
     

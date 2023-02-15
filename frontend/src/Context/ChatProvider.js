@@ -84,6 +84,7 @@ const ChatProvider = ({children}) => {
         { value: "React JS", label: "React JS" },
         { value: "SQL", label: "SQL" },
         { value: "C++", label: "C++" },
+        { value: "CAD", label: "CAD" },
       ];
 
 

@@ -496,6 +496,7 @@ const BlogPostPage = () => {
     <FormControl >
         <Select placeholder='Select Topic To Filter'
         onChange={(e)=>setSelectedTopic(e.target.value)}
+        mb={3}
         >
           {possibleProjects.map((x)=>(
           
@@ -506,6 +507,7 @@ const BlogPostPage = () => {
         
         <Select placeholder='Select School'
         onChange={(e)=>setSchool(e.target.value)}
+        mb={3}
         >
             <option>University of California, Santa Barbara</option>
             <option>University of Illinois, Urbana-Champaign</option>
@@ -514,10 +516,14 @@ const BlogPostPage = () => {
 
         <Select placeholder='Select Club'
         onChange={(e)=>setClub(e.target.value)}
+        mb={3}
         >
           {school === "University of California, Santa Barbara"
           &&
+          <>
           <option>Data Science UCSB</option>
+          <option>No Affiliation</option>
+          </>
           }
           {school === "University of Illinois, Urbana-Champaign"
           &&
@@ -529,6 +535,7 @@ const BlogPostPage = () => {
             <option>ACM UIUC SIGGRAPH</option>
             <option>ACM UIUC SIGMusic</option>
             <option>Illinois Design Challenge</option>
+            <option>No Affiliation</option>
             </>
           }
           {school === "Independent"
