@@ -559,7 +559,6 @@ const BlogPostPage = () => {
 
     <div style={{width:'100%'}}>
       <Wrap spacing="20px" justify="center">
-        {console.log(projectList)}
         {createProjectWraps(projectList.filter(x=>filterCriteria(x)))}
       </Wrap>
     </div>

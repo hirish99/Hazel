@@ -80,7 +80,7 @@ const Explore = () => {
         },
       };
       const {data} = await axios.get(`https://hazel.herokuapp.com/api/user?search=`, config);
-      console.log(data);
+
       setSamples(data);
     }
 
@@ -337,7 +337,7 @@ const Explore = () => {
     let haystack2 = sample.school;
     let haystack3 = sample.club;
 
-    console.log(needle2);
+
 
     return ((needle.length===0 || needle.every(i => haystack.includes(i))) && (needle1.length===0 || needle1.every(i => haystack1.includes(i)))
         && (needle2 === null || needle2.length==0 || (haystack2.includes(needle2)))
@@ -443,7 +443,7 @@ const Explore = () => {
 
 
       <Wrap spacing="20px" justify="center" p={1}>
-        {console.log(JSON.parse(localStorage.getItem("userInfo")))}
+
         {createProfileWraps(samples.filter(sample=>filterCriteria(sample)))}
     </Wrap>
     </div>
