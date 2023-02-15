@@ -125,6 +125,8 @@ const emailLookUp = (async(req,res) => {
       projectinterests: user.projectinterests,
       projectblurb: user.projectblurb,
       skills: user.skills,
+      school: user.school,
+      club: user.club,
       accept: "1"
     });
   }

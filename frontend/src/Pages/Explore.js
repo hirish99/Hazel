@@ -204,7 +204,8 @@ const Explore = () => {
       singleUserJSON.email,
       singleUserJSON.interests,
       singleUserJSON.skills,
-      singleUserJSON.projectblurb
+      singleUserJSON.projectblurb,
+      singleUserJSON.school
     );
   }
 
@@ -212,7 +213,19 @@ const Explore = () => {
     return userJSON.map((x) => (<WrapItem>{createOneProfile(x)}</WrapItem>));
   }
 
-  const SocialProfileWithImage= (id, name, image, email, interests,skills, projectblurb) =>{
+  const giveImage = (school) => {
+    if (school === "University of California, Santa Barbara")
+    {
+      return "https://res.cloudinary.com/dzz3nkuyy/image/upload/v1676487894/Screenshot_2023-02-15_at_1.04.09_PM_be8mvi.png";
+    }
+    if (school === "University of Illinois, Urbana-Champaign")
+    {
+      return "https://res.cloudinary.com/dzz3nkuyy/image/upload/v1676487893/Screenshot_2023-02-15_at_1.04.19_PM_vjqi32.png";
+    }
+    return "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
+  }
+
+  const SocialProfileWithImage= (id, name, image, email, interests,skills, projectblurb, school) =>{
     return (
    
 
@@ -232,7 +245,7 @@ const Explore = () => {
             h={"120px"}
             w={"full"}
             src={
-              "https://images.unsplash.com/photo-1612865547334-09cb8cb455da?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+              giveImage(school)
             }
             objectFit={"cover"}
           />
@@ -327,8 +340,8 @@ const Explore = () => {
     console.log(needle2);
 
     return ((needle.length===0 || needle.every(i => haystack.includes(i))) && (needle1.length===0 || needle1.every(i => haystack1.includes(i)))
-        && (needle2==null || (haystack2.includes(needle2)))
-        && (needle3==null || (haystack3.includes(needle3)))
+        && (needle2 === null || needle2.length==0 || (haystack2.includes(needle2)))
+        && (needle3 === null || needle3.length==0 || (haystack3.includes(needle3)))
     );
   }
 
@@ -430,6 +443,7 @@ const Explore = () => {
 
 
       <Wrap spacing="20px" justify="center" p={1}>
+        {console.log(JSON.parse(localStorage.getItem("userInfo")))}
         {createProfileWraps(samples.filter(sample=>filterCriteria(sample)))}
     </Wrap>
     </div>

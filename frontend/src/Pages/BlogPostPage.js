@@ -470,7 +470,7 @@ const BlogPostPage = () => {
     {
         return (school==null || x.creator.school === school) && (club== null || x.creator.club === club)
     }
-    return (x.projectTopic === selectedTopic) && (school==null ||x.creator.school === school) && (club== null || x.creator.club === club)
+    return (x.projectTopic === selectedTopic) && (school==null ||school.length==0 ||x.creator.school === school) && (club== null || club.length==0 || x.creator.club === club)
   }
 
 
