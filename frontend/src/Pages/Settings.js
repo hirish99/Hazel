@@ -304,10 +304,20 @@ const Settings = () => {
         onChange={(e)=>setInputMajor(e.target.value)}
         >
             <option>Computer Science</option>
+            <option>Computer Engineering</option>
             <option>Data Science</option>
-            <option>Natural Sciences</option>
-            <option>Engineering</option>
-            <option>Humanities</option>
+            <option>Electrical Engineering</option>
+            <option>Chemical Engineering</option>
+            <option>Mechanical Engineering</option>
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Mathematics</option>
+            <option>Biology</option>
+            <option>Writing</option>
+            <option>History</option>
+            <option>Philosophy</option>
+            <option>Film</option>
+            <option>Other</option>
         </Select>
         </FormControl>
 

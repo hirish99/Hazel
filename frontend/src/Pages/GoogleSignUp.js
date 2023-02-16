@@ -124,7 +124,7 @@ const GoogleSignUp = () => {
         //console.log(skills.map(element => element.value)); */
 
 
-        if (!name || !major || !club || !school || !pic || !bioBlurb || interests.length==0 || projects.length==0 || skills.length==0) {
+        if (!name || !major || !club || !school || !bioBlurb || interests.length==0 || projects.length==0 || skills.length==0) {
             toast({
                 title: "Please Fill All Fields",
                 status: "warning",
@@ -268,7 +268,7 @@ const GoogleSignUp = () => {
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
           User Profile Creation
         </Heading>
-        <FormControl id="userIcon" isRequired>
+        <FormControl id="userIcon">
           <FormLabel>User Icon</FormLabel>
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
