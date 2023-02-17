@@ -46,7 +46,7 @@ var socket;
 
 const BlogPostPage = () => {
 
-  const [school, setSchool] = useState(JSON.parse(localStorage.getItem("userInfo")).school);
+  const [school, setSchool] = useState("");
   const [club, setClub] = useState(JSON.parse(localStorage.getItem("userInfo")).club);
 
   const history = useHistory();

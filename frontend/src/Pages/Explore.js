@@ -49,7 +49,7 @@ const Explore = () => {
 
   const toast = useToast();
   const history = useHistory();
-  const [school, setSchool] = useState(JSON.parse(localStorage.getItem("userInfo")).school);
+  const [school, setSchool] = useState("");
   const [club, setClub] = useState(JSON.parse(localStorage.getItem("userInfo")).club);
 
   const { possibleSkills, possibleinterests,setSelectedChat,setChats, user, setUser,chats } = ChatState();

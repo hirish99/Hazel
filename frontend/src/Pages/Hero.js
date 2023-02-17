@@ -174,7 +174,7 @@ const Hero = () => {
             
 
                 <Button colorScheme='blue' onClick={()=>{setRedirect(true)}}>
-                Log In</Button>
+                Log In/Sign Up</Button>
             </Link>
 
 
