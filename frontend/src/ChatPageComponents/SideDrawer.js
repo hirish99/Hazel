@@ -34,7 +34,7 @@ function ReturnFocus({children}) {
             Text: 4083183662
             </Text>
             <Text>
-            Social: chandra_hirish
+            Social: hazelforstudents
             </Text>
             <Text>
             Please give me a description of steps to reproduce the problem and on what url/components were involved. If you'd like to give any sort of feedback as well please dont hesitate. Thank you!
