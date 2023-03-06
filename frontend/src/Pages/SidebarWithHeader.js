@@ -183,7 +183,7 @@ function ReturnFocus({children}) {
             
             </Text>
             <Text>
-            Social: chandra_hirish
+            Social: hazelforstudents
             </Text>
             <Text>
             If you'd like to give any sort of feedback as well please dont hesitate. Thank you! If you'd like you can submit an issue on the github as well for bugs/features (https://github.com/hirish99/mern-chat-app/issues).
