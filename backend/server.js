@@ -35,7 +35,7 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: process.env.AUTH0_SECRET,
-    baseURL: 'https://hazel.herokuapp.com',
+    baseURL: 'https://hazel1-dec15cd7c072.herokuapp.com',
     clientID: 'gDuK4C6oOKoE5sHIjc7F0JwPEjaadH0z',
     issuerBaseURL: 'https://dev-x7u0n0vidxu5dgjx.us.auth0.com'
 
@@ -146,7 +146,7 @@ const server = app.listen(PORT, console.log(`Server Started on PORT ${PORT}`))
 const io = require("socket.io")(server,  {
     pingTimeout: 60000,
     cors: {
-        origin: "https://hazel.herokuapp.com/",
+        origin: "https://hazel1-dec15cd7c072.herokuapp.com/",
     },
 });
 

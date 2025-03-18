@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: "https://hazel.herokuapp.com",
+      target: "https://hazel1-dec15cd7c072.herokuapp.com",
       changeOrigin: true,
     })
   );

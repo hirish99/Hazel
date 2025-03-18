@@ -138,7 +138,7 @@ const Settings = () => {
         try{
 
              
-                const {data} = await axios.put(`https://hazel.herokuapp.com/api/user/update`, {
+                const {data} = await axios.put(`https://hazel1-dec15cd7c072.herokuapp.com/api/user/update`, {
                 name: name,
                 email: email,
                 pic: pic,

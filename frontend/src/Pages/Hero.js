@@ -49,7 +49,7 @@ const Hero = () => {
 
 
 
-        const {data} = await axios.get(`https://hazel.herokuapp.com/api/user/emaillookup1`, {
+        const {data} = await axios.get(`https://hazel1-dec15cd7c072.herokuapp.com/api/user/emaillookup1`, {
         }, {
           headers: {
             'Accept': 'application/json',
@@ -98,7 +98,7 @@ const Hero = () => {
 
 
 
-          const {data} = await axios.post(`https://hazel.herokuapp.com/api/user/emaillookup`, {
+          const {data} = await axios.post(`https://hazel1-dec15cd7c072.herokuapp.com/api/user/emaillookup`, {
             hash:  encrypt(email, 'h73jd7asbkfasfy7asdf')
           }, {
             headers: {
@@ -170,7 +170,7 @@ const Hero = () => {
               DataScience UCSB
             </Button> */}
 
-            <Link href="https://hazel.herokuapp.com/login">
+            <Link href="https://hazel1-dec15cd7c072.herokuapp.com/login">
             
 
                 <Button colorScheme='blue' onClick={()=>{setRedirect(true)}}>

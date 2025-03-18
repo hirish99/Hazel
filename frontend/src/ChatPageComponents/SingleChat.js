@@ -10,7 +10,7 @@ import { Drawer, DrawerOverlay,DrawerContent, DrawerHeader,DrawerCloseButton}fro
 import ProfileModal from './Modals/ProfileModal';
 
 
-const ENDPOINT = "https://hazel.herokuapp.com";
+const ENDPOINT = "https://hazel1-dec15cd7c072.herokuapp.com";
 var socket, selectedChatCompare;
 
 const SingleChat = () => {

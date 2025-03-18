@@ -212,7 +212,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const logoutHandler = async () => {
     localStorage.removeItem('userInfo');
     try{
-    const {data} = await axios.get(`https://hazel.herokuapp.com/logout`, {
+    const {data} = await axios.get(`https://hazel1-dec15cd7c072.herokuapp.com/logout`, {
         }, {
           headers: {
             'Accept': 'application/json',
@@ -269,7 +269,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <MenuItem>My Profile</MenuItem>
             </ProfileModal>
             
-            <Link href="https://hazel.herokuapp.com/logout">
+            <Link href="https://hazel1-dec15cd7c072.herokuapp.com/logout">
             
 
             <MenuItem >Log Out</MenuItem>

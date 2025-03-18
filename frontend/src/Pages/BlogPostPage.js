@@ -38,7 +38,7 @@ import { CUIAutoComplete } from 'chakra-ui-autocomplete'
 import { useHistory } from 'react-router-dom'
 
 import io from "socket.io-client";
-const ENDPOINT = "https://hazel.herokuapp.com";
+const ENDPOINT = "https://hazel1-dec15cd7c072.herokuapp.com";
 var socket;
 
 
@@ -175,7 +175,7 @@ const BlogPostPage = () => {
         },
       };
 
-      const {data} = await axios.post(`https://hazel.herokuapp.com/api/project`, project, config);
+      const {data} = await axios.post(`https://hazel1-dec15cd7c072.herokuapp.com/api/project`, project, config);
 
       fetchProjects();
       
@@ -197,7 +197,7 @@ const BlogPostPage = () => {
         },
       };
 
-      const {data} = await axios.get(`https://hazel.herokuapp.com/api/project/?search=`, config);
+      const {data} = await axios.get(`https://hazel1-dec15cd7c072.herokuapp.com/api/project/?search=`, config);
 
       setProjectList(data);
 
@@ -234,7 +234,7 @@ const BlogPostPage = () => {
         },
       };
 
-      const {data} = await axios.post(`https://hazel.herokuapp.com/api/chat`, {userId}, config);
+      const {data} = await axios.post(`https://hazel1-dec15cd7c072.herokuapp.com/api/chat`, {userId}, config);
 
 
 
@@ -363,7 +363,7 @@ const BlogPostPage = () => {
         },
       };
 
-      const {data} = await axios.post(`https://hazel.herokuapp.com/api/project/delete`,{_id: projectId}, config);
+      const {data} = await axios.post(`https://hazel1-dec15cd7c072.herokuapp.com/api/project/delete`,{_id: projectId}, config);
 
       fetchProjects();
 

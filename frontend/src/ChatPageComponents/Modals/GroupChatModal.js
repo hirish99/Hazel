@@ -27,7 +27,7 @@ import UserBadgeItem from '../UserBadgeItem';
 
 import io from "socket.io-client"
 
-const ENDPOINT = "https://hazel.herokuapp.com";
+const ENDPOINT = "https://hazel1-dec15cd7c072.herokuapp.com";
 var socket;
 
 
@@ -93,7 +93,7 @@ const GroupChatModal = ({children}) => {
         },
       };
 
-      const {data} = await axios.get(`https://hazel.herokuapp.com/api/user?search=${search}`, config);
+      const {data} = await axios.get(`https://hazel1-dec15cd7c072.herokuapp.com/api/user?search=${search}`, config);
       setLoading(false);
       setSearchResult(data);
     }
@@ -132,7 +132,7 @@ const GroupChatModal = ({children}) => {
         },
       };
 
-      const {data} = await axios.post(`https://hazel.herokuapp.com/api/chat/group`, {
+      const {data} = await axios.post(`https://hazel1-dec15cd7c072.herokuapp.com/api/chat/group`, {
         name: groupChatName,
         users:JSON.stringify(selectedUsers.map((u)=>u._id)),
       }, config);

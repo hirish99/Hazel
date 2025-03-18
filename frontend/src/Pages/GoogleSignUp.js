@@ -140,7 +140,7 @@ const GoogleSignUp = () => {
         try{
 
             
-                const {data} = await axios.post(`https://hazel.herokuapp.com/api/user`, {
+                const {data} = await axios.post(`https://hazel1-dec15cd7c072.herokuapp.com/api/user`, {
 
                 name: name,
 

@@ -3,6 +3,7 @@ var mkdirp = require('mkdirp');
 
 mkdirp.sync('./var/db');
 
+
 var db = new sqlite3.Database('./var/db/todos.db');
 
 db.serialize(function() {
